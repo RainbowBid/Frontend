@@ -12,6 +12,7 @@ on:
       - "assets/**"
       - "pubspec.yaml"
       - ".github/workflows/**"
+      - "firebase.json"
 
   pull_request:
     branches:
