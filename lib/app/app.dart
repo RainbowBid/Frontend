@@ -1,3 +1,4 @@
+import 'package:rainbowbid_frontend/models/i_auth_service.dart';
 import 'package:rainbowbid_frontend/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:rainbowbid_frontend/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:rainbowbid_frontend/ui/views/home/home_view.dart';
@@ -5,6 +6,7 @@ import 'package:rainbowbid_frontend/ui/views/startup/startup_view.dart';
 import 'package:rainbowbid_frontend/ui/views/unknown/unknown_view.dart';
 import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:rainbowbid_frontend/services/auth_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -22,6 +24,8 @@ import 'package:stacked_services/stacked_services.dart';
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: DialogService),
     LazySingleton(classType: RouterService),
+    LazySingleton<IAuthService>(classType: AuthService),
+    //LazySingleton(classType: AuthService),
     // @stacked-service
   ],
   bottomsheets: [
