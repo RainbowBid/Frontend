@@ -24,8 +24,11 @@ import 'package:rainbowbid_frontend/services/auth_service.dart';
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: DialogService),
     LazySingleton(classType: RouterService),
-    LazySingleton<IAuthService>(classType: AuthService),
-    //LazySingleton(classType: AuthService),
+    LazySingleton(
+      classType: AuthService,
+      asType: IAuthService,
+      resolveUsing: AuthService.getAuthServiceInstance,
+    ),
     // @stacked-service
   ],
   bottomsheets: [

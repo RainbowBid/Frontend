@@ -9,6 +9,11 @@ part 'auth_service.g.dart';
 abstract class AuthService implements IAuthService {
   factory AuthService(Dio dio, {String baseUrl}) = _AuthService;
 
+  static IAuthService getAuthServiceInstance() {
+    final dio = Dio();
+    return AuthService(dio);
+  }
+
   @override
   @POST(ApiConstants.registerUrl)
   Future<void> register();
