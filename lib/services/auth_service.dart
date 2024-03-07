@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' hide Headers;
 import 'package:rainbowbid_frontend/config/api_constants.dart';
 import 'package:rainbowbid_frontend/models/interfaces/i_auth_service.dart';
 import 'package:rainbowbid_frontend/models/register_model.dart';
@@ -16,7 +16,10 @@ abstract class AuthService implements IAuthService {
     return AuthService(dio);
   }
 
-  @override
+  @Headers(<String, dynamic>{
+    'Content-Type': 'application/json',
+  })
   @POST(ApiConstants.registerUrl)
+  @override
   Future<HttpResponse> register(@Body() RegisterModel request);
 }

@@ -14,18 +14,24 @@ class RegisterViewModel extends FormViewModel {
   final _routerService = locator<RouterService>();
 
   Future<void> _register() async {
+    // TODO: check whether register credentials are valid
+
     final request = RegisterModel(
-      name: nameValue,
-      email: emailValue,
-      password: passwordValue,
+      name: nameValue!,
+      email: emailValue!,
+      password: passwordValue!,
     );
 
-    final res = await _authService.register(request);
+    try {
+      final res = await _authService.register(request);
 
-    if (res.response.statusCode == HttpStatus.created) {
-      // inform viewmodel
-      await _routerService.replaceWith(const HomeViewRoute());
-    } else {
+      if (res.response.statusCode == HttpStatus.created) {
+        await _routerService.replaceWith(const HomeViewRoute());
+      } else {
+        throw Exception('Failed to register');
+      }
+    } on Exception catch (e) {
+      print(e);
       throw Exception('Failed to register');
     }
   }

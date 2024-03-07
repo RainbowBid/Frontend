@@ -26,21 +26,30 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
   ) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      body: ListTile(
-        title: _buildRegisterPageTitle(context),
-        subtitle: Column(
-          children: [
-            verticalSpaceMedium,
-            _buildNameField(context, viewModel),
-            verticalSpaceMedium,
-            _buildEmailField(context, viewModel),
-            verticalSpaceMedium,
-            _buildPasswordField(context, viewModel),
-            verticalSpaceSmall,
-            _buildConfirmPasswordField(context, viewModel),
-            verticalSpaceLarge,
-            _buildRegisterButton(context, viewModel),
-          ],
+      body: Center(
+        child: Card(
+          child: SizedBox(
+            width: MediaQuery.of(context).size.width / 3,
+            height: MediaQuery.of(context).size.height / 1.5,
+            child: ListTile(
+              title: _buildRegisterPageTitle(context),
+              subtitle: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  verticalSpaceMedium,
+                  _buildNameField(context, viewModel),
+                  verticalSpaceMedium,
+                  _buildEmailField(context, viewModel),
+                  verticalSpaceMedium,
+                  _buildPasswordField(context, viewModel),
+                  verticalSpaceMedium,
+                  _buildConfirmPasswordField(context, viewModel),
+                  verticalSpaceMedium,
+                  _buildRegisterButton(context, viewModel),
+                ],
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -57,18 +66,20 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
   }
 
   Widget _buildNameField(BuildContext context, RegisterViewModel viewModel) {
-    return TextFormField(
-      controller: nameController,
-      focusNode: nameFocusNode,
-      decoration: const InputDecoration(
-        hintText: 'Name',
-        floatingLabelBehavior: FloatingLabelBehavior.auto,
-        focusedBorder: OutlineInputBorder(),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: kcLightGrey),
-          borderRadius: BorderRadius.all(
-            Radius.circular(
-              kdFieldBorderRadius,
+    return Flexible(
+      child: TextFormField(
+        controller: nameController,
+        focusNode: nameFocusNode,
+        decoration: const InputDecoration(
+          hintText: 'Name',
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          focusedBorder: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: kcLightGrey),
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                kdFieldBorderRadius,
+              ),
             ),
           ),
         ),
@@ -77,18 +88,20 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
   }
 
   Widget _buildEmailField(BuildContext context, RegisterViewModel viewModel) {
-    return TextFormField(
-      controller: emailController,
-      focusNode: emailFocusNode,
-      decoration: const InputDecoration(
-        hintText: 'Email',
-        floatingLabelBehavior: FloatingLabelBehavior.auto,
-        focusedBorder: OutlineInputBorder(),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: kcLightGrey),
-          borderRadius: BorderRadius.all(
-            Radius.circular(
-              kdFieldBorderRadius,
+    return Flexible(
+      child: TextFormField(
+        controller: emailController,
+        focusNode: emailFocusNode,
+        decoration: const InputDecoration(
+          hintText: 'Email',
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          focusedBorder: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: kcLightGrey),
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                kdFieldBorderRadius,
+              ),
             ),
           ),
         ),
@@ -98,18 +111,20 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
 
   Widget _buildPasswordField(
       BuildContext context, RegisterViewModel viewModel) {
-    return TextFormField(
-      controller: passwordController,
-      focusNode: passwordFocusNode,
-      decoration: const InputDecoration(
-        hintText: 'Password',
-        floatingLabelBehavior: FloatingLabelBehavior.auto,
-        focusedBorder: OutlineInputBorder(),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: kcLightGrey),
-          borderRadius: BorderRadius.all(
-            Radius.circular(
-              kdFieldBorderRadius,
+    return Flexible(
+      child: TextFormField(
+        controller: passwordController,
+        focusNode: passwordFocusNode,
+        decoration: const InputDecoration(
+          hintText: 'Password',
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          focusedBorder: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: kcLightGrey),
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                kdFieldBorderRadius,
+              ),
             ),
           ),
         ),
@@ -119,18 +134,20 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
 
   Widget _buildConfirmPasswordField(
       BuildContext context, RegisterViewModel viewModel) {
-    return TextFormField(
-      controller: confirmPasswordController,
-      focusNode: confirmPasswordFocusNode,
-      decoration: const InputDecoration(
-        hintText: 'Confirm Password',
-        floatingLabelBehavior: FloatingLabelBehavior.auto,
-        focusedBorder: OutlineInputBorder(),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: kcLightGrey),
-          borderRadius: BorderRadius.all(
-            Radius.circular(
-              kdFieldBorderRadius,
+    return Flexible(
+      child: TextFormField(
+        controller: confirmPasswordController,
+        focusNode: confirmPasswordFocusNode,
+        decoration: const InputDecoration(
+          hintText: 'Confirm Password',
+          floatingLabelBehavior: FloatingLabelBehavior.auto,
+          focusedBorder: OutlineInputBorder(),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: kcLightGrey),
+            borderRadius: BorderRadius.all(
+              Radius.circular(
+                kdFieldBorderRadius,
+              ),
             ),
           ),
         ),
