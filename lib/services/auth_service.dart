@@ -1,6 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:rainbowbid_frontend/config/api_constants.dart';
-import 'package:rainbowbid_frontend/models/i_auth_service.dart';
+import 'package:rainbowbid_frontend/models/interfaces/i_auth_service.dart';
+import 'package:rainbowbid_frontend/models/register_model.dart';
+import 'package:retrofit/dio.dart';
 import 'package:retrofit/http.dart';
 
 part 'auth_service.g.dart';
@@ -16,5 +18,5 @@ abstract class AuthService implements IAuthService {
 
   @override
   @POST(ApiConstants.registerUrl)
-  Future<void> register();
+  Future<HttpResponse> register(@Body() RegisterModel request);
 }

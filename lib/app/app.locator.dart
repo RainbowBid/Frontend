@@ -11,7 +11,7 @@ import 'package:stacked_services/src/dialog/dialog_service.dart';
 import 'package:stacked_services/src/navigation/router_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
 
-import '../models/i_auth_service.dart';
+import '../models/interfaces/i_auth_service.dart';
 import '../services/auth_service.dart';
 import 'app.router.dart';
 
