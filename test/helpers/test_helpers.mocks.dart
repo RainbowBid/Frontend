@@ -9,8 +9,8 @@ import 'dart:ui' as _i9;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:flutter/material.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:rainbowbid_frontend/models/api_error.dart' as _i13;
-import 'package:rainbowbid_frontend/models/register_model.dart' as _i14;
+import 'package:rainbowbid_frontend/models/auth/register_model.dart' as _i14;
+import 'package:rainbowbid_frontend/models/errors/api_error.dart' as _i13;
 import 'package:rainbowbid_frontend/services/auth_service.dart' as _i12;
 import 'package:stacked/stacked.dart' as _i2;
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart'

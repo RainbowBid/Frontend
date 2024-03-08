@@ -14,7 +14,7 @@ import 'package:rainbowbid_frontend/ui/views/register/register_view.dart';
   routes: [
     CustomRoute(page: StartupView, initial: true),
     CustomRoute(page: HomeView),
-    CustomRoute(page: RegisterView, path: '/register'),
+    CustomRoute(page: RegisterView, path: '/auth/register'),
     CustomRoute(page: UnknownView, path: '/404'),
     // @stacked-route
     /// When none of the above routes match, redirect to UnknownView

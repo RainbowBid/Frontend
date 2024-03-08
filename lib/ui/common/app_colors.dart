@@ -10,3 +10,4 @@ const Color kcVeryLightGrey = Color(0xFFE3E3E3);
 const Color kcWhite = Color(0xFFFFFFFF);
 const Color kcBackgroundColor = kcDarkGreyColor;
 const Color kcRed = Color(0xFFE53935);
+const Color kcBlue = Color(0xFF2196F3);

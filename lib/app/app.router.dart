@@ -69,7 +69,7 @@ class StackedRouterWeb extends _i6.RootStackRouter {
         ),
         _i6.RouteConfig(
           RegisterViewRoute.name,
-          path: '/register',
+          path: '/auth/register',
         ),
         _i6.RouteConfig(
           UnknownViewRoute.name,
@@ -114,7 +114,7 @@ class RegisterViewRoute extends _i6.PageRouteInfo<void> {
   const RegisterViewRoute()
       : super(
           RegisterViewRoute.name,
-          path: '/register',
+          path: '/auth/register',
         );
 
   static const String name = 'RegisterView';
