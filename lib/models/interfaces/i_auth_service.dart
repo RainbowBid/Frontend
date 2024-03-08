@@ -1,6 +1,7 @@
+import 'package:dartz/dartz.dart';
+import 'package:rainbowbid_frontend/models/api_error.dart';
 import 'package:rainbowbid_frontend/models/register_model.dart';
-import 'package:retrofit/dio.dart';
 
 abstract interface class IAuthService {
-  Future<HttpResponse> register(RegisterModel request);
+  Future<Either<ApiError, Unit>> register(RegisterModel request);
 }

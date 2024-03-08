@@ -1,17 +1,16 @@
-import 'package:json_annotation/json_annotation.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
+part 'register_model.freezed.dart';
 part 'register_model.g.dart';
 
-@JsonSerializable()
-class RegisterModel {
-  const RegisterModel({this.name, this.email, this.password});
+@freezed
+class RegisterModel with _$RegisterModel {
+  const factory RegisterModel({
+    required String name,
+    required String email,
+    required String password,
+  }) = _RegisterModel;
 
   factory RegisterModel.fromJson(Map<String, dynamic> json) =>
       _$RegisterModelFromJson(json);
-
-  final String? name;
-  final String? email;
-  final String? password;
-
-  Map<String, dynamic> toJson() => _$RegisterModelToJson(this);
 }

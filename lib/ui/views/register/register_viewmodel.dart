@@ -1,7 +1,7 @@
-import 'dart:io';
-
 import 'package:rainbowbid_frontend/app/app.locator.dart';
+import 'package:rainbowbid_frontend/app/app.logger.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
+import 'package:rainbowbid_frontend/models/api_error.dart';
 import 'package:rainbowbid_frontend/models/interfaces/i_auth_service.dart';
 import 'package:rainbowbid_frontend/models/register_model.dart';
 import 'package:rainbowbid_frontend/ui/common/app_constants.dart';
@@ -10,6 +10,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class RegisterViewModel extends FormViewModel {
+  final _logger = getLogger('RegisterViewModel');
   final _authService = locator<IAuthService>();
   final _routerService = locator<RouterService>();
 
@@ -22,18 +23,16 @@ class RegisterViewModel extends FormViewModel {
       password: passwordValue!,
     );
 
-    try {
-      final res = await _authService.register(request);
+    final response = await _authService.register(request);
 
-      if (res.response.statusCode == HttpStatus.created) {
+    await response.fold(
+      (ApiError error) {
+        throw Exception(error.message);
+      },
+      (unit) async {
         await _routerService.replaceWith(const HomeViewRoute());
-      } else {
-        throw Exception('Failed to register');
-      }
-    } on Exception catch (e) {
-      print(e);
-      throw Exception('Failed to register');
-    }
+      },
+    );
   }
 
   Future<void> register() async {

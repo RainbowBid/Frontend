@@ -27,7 +27,6 @@ import 'package:rainbowbid_frontend/ui/views/register/register_view.dart';
     LazySingleton(
       classType: AuthService,
       asType: IAuthService,
-      resolveUsing: AuthService.getAuthServiceInstance,
     ),
     // @stacked-service
   ],
@@ -39,5 +38,6 @@ import 'package:rainbowbid_frontend/ui/views/register/register_view.dart';
     StackedDialog(classType: InfoAlertDialog),
     // @stacked-dialog
   ],
+  logger: StackedLogger(),
 )
 class App {}

@@ -6,11 +6,12 @@
 import 'dart:async' as _i5;
 import 'dart:ui' as _i9;
 
+import 'package:dartz/dartz.dart' as _i3;
 import 'package:flutter/material.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:rainbowbid_frontend/models/register_model.dart' as _i13;
+import 'package:rainbowbid_frontend/models/api_error.dart' as _i13;
+import 'package:rainbowbid_frontend/models/register_model.dart' as _i14;
 import 'package:rainbowbid_frontend/services/auth_service.dart' as _i12;
-import 'package:retrofit/dio.dart' as _i3;
 import 'package:stacked/stacked.dart' as _i2;
 import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart'
     as _i7;
@@ -64,9 +65,8 @@ class _FakeRoutingController_2 extends _i1.SmartFake
         );
 }
 
-class _FakeHttpResponse_3<T> extends _i1.SmartFake
-    implements _i3.HttpResponse<T> {
-  _FakeHttpResponse_3(
+class _FakeEither_3<L, R> extends _i1.SmartFake implements _i3.Either<L, R> {
+  _FakeEither_3(
     Object parent,
     Invocation parentInvocation,
   ) : super(
@@ -595,27 +595,29 @@ class MockDialogService extends _i1.Mock implements _i10.DialogService {
 /// See the documentation for Mockito's code generation for more information.
 class MockAuthService extends _i1.Mock implements _i12.AuthService {
   @override
-  _i5.Future<_i3.HttpResponse<dynamic>> register(_i13.RegisterModel? request) =>
+  _i5.Future<_i3.Either<_i13.ApiError, _i3.Unit>> register(
+          _i14.RegisterModel? request) =>
       (super.noSuchMethod(
         Invocation.method(
           #register,
           [request],
         ),
-        returnValue: _i5.Future<_i3.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_3<dynamic>(
+        returnValue: _i5.Future<_i3.Either<_i13.ApiError, _i3.Unit>>.value(
+            _FakeEither_3<_i13.ApiError, _i3.Unit>(
           this,
           Invocation.method(
             #register,
             [request],
           ),
         )),
-        returnValueForMissingStub: _i5.Future<_i3.HttpResponse<dynamic>>.value(
-            _FakeHttpResponse_3<dynamic>(
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i13.ApiError, _i3.Unit>>.value(
+                _FakeEither_3<_i13.ApiError, _i3.Unit>(
           this,
           Invocation.method(
             #register,
             [request],
           ),
         )),
-      ) as _i5.Future<_i3.HttpResponse<dynamic>>);
+      ) as _i5.Future<_i3.Either<_i13.ApiError, _i3.Unit>>);
 }
