@@ -5,4 +5,7 @@ abstract class ApiConstants {
 
   static const String registerUrl = '/auth/register';
   static const String loginUrl = '/auth/login';
+
+  static const String jwtStorage = "jwt.json";
+  static const String jwtStorageKey = "jwt";
 }

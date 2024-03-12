@@ -9,6 +9,7 @@ import 'package:rainbowbid_frontend/models/errors/api_error.dart';
 import 'package:rainbowbid_frontend/models/interfaces/i_auth_service.dart';
 import 'package:rainbowbid_frontend/models/auth/register_model.dart';
 import 'package:http/browser_client.dart';
+import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 
 class AuthService implements IAuthService {
   final _logger = getLogger('AuthService');
@@ -75,13 +76,23 @@ class AuthService implements IAuthService {
 
           final jwt = authorizationHeader?.substring(7);
 
-          _logger.i("User logged in: $result");
-          break;
-        case HttpStatus.badRequest:
-        case HttpStatus.conflict:
+          if (jwt == null) {
+            _logger.e("Server error occurred: JWT token is null");
+            return left(
+              const ApiError.serverError(
+                "Server error occurred. Please try again later.",
+              ),
+            );
+          }
+
+          _logger.i("User logged in successfully");
+          await JwtStorage.setJwt(jwt);
+
+          return right(unit);
+        case HttpStatus.unauthorized:
           final error = jsonDecode(response.body).toString();
-          _logger.e("Bad request occurred: $error");
-          return left(ApiError.badRequest(error));
+          _logger.e("Unauthorized request occurred: $error");
+          return left(ApiError.unauthorized(error));
         default:
           _logger.e(
               "Server error occurred: ${response.statusCode} ${response.body}");

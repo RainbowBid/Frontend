@@ -21,6 +21,7 @@ dependencies:
   dartz: ^0.10.1
   sidebarx: ^0.16.3
   jwt_decoder: ^2.0.1
+  localstorage: ^4.0.1+4
 
 dev_dependencies:
   build_runner: ^2.4.5
