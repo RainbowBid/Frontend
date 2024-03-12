@@ -22,9 +22,10 @@ class RegisterViewModel extends FormViewModel {
   late bool _isPasswordVisible = false;
   late bool _isConfirmPasswordVisible = false;
 
-  SidebarXController get sidebarController => _sidebarController;
   bool get isPasswordVisible => _isPasswordVisible;
   bool get isConfirmPasswordVisible => _isConfirmPasswordVisible;
+  SidebarXController get sidebarController => _sidebarController;
+  RouterService get routerService => _routerService;
 
   void togglePasswordVisibility() {
     _isPasswordVisible = !_isPasswordVisible;
@@ -34,6 +35,13 @@ class RegisterViewModel extends FormViewModel {
   void toggleConfirmPasswordVisibility() {
     _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
     notifyListeners();
+  }
+
+  Future<void> register() async {
+    await runBusyFuture(
+      _register(),
+      busyObject: ksRegisterKey,
+    );
   }
 
   Future<void> _register() async {
@@ -54,15 +62,8 @@ class RegisterViewModel extends FormViewModel {
         throw Exception(error.message);
       },
       (unit) async {
-        await _routerService.replaceWithHomeView();
+        await _routerService.replaceWithLoginView();
       },
-    );
-  }
-
-  Future<void> register() async {
-    await runBusyFuture(
-      _register(),
-      busyObject: ksRegisterKey,
     );
   }
 

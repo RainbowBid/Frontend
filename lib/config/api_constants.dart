@@ -7,5 +7,7 @@ abstract class ApiConstants {
   static const String loginUrl = '/auth/login';
 
   static const String jwtStorage = "jwt.json";
-  static const String jwtStorageKey = "jwt";
+  static const String jwtEncodedStorageKey = "jwt";
+  static const String usernameStorageKey = "username";
+  static const String userIdStorageKey = "userId";
 }

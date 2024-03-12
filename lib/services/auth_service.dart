@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:rainbowbid_frontend/app/app.logger.dart';
 import 'package:rainbowbid_frontend/config/api_constants.dart';
 import 'package:rainbowbid_frontend/models/auth/login_model.dart';
@@ -71,6 +72,7 @@ class AuthService implements IAuthService {
 
       switch (response.statusCode) {
         case HttpStatus.ok:
+          _logger.i(response.headers);
           final authorizationHeader =
               response.headers[HttpHeaders.authorizationHeader];
 

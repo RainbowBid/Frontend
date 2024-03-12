@@ -10,10 +10,10 @@ import 'package:stacked/stacked.dart' as _i7;
 import 'package:stacked_services/stacked_services.dart' as _i6;
 
 import '../ui/views/home/home_view.dart' as _i2;
-import '../ui/views/login/login_view.dart' as _i5;
+import '../ui/views/login/login_view.dart' as _i4;
 import '../ui/views/register/register_view.dart' as _i3;
 import '../ui/views/startup/startup_view.dart' as _i1;
-import '../ui/views/unknown/unknown_view.dart' as _i4;
+import '../ui/views/unknown/unknown_view.dart' as _i5;
 
 final stackedRouter =
     StackedRouterWeb(navigatorKey: _i6.StackedService.navigatorKey);
@@ -48,18 +48,20 @@ class StackedRouterWeb extends _i7.RootStackRouter {
         barrierDismissible: false,
       );
     },
-    UnknownViewRoute.name: (routeData) {
+    LoginViewRoute.name: (routeData) {
       return _i7.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i4.UnknownView(),
+        child: const _i4.LoginView(),
         opaque: true,
         barrierDismissible: false,
       );
     },
-    LoginViewRoute.name: (routeData) {
-      return _i7.MaterialPageX<dynamic>(
+    UnknownViewRoute.name: (routeData) {
+      return _i7.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i5.LoginView(),
+        child: const _i5.UnknownView(),
+        opaque: true,
+        barrierDismissible: false,
       );
     },
   };
@@ -79,12 +81,12 @@ class StackedRouterWeb extends _i7.RootStackRouter {
           path: '/auth/register',
         ),
         _i7.RouteConfig(
-          UnknownViewRoute.name,
-          path: '/404',
+          LoginViewRoute.name,
+          path: '/auth/login',
         ),
         _i7.RouteConfig(
-          LoginViewRoute.name,
-          path: '/login-view',
+          UnknownViewRoute.name,
+          path: '/404',
         ),
         _i7.RouteConfig(
           '*#redirect',
@@ -132,7 +134,19 @@ class RegisterViewRoute extends _i7.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i4.UnknownView]
+/// [_i4.LoginView]
+class LoginViewRoute extends _i7.PageRouteInfo<void> {
+  const LoginViewRoute()
+      : super(
+          LoginViewRoute.name,
+          path: '/auth/login',
+        );
+
+  static const String name = 'LoginView';
+}
+
+/// generated route for
+/// [_i5.UnknownView]
 class UnknownViewRoute extends _i7.PageRouteInfo<void> {
   const UnknownViewRoute()
       : super(
@@ -141,18 +155,6 @@ class UnknownViewRoute extends _i7.PageRouteInfo<void> {
         );
 
   static const String name = 'UnknownView';
-}
-
-/// generated route for
-/// [_i5.LoginView]
-class LoginViewRoute extends _i7.PageRouteInfo<void> {
-  const LoginViewRoute()
-      : super(
-          LoginViewRoute.name,
-          path: '/login-view',
-        );
-
-  static const String name = 'LoginView';
 }
 
 extension RouterStateExtension on _i6.RouterService {
@@ -180,18 +182,18 @@ extension RouterStateExtension on _i6.RouterService {
     );
   }
 
-  Future<dynamic> navigateToUnknownView(
-      {void Function(_i7.NavigationFailure)? onFailure}) async {
-    return navigateTo(
-      const UnknownViewRoute(),
-      onFailure: onFailure,
-    );
-  }
-
   Future<dynamic> navigateToLoginView(
       {void Function(_i7.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const LoginViewRoute(),
+      onFailure: onFailure,
+    );
+  }
+
+  Future<dynamic> navigateToUnknownView(
+      {void Function(_i7.NavigationFailure)? onFailure}) async {
+    return navigateTo(
+      const UnknownViewRoute(),
       onFailure: onFailure,
     );
   }
@@ -220,18 +222,18 @@ extension RouterStateExtension on _i6.RouterService {
     );
   }
 
-  Future<dynamic> replaceWithUnknownView(
-      {void Function(_i7.NavigationFailure)? onFailure}) async {
-    return replaceWith(
-      const UnknownViewRoute(),
-      onFailure: onFailure,
-    );
-  }
-
   Future<dynamic> replaceWithLoginView(
       {void Function(_i7.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const LoginViewRoute(),
+      onFailure: onFailure,
+    );
+  }
+
+  Future<dynamic> replaceWithUnknownView(
+      {void Function(_i7.NavigationFailure)? onFailure}) async {
+    return replaceWith(
+      const UnknownViewRoute(),
       onFailure: onFailure,
     );
   }

@@ -2,6 +2,7 @@ import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:rainbowbid_frontend/app/app.router.dart';
 import 'package:rainbowbid_frontend/models/validators/user_validator.dart';
 import 'package:rainbowbid_frontend/ui/common/app_colors.dart';
 import 'package:rainbowbid_frontend/ui/common/app_constants.dart';
@@ -25,7 +26,9 @@ import 'register_viewmodel.dart';
     name: 'password',
     validator: UserValidator.validatePassword,
   ),
-  FormTextField(name: 'confirmPassword'),
+  FormTextField(
+    name: 'confirmPassword',
+  ),
 ])
 class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
   const RegisterView({Key? key}) : super(key: key);
@@ -424,7 +427,10 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                   color: kcBlack,
                   fontWeight: FontWeight.bold,
                 ),
-                recognizer: TapGestureRecognizer()..onTap = () {},
+                recognizer: TapGestureRecognizer()
+                  ..onTap = () {
+                    viewModel.routerService.replaceWithLoginView();
+                  },
               ),
             ],
           ),
