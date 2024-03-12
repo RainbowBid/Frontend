@@ -8,6 +8,7 @@ import 'package:stacked/stacked_annotations.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:rainbowbid_frontend/services/auth_service.dart';
 import 'package:rainbowbid_frontend/ui/views/register/register_view.dart';
+import 'package:rainbowbid_frontend/ui/views/login/login_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -16,7 +17,8 @@ import 'package:rainbowbid_frontend/ui/views/register/register_view.dart';
     CustomRoute(page: HomeView),
     CustomRoute(page: RegisterView, path: '/auth/register'),
     CustomRoute(page: UnknownView, path: '/404'),
-    // @stacked-route
+    MaterialRoute(page: LoginView),
+// @stacked-route
     /// When none of the above routes match, redirect to UnknownView
     RedirectRoute(path: '*', redirectTo: '/404'),
   ],
