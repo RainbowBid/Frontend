@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
@@ -30,7 +31,8 @@ class ItemsService implements IItemsService{
     switch (response.statusCode) {
       case HttpStatus.ok:
         _logger.i("Get all was successfully completed");
-        return right(response);
+
+        return right(GetAllItemsDto.fromJson(json.decode(response.body)));
       case HttpStatus.unauthorized:
       default:
         _logger.e(

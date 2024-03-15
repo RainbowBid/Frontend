@@ -20,7 +20,7 @@ class Item {
     required this.userId,
   });
 
-  Map<String, dynamic> toMap() {
+  Map<String, dynamic> toJson() {
     return {
       'id': id,
       'brief': brief,
@@ -28,5 +28,15 @@ class Item {
       'picture': picture,
       'user_id': userId,
     };
+  }
+
+  factory Item.fromJson(Map<String, dynamic> json) {
+    return Item(
+      id: json['id'],
+      brief: json['brief'],
+      description: json['description'],
+      picture: List<int>.from(json['picture']),
+      userId: json['user_id'],
+    );
   }
 }
