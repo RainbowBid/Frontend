@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:http/browser_client.dart';
 import 'package:rainbowbid_frontend/config/api_constants.dart';
+import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 
 import 'package:rainbowbid_frontend/models/dtos/get_all_items_dto.dart';
 
@@ -19,11 +20,24 @@ class ItemsService implements IItemsService {
   @override
   Future<Either<ApiError, GetAllItemsDto>> getAll() async {
     _logger.i("Get all items for user.");
+    final String jwt = (await JwtStorage.getJwt()).fold(() {
+      return "";
+    }, (jwt) {
+      return jwt;
+    });
+    if (jwt.isEmpty) {
+      return left(
+        const ApiError.unauthorized(
+          "Get all was unauthorized.",
+        ),
+      );
+    }
 
     final response = await _httpClient.get(
       Uri.http(ApiConstants.baseUrl, ApiConstants.itemsGetAllUrl),
       headers: {
         HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
+        HttpHeaders.authorizationHeader: jwt,
       },
     );
 
@@ -33,6 +47,12 @@ class ItemsService implements IItemsService {
 
         return right(GetAllItemsDto.fromJson(json.decode(response.body)));
       case HttpStatus.unauthorized:
+        _logger.i("Get all was unauthorized");
+        return left(
+          const ApiError.unauthorized(
+            "Get all was unauthorized.",
+          ),
+        );
       default:
         _logger.e(
             "Server error occurred: ${response.statusCode} ${response.body}");

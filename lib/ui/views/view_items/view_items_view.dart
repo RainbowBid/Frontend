@@ -13,38 +13,26 @@ class ViewItemsView extends StackedView<ViewItemsViewModel> {
     ViewItemsViewModel viewModel,
     Widget? child,
   ) {
-    return FutureBuilder<List<Item>>(
-      initialData: [],
-      future: viewModel.getAll(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return CircularProgressIndicator();
-        } else if (snapshot.hasError) {
-          return Text('Error: ${snapshot.error}');
-        } else {
-          List<Item> items = snapshot.data!;
-          return Column(
-            children: [
-              ListTile(
-                title: Text("Your items"),
-                subtitle: Expanded(
-                  child: ListView.builder(
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          title: Text(items[index].id.toString()),
-                        ),
-                      );
-                    },
+    return Scaffold(
+        body: viewModel.isBusy
+            ? CircularProgressIndicator()
+            : Column(
+                children: [
+                  Text("Your items"),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: viewModel.data!.length,
+                      itemBuilder: (context, index) {
+                        return Card(
+                          child: ListTile(
+                            title: Text(viewModel.data![index].id.toString()),
+                          ),
+                        );
+                      },
+                    ),
                   ),
-                ),
-              ),
-            ],
-          );
-        }
-      },
-    );
+                ],
+              ));
   }
 
   @override

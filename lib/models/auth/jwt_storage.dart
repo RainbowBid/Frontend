@@ -16,6 +16,10 @@ class JsonWrapper {
 class JwtStorage {
   static final _jwtStorage = LocalStorage(ApiConstants.jwtStorage);
 
+  static Future<void> init() async {
+    await _jwtStorage.ready;
+  }
+
   static Future<void> setJwt(String rawJwt) async {
     await _jwtStorage.setItem(
         ApiConstants.jwtEncodedStorageKey, JsonWrapper(value: rawJwt));
@@ -27,6 +31,7 @@ class JwtStorage {
   }
 
   static Future<Option<String>> getJwt() async {
+    await _jwtStorage.ready;
     return switch (_jwtStorage.getItem(ApiConstants.jwtEncodedStorageKey)) {
       final JsonWrapper jwt => some(jwt.value),
       _ => none(),
