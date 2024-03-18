@@ -29,6 +29,7 @@ const krEmailPattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
 // sidebar
 const int kiSidebarHomeMenuIndex = 0;
 const int kiSidebarRegisterMenuIndex = 1;
+const int kiSidebarViewItemsMenuIndex = 2;
 
 const double kdSidebarPadding = 10;
 const double kdSidebarShapeRadius = 20;

@@ -12,10 +12,9 @@ import 'package:rainbowbid_frontend/models/errors/api_error.dart';
 import '../app/app.logger.dart';
 import '../models/interfaces/i_items_service.dart';
 
-class ItemsService implements IItemsService{
+class ItemsService implements IItemsService {
   final _logger = getLogger('ItemsService');
   final _httpClient = BrowserClient()..withCredentials = true;
-
 
   @override
   Future<Either<ApiError, GetAllItemsDto>> getAll() async {

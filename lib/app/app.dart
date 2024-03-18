@@ -1,4 +1,5 @@
 import 'package:rainbowbid_frontend/models/interfaces/i_auth_service.dart';
+import 'package:rainbowbid_frontend/services/items_service.dart';
 import 'package:rainbowbid_frontend/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:rainbowbid_frontend/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:rainbowbid_frontend/ui/views/home/home_view.dart';
@@ -9,6 +10,9 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:rainbowbid_frontend/services/auth_service.dart';
 import 'package:rainbowbid_frontend/ui/views/register/register_view.dart';
 import 'package:rainbowbid_frontend/ui/views/login/login_view.dart';
+import 'package:rainbowbid_frontend/ui/views/view_items/view_items_view.dart';
+
+import '../models/interfaces/i_items_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -18,7 +22,8 @@ import 'package:rainbowbid_frontend/ui/views/login/login_view.dart';
     CustomRoute(page: RegisterView, path: '/auth/register'),
     CustomRoute(page: LoginView, path: '/auth/login'),
     CustomRoute(page: UnknownView, path: '/404'),
-    // @stacked-route
+    CustomRoute(page: ViewItemsView, path: '/items/all'),
+// @stacked-route
 
     /// When none of the above routes match, redirect to UnknownView
     RedirectRoute(path: '*', redirectTo: '/404'),
@@ -30,6 +35,10 @@ import 'package:rainbowbid_frontend/ui/views/login/login_view.dart';
     LazySingleton(
       classType: AuthService,
       asType: IAuthService,
+    ),
+    LazySingleton(
+      classType: ItemsService,
+      asType: IItemsService,
     ),
     // @stacked-service
   ],

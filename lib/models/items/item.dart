@@ -13,7 +13,8 @@ class Item {
     required this.userId,
   });
 
-  Item.withoutPicture(this.picture, {
+  Item.withoutPicture(
+    this.picture, {
     required this.id,
     required this.brief,
     required this.description,
