@@ -1,18 +1,17 @@
 import 'package:rainbowbid_frontend/app/app.locator.dart';
 import 'package:rainbowbid_frontend/app/app.logger.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
+import 'package:rainbowbid_frontend/models/auth/login_model.dart';
 import 'package:rainbowbid_frontend/models/errors/api_error.dart';
 import 'package:rainbowbid_frontend/models/interfaces/i_auth_service.dart';
-import 'package:rainbowbid_frontend/models/auth/register_model.dart';
-import 'package:rainbowbid_frontend/models/validators/user_validator.dart';
 import 'package:rainbowbid_frontend/ui/common/app_constants.dart';
-import 'package:rainbowbid_frontend/ui/views/register/register_view.form.dart';
+import 'package:rainbowbid_frontend/ui/views/login/login_view.form.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
-class RegisterViewModel extends FormViewModel {
-  final _logger = getLogger('RegisterViewModel');
+class LoginViewModel extends FormViewModel {
+  final _logger = getLogger('LoginViewModel');
   final _authService = locator<IAuthService>();
   final _routerService = locator<RouterService>();
   final _sidebarController = SidebarXController(
@@ -20,10 +19,8 @@ class RegisterViewModel extends FormViewModel {
   );
 
   late bool _isPasswordVisible = false;
-  late bool _isConfirmPasswordVisible = false;
 
   bool get isPasswordVisible => _isPasswordVisible;
-  bool get isConfirmPasswordVisible => _isConfirmPasswordVisible;
   SidebarXController get sidebarController => _sidebarController;
   RouterService get routerService => _routerService;
 
@@ -32,62 +29,42 @@ class RegisterViewModel extends FormViewModel {
     notifyListeners();
   }
 
-  void toggleConfirmPasswordVisibility() {
-    _isConfirmPasswordVisible = !_isConfirmPasswordVisible;
-    notifyListeners();
-  }
-
-  Future<void> register() async {
+  Future<void> login() async {
     await runBusyFuture(
-      _register(),
+      _login(),
       busyObject: ksRegisterKey,
     );
   }
 
-  Future<void> _register() async {
-    _logger.i('Registering user');
+  Future<void> _login() async {
+    _logger.i('User ${emailValue!} logs in.');
     await _validate();
 
     _logger.i('Validation successful');
-    final request = RegisterModel(
-      name: nameValue!,
+    final request = LoginModel(
       email: emailValue!,
       password: passwordValue!,
     );
 
-    final response = await _authService.register(request);
+    final response = await _authService.login(request);
 
     await response.fold(
       (ApiError error) {
         throw Exception(error.message);
       },
       (unit) async {
-        await _routerService.replaceWithLoginView();
+        await _routerService.replaceWithHomeView();
       },
     );
   }
 
   Future<void> _validate() async {
-    if (hasNameValidationMessage) {
-      throw Exception(nameValidationMessage);
-    }
-
     if (hasEmailValidationMessage) {
       throw Exception(emailValidationMessage);
     }
 
     if (hasPasswordValidationMessage) {
       throw Exception(passwordValidationMessage);
-    }
-
-    final confirmPasswordValidationMessage =
-        UserValidator.validateConfirmPassword(
-      passwordValue,
-      confirmPasswordValue,
-    );
-
-    if (confirmPasswordValidationMessage != null) {
-      throw Exception(confirmPasswordValidationMessage);
     }
   }
 }

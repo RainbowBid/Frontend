@@ -9,6 +9,7 @@ import 'dart:ui' as _i9;
 import 'package:dartz/dartz.dart' as _i3;
 import 'package:flutter/material.dart' as _i6;
 import 'package:mockito/mockito.dart' as _i1;
+import 'package:rainbowbid_frontend/models/auth/login_model.dart' as _i15;
 import 'package:rainbowbid_frontend/models/auth/register_model.dart' as _i14;
 import 'package:rainbowbid_frontend/models/errors/api_error.dart' as _i13;
 import 'package:rainbowbid_frontend/services/auth_service.dart' as _i12;
@@ -616,6 +617,33 @@ class MockAuthService extends _i1.Mock implements _i12.AuthService {
           this,
           Invocation.method(
             #register,
+            [request],
+          ),
+        )),
+      ) as _i5.Future<_i3.Either<_i13.ApiError, _i3.Unit>>);
+
+  @override
+  _i5.Future<_i3.Either<_i13.ApiError, _i3.Unit>> login(
+          _i15.LoginModel? request) =>
+      (super.noSuchMethod(
+        Invocation.method(
+          #login,
+          [request],
+        ),
+        returnValue: _i5.Future<_i3.Either<_i13.ApiError, _i3.Unit>>.value(
+            _FakeEither_3<_i13.ApiError, _i3.Unit>(
+          this,
+          Invocation.method(
+            #login,
+            [request],
+          ),
+        )),
+        returnValueForMissingStub:
+            _i5.Future<_i3.Either<_i13.ApiError, _i3.Unit>>.value(
+                _FakeEither_3<_i13.ApiError, _i3.Unit>(
+          this,
+          Invocation.method(
+            #login,
             [request],
           ),
         )),
