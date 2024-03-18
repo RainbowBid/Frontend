@@ -3,6 +3,7 @@ import 'package:flash/flash_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
+import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:rainbowbid_frontend/models/validators/user_validator.dart';
 import 'package:rainbowbid_frontend/ui/common/app_colors.dart';
 import 'package:rainbowbid_frontend/ui/common/app_constants.dart';
@@ -440,7 +441,12 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
   }
 
   @override
-  void onViewModelReady(RegisterViewModel viewModel) {
+  Future<void> onViewModelReady(RegisterViewModel viewModel) async {
+    final hasCurrentUser = await JwtStorage.hasCurrentUser();
+    if (hasCurrentUser) {
+      viewModel.routerService.replaceWithHomeView();
+    }
+
     syncFormWithViewModel(viewModel);
   }
 

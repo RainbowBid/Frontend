@@ -13,7 +13,8 @@ class Item {
     required this.userId,
   });
 
-  Item.withoutPicture(this.picture, {
+  Item.withoutPicture(
+    this.picture, {
     required this.id,
     required this.brief,
     required this.description,
@@ -39,4 +40,29 @@ class Item {
       userId: json['user_id'],
     );
   }
+}
+
+enum Category {
+  art,
+  sport,
+  electronics,
+  services,
+  diverse,
+  all;
+
+  String get value => switch (this) {
+        art => 'art',
+        sport => 'sport',
+        electronics => 'electronics',
+        services => 'services',
+        _ => 'diverse',
+      };
+
+  static Category fromValue(String value) => switch (value) {
+        'art' => art,
+        'sport' => sport,
+        'electronics' => electronics,
+        'services' => services,
+        _ => diverse,
+      };
 }

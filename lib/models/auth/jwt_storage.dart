@@ -16,9 +16,24 @@ class JsonWrapper {
 class JwtStorage {
   static final _jwtStorage = LocalStorage(ApiConstants.jwtStorage);
 
+  static Future<void> clear() async {
+    await _jwtStorage.clear();
+  }
+
+  static Future<void> init() async {
+    await _jwtStorage.ready;
+  }
+
+  static Future<bool> hasCurrentUser() async {
+    final token = await getJwt();
+    return token.isSome();
+  }
+
   static Future<void> setJwt(String rawJwt) async {
     await _jwtStorage.setItem(
-        ApiConstants.jwtEncodedStorageKey, JsonWrapper(value: rawJwt));
+      ApiConstants.jwtEncodedStorageKey,
+      JsonWrapper(value: rawJwt),
+    );
 
     final jwt = JwtDecoder.decode(rawJwt);
 
@@ -27,15 +42,20 @@ class JwtStorage {
   }
 
   static Future<Option<String>> getJwt() async {
-    return switch (_jwtStorage.getItem(ApiConstants.jwtEncodedStorageKey)) {
-      final JsonWrapper jwt => some(jwt.value),
-      _ => none(),
-    };
+    final data = await _jwtStorage.getItem(ApiConstants.jwtEncodedStorageKey);
+
+    if (data == null) {
+      return none();
+    }
+
+    return some(data['key'] as String);
   }
 
   static Future<void> setUsername(String username) async {
     await _jwtStorage.setItem(
-        ApiConstants.usernameStorageKey, JsonWrapper(value: username));
+      ApiConstants.usernameStorageKey,
+      JsonWrapper(value: username),
+    );
   }
 
   static Future<Option<String>> getUserUsername() async {
