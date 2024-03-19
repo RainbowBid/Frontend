@@ -16,13 +16,15 @@ class JsonWrapper {
 class JwtStorage {
   static final _jwtStorage = LocalStorage(ApiConstants.jwtStorage);
 
+  static Future<void> init() async {
+    await _jwtStorage.ready;
+  }
+
+
   static Future<void> clear() async {
     await _jwtStorage.clear();
   }
 
-  static Future<void> init() async {
-    await _jwtStorage.ready;
-  }
 
   static Future<bool> hasCurrentUser() async {
     final token = await getJwt();
@@ -41,15 +43,9 @@ class JwtStorage {
     setUserId(jwt['sub']);
   }
 
-  static Future<Option<String>> getJwt() async {
-    final data = await _jwtStorage.getItem(ApiConstants.jwtEncodedStorageKey);
+  static Future<Option<String>> getJwt() async =>
+      await _getItemByKey(ApiConstants.jwtEncodedStorageKey);
 
-    if (data == null) {
-      return none();
-    }
-
-    return some(data['key'] as String);
-  }
 
   static Future<void> setUsername(String username) async {
     await _jwtStorage.setItem(
@@ -58,22 +54,24 @@ class JwtStorage {
     );
   }
 
-  static Future<Option<String>> getUserUsername() async {
-    return switch (_jwtStorage.getItem(ApiConstants.usernameStorageKey)) {
-      final JsonWrapper username => some(username.value),
-      _ => none(),
-    };
-  }
+  static Future<Option<String>> getUserUsername() async =>
+      await _getItemByKey(ApiConstants.usernameStorageKey);
 
   static Future<void> setUserId(String id) async {
     await _jwtStorage.setItem(
         ApiConstants.userIdStorageKey, JsonWrapper(value: id));
   }
 
-  static Future<Option<String>> getUserId() async {
-    return switch (_jwtStorage.getItem(ApiConstants.userIdStorageKey)) {
-      final JsonWrapper id => some(id.value),
-      _ => none(),
-    };
+  static Future<Option<String>> getUserId() async =>
+      await _getItemByKey(ApiConstants.userIdStorageKey);
+
+  static _getItemByKey(String key) async {
+    final data = await _jwtStorage.getItem(key);
+
+    if (data == null) {
+      return none();
+    }
+
+    return some(data['key'] as String);
   }
 }

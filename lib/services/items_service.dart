@@ -8,6 +8,8 @@ import 'package:http_parser/http_parser.dart';
 import 'package:rainbowbid_frontend/config/api_constants.dart';
 import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:rainbowbid_frontend/models/dtos/create_item_dto.dart';
+import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
+
 
 import 'package:rainbowbid_frontend/models/dtos/get_all_items_dto.dart';
 
@@ -24,12 +26,26 @@ class ItemsService implements IItemsService {
   Future<Either<ApiError, GetAllItemsDto>> getAll() async {
     try {
       _logger.i("Get all items for user.");
-
+      final String jwt = (await JwtStorage.getJwt()).fold(() {
+        return "";
+      }, (jwt) {
+        return jwt;
+      });
+      if (jwt.isEmpty) {
+        return left(
+          const ApiError.unauthorized(
+            "Get all was unauthorized. Jwt = {}",
+          ),
+        );
+      }
+      Map<String, String> heads = {
+        HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
+        HttpHeaders.authorizationHeader: "Bearer ${jwt}",
+      };
       final response = await _httpClient.get(
         Uri.http(ApiConstants.baseUrl, ApiConstants.itemsGetAllUrl),
-        headers: {
-          HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
-        },
+        headers: heads,
+
       );
 
       switch (response.statusCode) {
@@ -38,6 +54,13 @@ class ItemsService implements IItemsService {
 
           return right(GetAllItemsDto.fromJson(json.decode(response.body)));
         case HttpStatus.unauthorized:
+          _logger.i("Get all was unauthorized");
+          return left(
+            const ApiError.unauthorized(
+              "Get all was unauthorized.",
+            ),
+          );
+
         default:
           _logger.e(
               "Server error occurred: ${response.statusCode} ${response.body}");
@@ -47,7 +70,8 @@ class ItemsService implements IItemsService {
             ),
           );
       }
-    } catch (e) {
+    }catch (e) {
+
       _logger.e("Server error occurred: $e");
       return left(
         const ApiError.serverError(
@@ -122,3 +146,4 @@ class ItemsService implements IItemsService {
     }
   }
 }
+

@@ -15,7 +15,6 @@ Future<void> main() async {
   setupDialogUi();
   setupBottomSheetUi();
   await JwtStorage.init();
-
   runApp(const MainApp());
 }
 

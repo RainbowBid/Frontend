@@ -5,7 +5,6 @@ abstract class ApiConstants {
 
   static const String registerUrl = '/auth/register';
   static const String loginUrl = '/auth/login';
-
   static const String itemsGetAllUrl = '/items/all';
   static const String itemsCreateUrl = '/items/create';
 
