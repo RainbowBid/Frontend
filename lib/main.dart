@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:responsive_builder/responsive_builder.dart';
 import 'package:rainbowbid_frontend/app/app.bottomsheets.dart';
 import 'package:rainbowbid_frontend/app/app.dialogs.dart';
@@ -13,6 +14,8 @@ Future<void> main() async {
   await setupLocator(stackedRouter: stackedRouter);
   setupDialogUi();
   setupBottomSheetUi();
+  await JwtStorage.init();
+
   runApp(const MainApp());
 }
 

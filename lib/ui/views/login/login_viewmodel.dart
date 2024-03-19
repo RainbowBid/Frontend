@@ -15,7 +15,7 @@ class LoginViewModel extends FormViewModel {
   final _authService = locator<IAuthService>();
   final _routerService = locator<RouterService>();
   final _sidebarController = SidebarXController(
-    selectedIndex: kiSidebarRegisterMenuIndex,
+    selectedIndex: kiSidebarLoginMenuIndex,
   );
 
   late bool _isPasswordVisible = false;
@@ -32,7 +32,7 @@ class LoginViewModel extends FormViewModel {
   Future<void> login() async {
     await runBusyFuture(
       _login(),
-      busyObject: ksRegisterKey,
+      busyObject: ksLoginKey,
     );
   }
 
