@@ -20,18 +20,29 @@ class ViewItemsViewModel extends FutureViewModel<List<Item>> {
   );
   final _itemsService = locator<IItemsService>();
   final _routerService = locator<RouterService>();
+  late Category _selectedCategory = Category.all;
 
-
+  Category get selectedCategory => _selectedCategory;
   SidebarXController get sidebarController => _sidebarController;
 
+  set selectedCategory(Category value) {
+    _selectedCategory = value;
+    rebuildUi();
+  }
+
+  Future<void> refresh() async {
+    await initialise();
+  }
+
   Future<List<Item>> getAll() async {
-    Either<ApiError, GetAllItemsDto> result = await _itemsService.getAll();
+    Either<ApiError, GetAllItemsDto> result =
+        await _itemsService.getAll(_selectedCategory);
 
     return result.fold(
       (ApiError apiError) {
         _logger.e("Items getAll call finished with an error");
         apiError.maybeWhen(
-          unauthorized: (message)  async {
+          unauthorized: (message) async {
             await JwtStorage.clear();
             await _routerService.replaceWithLoginView();
           },
@@ -48,8 +59,8 @@ class ViewItemsViewModel extends FutureViewModel<List<Item>> {
               brief: itemDto.brief,
               description: itemDto.description,
               id: itemDto.id,
-              picture: itemDto.picture,
               userId: itemDto.userId,
+              category: itemDto.category,
             );
           },
         ).toList();
