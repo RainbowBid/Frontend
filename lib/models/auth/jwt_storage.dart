@@ -20,11 +20,9 @@ class JwtStorage {
     await _jwtStorage.ready;
   }
 
-
   static Future<void> clear() async {
     await _jwtStorage.clear();
   }
-
 
   static Future<bool> hasCurrentUser() async {
     final token = await getJwt();
@@ -46,7 +44,6 @@ class JwtStorage {
   static Future<Option<String>> getJwt() async =>
       await _getItemByKey(ApiConstants.jwtEncodedStorageKey);
 
-
   static Future<void> setUsername(String username) async {
     await _jwtStorage.setItem(
       ApiConstants.usernameStorageKey,
@@ -65,7 +62,7 @@ class JwtStorage {
   static Future<Option<String>> getUserId() async =>
       await _getItemByKey(ApiConstants.userIdStorageKey);
 
-  static _getItemByKey(String key) async {
+  static Future<Option<String>> _getItemByKey(String key) async {
     final data = await _jwtStorage.getItem(key);
 
     if (data == null) {

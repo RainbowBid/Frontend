@@ -8,14 +8,8 @@ import 'package:http_parser/http_parser.dart';
 import 'package:rainbowbid_frontend/config/api_constants.dart';
 import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:rainbowbid_frontend/models/dtos/create_item_dto.dart';
-import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
-
-
 import 'package:rainbowbid_frontend/models/dtos/get_all_items_dto.dart';
-
 import 'package:rainbowbid_frontend/models/errors/api_error.dart';
-import 'package:stacked/stacked_annotations.dart';
-
 import '../app/app.logger.dart';
 import '../models/interfaces/i_items_service.dart';
 import '../models/items/item.dart';
@@ -40,12 +34,23 @@ class ItemsService implements IItemsService {
           ),
         );
       }
+
       Map<String, String> heads = {
         HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
-        HttpHeaders.authorizationHeader: "Bearer ${jwt}",
+        HttpHeaders.authorizationHeader: "Bearer $jwt",
       };
+
+      final queryParams = <String, dynamic>{};
+      if (category != Category.all) {
+        queryParams["category"] = category.value;
+      }
+
       final response = await _httpClient.get(
-        Uri.http(ApiConstants.baseUrl, ApiConstants.itemsGetAllUrl, {"category": category.value}),
+        Uri.http(
+          ApiConstants.baseUrl,
+          ApiConstants.itemsGetAllUrl,
+          queryParams,
+        ),
         headers: heads,
       );
 
@@ -71,8 +76,7 @@ class ItemsService implements IItemsService {
             ),
           );
       }
-    }catch (e) {
-
+    } catch (e) {
       _logger.e("Server error occurred: $e");
       return left(
         const ApiError.serverError(
@@ -147,4 +151,3 @@ class ItemsService implements IItemsService {
     }
   }
 }
-

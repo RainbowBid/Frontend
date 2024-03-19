@@ -2,23 +2,15 @@ class Item {
   late String id;
   late String brief;
   late String description;
-  late List<int> picture;
   late String userId;
+  late Category category;
 
   Item({
     required this.id,
     required this.brief,
     required this.description,
-    required this.picture,
     required this.userId,
-  });
-
-  Item.withoutPicture(
-    this.picture, {
-    required this.id,
-    required this.brief,
-    required this.description,
-    required this.userId,
+    required this.category,
   });
 
   Map<String, dynamic> toJson() {
@@ -26,8 +18,8 @@ class Item {
       'id': id,
       'brief': brief,
       'description': description,
-      'picture': picture,
       'user_id': userId,
+      'category': category.value,
     };
   }
 
@@ -36,8 +28,8 @@ class Item {
       id: json['id'],
       brief: json['brief'],
       description: json['description'],
-      picture: List<int>.from(json['picture']),
       userId: json['user_id'],
+      category: Category.fromValue(json['category']),
     );
   }
 }
@@ -55,7 +47,8 @@ enum Category {
         sport => 'sport',
         electronics => 'electronics',
         services => 'services',
-        _ => 'diverse',
+        diverse => 'diverse',
+        _ => '',
       };
 
   static Category fromValue(String value) => switch (value) {

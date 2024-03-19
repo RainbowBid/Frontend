@@ -17,10 +17,10 @@ class ViewItemsView extends StackedView<ViewItemsViewModel> {
   ) {
     return Scaffold(
         body: viewModel.isBusy
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : Column(
                 children: [
-                  Text("Your items"),
+                  const Text("Your items"),
                   DropdownButtonFormField<Category>(
                     value: viewModel.selectedCategory,
                     onChanged: (value) async {
@@ -68,7 +68,15 @@ class ViewItemsView extends StackedView<ViewItemsViewModel> {
                       itemBuilder: (context, index) {
                         return Card(
                           child: ListTile(
-                            title: Text(viewModel.data![index].id.toString()),
+                            title: Text(
+                              viewModel.data![index].brief.toString(),
+                            ),
+                            subtitle: Text(
+                              viewModel.data![index].description.toString(),
+                            ),
+                            trailing: Text(
+                              viewModel.data![index].category.name,
+                            ),
                           ),
                         );
                       },
