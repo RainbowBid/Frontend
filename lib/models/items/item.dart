@@ -51,6 +51,15 @@ enum Category {
         _ => '',
       };
 
+  String get displayValue => switch (this) {
+        art => 'Art',
+        sport => 'Sport',
+        electronics => 'Electronics',
+        services => 'Services',
+        diverse => 'Diverse',
+        all => 'All',
+      };
+
   static Category fromValue(String value) => switch (value) {
         'art' => art,
         'sport' => sport,
