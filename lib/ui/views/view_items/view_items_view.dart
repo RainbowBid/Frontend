@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
-import '../../../models/items/item.dart';
 import 'view_items_viewmodel.dart';
 
 class ViewItemsView extends StackedView<ViewItemsViewModel> {

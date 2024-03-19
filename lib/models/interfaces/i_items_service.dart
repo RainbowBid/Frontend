@@ -6,8 +6,6 @@ import '../errors/api_error.dart';
 
 abstract interface class IItemsService {
   Future<Either<ApiError, GetAllItemsDto>> getAll();
-abstract interface class IItemsService {
-  Future<Either<ApiError, GetAllItemsDto>> getAll();
   Future<Either<ApiError, Unit>> create({
     required CreateItemDto request,
   });
