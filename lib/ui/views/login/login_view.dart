@@ -3,6 +3,7 @@ import 'package:flash/flash_helper.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
+import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:rainbowbid_frontend/models/validators/user_validator.dart';
 import 'package:rainbowbid_frontend/ui/common/app_colors.dart';
 import 'package:rainbowbid_frontend/ui/common/app_constants.dart';
@@ -233,7 +234,7 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
   Widget _buildLoginButton(BuildContext context, LoginViewModel viewModel) {
     return Column(
       children: [
-        if (viewModel.busy(ksRegisterKey)) ...[
+        if (viewModel.busy(ksLoginKey)) ...[
           const LinearProgressIndicator(
             valueColor: AlwaysStoppedAnimation<Color>(kcBlue),
           ),
@@ -245,12 +246,12 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
 
             if (!context.mounted) return;
 
-            if (viewModel.hasErrorForKey(ksRegisterKey)) {
+            if (viewModel.hasErrorForKey(ksLoginKey)) {
               await context.showErrorBar(
                 position: FlashPosition.top,
                 indicatorColor: kcRed,
                 content: Text(
-                  viewModel.error(ksRegisterKey).message as String,
+                  viewModel.error(ksLoginKey).message as String,
                 ),
                 primaryActionBuilder: (context, controller) {
                   return IconButton(
@@ -303,7 +304,12 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
   }
 
   @override
-  void onViewModelReady(LoginViewModel viewModel) {
+  Future<void> onViewModelReady(LoginViewModel viewModel) async {
+    final hasCurrentUser = await JwtStorage.hasCurrentUser();
+    if (hasCurrentUser) {
+      viewModel.routerService.replaceWithHomeView();
+    }
+
     syncFormWithViewModel(viewModel);
   }
 

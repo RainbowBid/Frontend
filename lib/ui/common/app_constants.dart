@@ -18,6 +18,8 @@ const double kdPagePadding = 40;
 const double kdFormPadding = 20;
 
 const String ksRegisterKey = 'registerKey';
+const String ksLoginKey = 'loginKey';
+const String ksCreateItemKey = 'createItemKey';
 
 // validator constants
 const int kiMinUsernameLength = 3;
@@ -26,10 +28,17 @@ const krPasswordPattern =
     r'^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^\da-zA-Z]).{6,}$';
 const krEmailPattern = r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$';
 
+const int kiMinItemBriefLength = 3;
+const int kiMaxItemBriefLength = 30;
+const int kiMinItemDescriptionLength = 3;
+const int kiMaxItemDescriptionLength = 255;
+
 // sidebar
 const int kiSidebarHomeMenuIndex = 0;
 const int kiSidebarRegisterMenuIndex = 1;
 const int kiSidebarViewItemsMenuIndex = 2;
+const int kiSidebarLoginMenuIndex = 2;
+const int kiSidebarCreateItemMenuIndex = 2;
 
 const double kdSidebarPadding = 10;
 const double kdSidebarShapeRadius = 20;
@@ -49,6 +58,9 @@ const double kdSidebarAvatarImagePadding = 8;
 
 const String ksSidebarHomeMenuText = 'Home';
 const String ksSidebarRegisterMenuText = 'Register';
+const String ksSidebarLoginMenuText = 'Login';
+const String ksSidebarLogoutMenuText = 'Logout';
+const String ksSidebarCreateItemMenuText = 'Create item';
 
 // assets
 const String ksLogoAssetPath = 'assets/images/rainbowbid_logo.jpeg';

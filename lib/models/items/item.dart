@@ -41,3 +41,28 @@ class Item {
     );
   }
 }
+
+enum Category {
+  art,
+  sport,
+  electronics,
+  services,
+  diverse,
+  all;
+
+  String get value => switch (this) {
+        art => 'art',
+        sport => 'sport',
+        electronics => 'electronics',
+        services => 'services',
+        _ => 'diverse',
+      };
+
+  static Category fromValue(String value) => switch (value) {
+        'art' => art,
+        'sport' => sport,
+        'electronics' => electronics,
+        'services' => services,
+        _ => diverse,
+      };
+}
