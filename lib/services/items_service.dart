@@ -14,16 +14,18 @@ import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:rainbowbid_frontend/models/dtos/get_all_items_dto.dart';
 
 import 'package:rainbowbid_frontend/models/errors/api_error.dart';
+import 'package:stacked/stacked_annotations.dart';
 
 import '../app/app.logger.dart';
 import '../models/interfaces/i_items_service.dart';
+import '../models/items/item.dart';
 
 class ItemsService implements IItemsService {
   final _logger = getLogger('ItemsService');
   final _httpClient = BrowserClient()..withCredentials = true;
 
   @override
-  Future<Either<ApiError, GetAllItemsDto>> getAll() async {
+  Future<Either<ApiError, GetAllItemsDto>> getAll(Category category) async {
     try {
       _logger.i("Get all items for user.");
       final String jwt = (await JwtStorage.getJwt()).fold(() {
@@ -43,9 +45,8 @@ class ItemsService implements IItemsService {
         HttpHeaders.authorizationHeader: "Bearer ${jwt}",
       };
       final response = await _httpClient.get(
-        Uri.http(ApiConstants.baseUrl, ApiConstants.itemsGetAllUrl),
+        Uri.http(ApiConstants.baseUrl, ApiConstants.itemsGetAllUrl, {"category": category.value}),
         headers: heads,
-
       );
 
       switch (response.statusCode) {

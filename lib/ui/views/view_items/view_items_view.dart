@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
+import '../../../models/items/item.dart';
+import '../../common/app_colors.dart';
+import '../../common/app_constants.dart';
 import 'view_items_viewmodel.dart';
 
 class ViewItemsView extends StackedView<ViewItemsViewModel> {
@@ -18,6 +21,47 @@ class ViewItemsView extends StackedView<ViewItemsViewModel> {
             : Column(
                 children: [
                   Text("Your items"),
+                  DropdownButtonFormField<Category>(
+                    value: viewModel.selectedCategory,
+                    onChanged: (value) async {
+                      if (value != null) {
+                        viewModel.selectedCategory = value;
+                        await viewModel.refresh();
+                      }
+                    },
+                    items: Category.values
+                        .map(
+                          (category) => DropdownMenuItem(
+                            value: category,
+                            child: Text(
+                              category.name,
+                              style: const TextStyle(
+                                fontSize: kdFieldLabelFontSize,
+                              ),
+                            ),
+                          ),
+                        )
+                        .toList(),
+                    decoration: const InputDecoration(
+                      floatingLabelBehavior: FloatingLabelBehavior.auto,
+                      focusedBorder: OutlineInputBorder(),
+                      enabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: kcLightGrey),
+                        borderRadius: BorderRadius.all(
+                          Radius.circular(
+                            kdFieldBorderRadius,
+                          ),
+                        ),
+                      ),
+                      label: Text(
+                        'Category',
+                        style: TextStyle(
+                          fontSize: kdFieldLabelFontSize,
+                          color: kcMediumGrey,
+                        ),
+                      ),
+                    ),
+                  ),
                   Expanded(
                     child: ListView.builder(
                       itemCount: viewModel.data!.length,
