@@ -28,17 +28,17 @@ class ItemsService implements IItemsService {
     if (jwt.isEmpty) {
       return left(
         const ApiError.unauthorized(
-          "Get all was unauthorized.",
+          "Get all was unauthorized. Jwt = {}",
         ),
       );
     }
-
+    Map<String, String> heads = {
+      HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
+      HttpHeaders.authorizationHeader: "Bearer ${jwt}",
+    };
     final response = await _httpClient.get(
       Uri.http(ApiConstants.baseUrl, ApiConstants.itemsGetAllUrl),
-      headers: {
-        HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
-        HttpHeaders.authorizationHeader: jwt,
-      },
+      headers: heads,
     );
 
     switch (response.statusCode) {

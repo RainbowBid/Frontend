@@ -1,6 +1,9 @@
 import 'package:dartz/dartz.dart';
+import 'package:rainbowbid_frontend/app/app.router.dart';
+import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import '../../../app/app.locator.dart';
 import '../../../app/app.logger.dart';
@@ -16,6 +19,8 @@ class ViewItemsViewModel extends FutureViewModel<List<Item>> {
     selectedIndex: kiSidebarViewItemsMenuIndex,
   );
   final _itemsService = locator<IItemsService>();
+  final _routerService = locator<RouterService>();
+
 
   SidebarXController get sidebarController => _sidebarController;
 
@@ -23,16 +28,22 @@ class ViewItemsViewModel extends FutureViewModel<List<Item>> {
     Either<ApiError, GetAllItemsDto> result = await _itemsService.getAll();
 
     return result.fold(
-      (apiError) {
+      (ApiError apiError) {
         _logger.e("Items getAll call finished with an error");
+        apiError.maybeWhen(
+          unauthorized: (message)  async {
+            await JwtStorage.clear();
+            await _routerService.replaceWithLoginView();
+          },
+          orElse: () {},
+        );
+
         return [];
       },
       (getAllItemsDto) {
         _logger.i("Items getAll call finished.");
-        // Transform GetAllItemsDto into a list of items
         List<Item> items = getAllItemsDto.items.map(
           (itemDto) {
-            // Convert each itemDto into an Item object
             return Item(
               brief: itemDto.brief,
               description: itemDto.description,
