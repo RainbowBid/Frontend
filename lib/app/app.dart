@@ -1,5 +1,6 @@
 import 'package:rainbowbid_frontend/models/interfaces/i_auth_service.dart';
 import 'package:rainbowbid_frontend/services/items_service.dart';
+
 import 'package:rainbowbid_frontend/models/interfaces/i_items_service.dart';
 import 'package:rainbowbid_frontend/services/items_service.dart';
 import 'package:rainbowbid_frontend/ui/bottom_sheets/notice/notice_sheet.dart';
@@ -15,6 +16,7 @@ import 'package:rainbowbid_frontend/ui/views/login/login_view.dart';
 import 'package:rainbowbid_frontend/ui/views/view_items/view_items_view.dart';
 
 import '../models/interfaces/i_items_service.dart';
+
 import 'package:rainbowbid_frontend/ui/views/create_item/create_item_view.dart';
 // @stacked-import
 
@@ -30,6 +32,7 @@ import 'package:rainbowbid_frontend/ui/views/create_item/create_item_view.dart';
     ),
     CustomRoute(page: UnknownView, path: '/404'),
     CustomRoute(page: ViewItemsView, path: '/items/all'),
+
 // @stacked-route
 
     /// When none of the above routes match, redirect to UnknownView

@@ -10,3 +10,4 @@ abstract interface class IItemsService {
     required CreateItemDto request,
   });
 }
+

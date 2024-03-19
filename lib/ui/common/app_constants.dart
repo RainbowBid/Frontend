@@ -37,6 +37,7 @@ const int kiMaxItemDescriptionLength = 255;
 const int kiSidebarHomeMenuIndex = 0;
 const int kiSidebarRegisterMenuIndex = 1;
 const int kiSidebarViewItemsMenuIndex = 2;
+
 const int kiSidebarLoginMenuIndex = 2;
 const int kiSidebarCreateItemMenuIndex = 2;
 
