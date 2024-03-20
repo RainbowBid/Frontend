@@ -144,7 +144,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
         ),
         _i11.RouteConfig(
           CreateAuctionViewRoute.name,
-          path: '/create-auction-view',
+          path: 'items/:id/auction',
         ),
         _i11.RouteConfig(
           '*#redirect',
@@ -280,7 +280,7 @@ class CreateAuctionViewRoute extends _i11.PageRouteInfo<void> {
   const CreateAuctionViewRoute()
       : super(
           CreateAuctionViewRoute.name,
-          path: '/create-auction-view',
+          path: 'items/:id/auction',
         );
 
   static const String name = 'CreateAuctionView';

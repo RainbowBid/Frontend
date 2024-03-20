@@ -7,7 +7,7 @@
 // ignore_for_file: public_member_api_docs, constant_identifier_names, non_constant_identifier_names,unnecessary_this
 
 import 'package:flutter/material.dart';
-import 'package:rainbowbid_frontend/models/validators/item_validator.dart';
+import 'package:rainbowbid_frontend/models/validators/auction_validator.dart';
 import 'package:stacked/stacked.dart';
 
 const bool _autoTextFieldValidation = true;
@@ -22,8 +22,8 @@ final Map<String, FocusNode> _CreateAuctionViewFocusNodes = {};
 
 final Map<String, String? Function(String?)?>
     _CreateAuctionViewTextValidations = {
-  StartingPriceValueKey: ItemValidator.validateStartingPrice,
-  EndDateValueKey: ItemValidator.validateEndDate,
+  StartingPriceValueKey: AuctionValidator.validateStartingPrice,
+  EndDateValueKey: AuctionValidator.validateEndDate,
 };
 
 mixin $CreateAuctionView {

@@ -20,6 +20,7 @@ const double kdFormPadding = 20;
 const String ksRegisterKey = 'registerKey';
 const String ksLoginKey = 'loginKey';
 const String ksCreateItemKey = 'createItemKey';
+const String ksCreateAuctionKey = 'createAuctionKey';
 
 // validator constants
 const int kiMinUsernameLength = 3;

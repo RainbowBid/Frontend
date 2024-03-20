@@ -1,10 +1,13 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flash/flash.dart';
+import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:rainbowbid_frontend/ui/views/create_auction/create_auction_view.form.dart';
+import 'package:rainbowbid_frontend/ui/widgets/app_primitives/app_sidebar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
-import '../../../models/validators/item_validator.dart';
+import '../../../models/validators/auction_validator.dart';
+import '../../common/app_colors.dart';
 import '../../common/app_constants.dart';
 import '../../common/ui_helpers.dart';
 import 'create_auction_viewmodel.dart';
@@ -12,11 +15,11 @@ import 'create_auction_viewmodel.dart';
 @FormView(fields: [
   FormTextField(
     name: 'startingPrice',
-    validator: ItemValidator.validateStartingPrice,
+    validator: AuctionValidator.validateStartingPrice,
   ),
   FormTextField(
     name: 'endDate',
-    validator: ItemValidator.validateEndDate,
+    validator: AuctionValidator.validateEndDate,
   ),
 ])
 class CreateAuctionView extends StackedView<CreateAuctionViewModel>
@@ -33,6 +36,7 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
+          AppSidebar(controller: viewModel.sidebarController),
           Expanded(
             child: Center(
               child: Padding(
@@ -46,12 +50,14 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
                         children: [
                           _buildCreateItemPageTitle(context),
                           verticalSpaceLarge,
-                          _buildStartingPriceField(),
+                          _buildStartingPriceField(context, viewModel),
+                          verticalSpaceSmall,
+                          _buildEndDateField(context, viewModel),
                           verticalSpaceMedium,
-                          _buildEndDateField(),
+                          _buildCreateAuctionButton(context, viewModel),
                         ],
                       ),
-                    )),
+                    ),),
               ),
             ),
           )
@@ -81,7 +87,7 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
     );
   }
 
-  Widget _buildBriefField(
+  Widget _buildStartingPriceField(
       BuildContext context,
       CreateAuctionViewModel viewModel,
       ) {
@@ -89,7 +95,7 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
       children: [
         TextFormField(
           controller: startingPriceController,
-          focusNode: briefFocusNode,
+          focusNode: startingPriceFocusNode,
           keyboardType: TextInputType.multiline,
           autovalidateMode: AutovalidateMode.onUserInteraction,
           maxLength: kiMaxItemBriefLength,
@@ -107,7 +113,7 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
             ),
             label: RichText(
               text: const TextSpan(
-                text: 'Brief',
+                text: 'Starting Price',
                 style: TextStyle(
                   fontSize: kdFieldLabelFontSize,
                   color: kcMediumGrey,
@@ -124,10 +130,10 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
             ),
           ),
         ),
-        if (viewModel.hasBriefValidationMessage) ...[
+        if (viewModel.hasStartingPriceValidationMessage) ...[
           verticalSpaceTiny,
           Text(
-            viewModel.briefValidationMessage!,
+            viewModel.startingPriceValidationMessage!,
             style: const TextStyle(
               color: kcRed,
               fontSize: kdFieldValidationFontSize,
@@ -135,6 +141,117 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
             ),
           ),
         ]
+      ],
+    );
+  }
+
+  Widget _buildEndDateField(
+      BuildContext context,
+      CreateAuctionViewModel viewModel,
+      ) {
+    return Column(
+      children: [
+        TextFormField(
+          controller: endDateController,
+          focusNode: endDateFocusNode,
+          keyboardType: TextInputType.multiline,
+          autovalidateMode: AutovalidateMode.onUserInteraction,
+          maxLength: kiMaxItemBriefLength,
+          maxLines: null,
+          decoration: InputDecoration(
+            floatingLabelBehavior: FloatingLabelBehavior.auto,
+            focusedBorder: const OutlineInputBorder(),
+            enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: kcLightGrey),
+              borderRadius: BorderRadius.all(
+                Radius.circular(
+                  kdFieldBorderRadius,
+                ),
+              ),
+            ),
+            label: RichText(
+              text: const TextSpan(
+                text: 'End Date',
+                style: TextStyle(
+                  fontSize: kdFieldLabelFontSize,
+                  color: kcMediumGrey,
+                ),
+                children: [
+                  TextSpan(
+                    text: ' *',
+                    style: TextStyle(
+                      color: kcRed,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        if (viewModel.hasEndDateValidationMessage) ...[
+          verticalSpaceTiny,
+          Text(
+            viewModel.endDateValidationMessage!,
+            style: const TextStyle(
+              color: kcRed,
+              fontSize: kdFieldValidationFontSize,
+              fontWeight: FontWeight.w700,
+            ),
+          ),
+        ]
+      ],
+    );
+  }
+
+  Widget _buildCreateAuctionButton(
+      BuildContext context,
+      CreateAuctionViewModel viewModel,
+      ) {
+    return Column(
+      children: [
+        if (viewModel.busy(ksCreateAuctionKey)) ...[
+          const LinearProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(kcBlue),
+          ),
+          verticalSpaceTiny,
+        ],
+        ElevatedButton(
+          onPressed: () async {
+            await viewModel.createAuction();
+
+            if (!context.mounted) return;
+
+            if (viewModel.hasErrorForKey(ksCreateAuctionKey)) {
+              await context.showErrorBar(
+                position: FlashPosition.top,
+                indicatorColor: kcRed,
+                content: Text(
+                  viewModel.error(ksCreateAuctionKey).message as String,
+                ),
+                primaryActionBuilder: (context, controller) {
+                  return IconButton(
+                    onPressed: controller.dismiss,
+                    icon: const Icon(Icons.close),
+                  );
+                },
+              );
+            }
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: kButtonSize,
+            backgroundColor: kcBlue,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(kdFieldBorderRadius),
+            ),
+          ),
+          child: const Text(
+            'Create auction',
+            style: TextStyle(
+              color: kcWhite,
+              fontSize: kdButtonTextSize,
+            ),
+          ),
+        ),
       ],
     );
   }

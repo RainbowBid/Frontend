@@ -14,11 +14,13 @@ import 'package:rainbowbid_frontend/ui/views/register/register_view.dart';
 import 'package:rainbowbid_frontend/ui/views/login/login_view.dart';
 import 'package:rainbowbid_frontend/ui/views/view_items/view_items_view.dart';
 
-import '../models/interfaces/i_items_service.dart';
+import '../models/interfaces/i_auctions_service.dart';
 
 import 'package:rainbowbid_frontend/ui/views/create_item/create_item_view.dart';
 import 'package:rainbowbid_frontend/ui/views/item_details/item_details_view.dart';
 import 'package:rainbowbid_frontend/ui/views/create_auction/create_auction_view.dart';
+
+import '../services/auctions_service.dart';
 // @stacked-import
 
 @StackedApp(
@@ -35,7 +37,7 @@ import 'package:rainbowbid_frontend/ui/views/create_auction/create_auction_view.
     CustomRoute(page: ViewItemsView, path: '/items/all'),
 
     CustomRoute(page: ItemDetailsView, path: '/items/:id'),
-    CustomRoute(page: CreateAuctionView),
+    CustomRoute(page: CreateAuctionView, path: '/items/:id/auction'),
 // @stacked-route
 
     /// When none of the above routes match, redirect to UnknownView
@@ -52,6 +54,10 @@ import 'package:rainbowbid_frontend/ui/views/create_auction/create_auction_view.
     LazySingleton(
       classType: ItemsService,
       asType: IItemsService,
+    ),
+    LazySingleton(
+      classType: AuctionsService,
+      asType: IAuctionService,
     ),
     // @stacked-service
   ],

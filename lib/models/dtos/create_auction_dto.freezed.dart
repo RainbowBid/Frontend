@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$CreateAuctionDto {
   double get startingPrice => throw _privateConstructorUsedError;
-  String get endDate => throw _privateConstructorUsedError;
+  DateTime get endDate => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CreateAuctionDtoCopyWith<CreateAuctionDto> get copyWith =>
@@ -30,7 +30,7 @@ abstract class $CreateAuctionDtoCopyWith<$Res> {
           CreateAuctionDto value, $Res Function(CreateAuctionDto) then) =
       _$CreateAuctionDtoCopyWithImpl<$Res, CreateAuctionDto>;
   @useResult
-  $Res call({double startingPrice, String endDate});
+  $Res call({double startingPrice, DateTime endDate});
 }
 
 /// @nodoc
@@ -57,7 +57,7 @@ class _$CreateAuctionDtoCopyWithImpl<$Res, $Val extends CreateAuctionDto>
       endDate: null == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
     ) as $Val);
   }
 }
@@ -70,7 +70,7 @@ abstract class _$$CreateAuctionDtoImplCopyWith<$Res>
       __$$CreateAuctionDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({double startingPrice, String endDate});
+  $Res call({double startingPrice, DateTime endDate});
 }
 
 /// @nodoc
@@ -95,7 +95,7 @@ class __$$CreateAuctionDtoImplCopyWithImpl<$Res>
       endDate: null == endDate
           ? _value.endDate
           : endDate // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
     ));
   }
 }
@@ -109,7 +109,7 @@ class _$CreateAuctionDtoImpl implements _CreateAuctionDto {
   @override
   final double startingPrice;
   @override
-  final String endDate;
+  final DateTime endDate;
 
   @override
   String toString() {
@@ -140,12 +140,12 @@ class _$CreateAuctionDtoImpl implements _CreateAuctionDto {
 abstract class _CreateAuctionDto implements CreateAuctionDto {
   const factory _CreateAuctionDto(
       {required final double startingPrice,
-      required final String endDate}) = _$CreateAuctionDtoImpl;
+      required final DateTime endDate}) = _$CreateAuctionDtoImpl;
 
   @override
   double get startingPrice;
   @override
-  String get endDate;
+  DateTime get endDate;
   @override
   @JsonKey(ignore: true)
   _$$CreateAuctionDtoImplCopyWith<_$CreateAuctionDtoImpl> get copyWith =>
