@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
 import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
-import 'package:sidebarx/sidebarx.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -11,7 +10,6 @@ import '../../../models/dtos/get_all_items_dto.dart';
 import '../../../models/errors/api_error.dart';
 import '../../../models/interfaces/i_items_service.dart';
 import '../../../models/items/item.dart';
-import '../../common/app_constants.dart';
 
 class ViewItemsViewModel extends FutureViewModel<List<Item>> {
   final _logger = getLogger('ViewItemsViewModel');

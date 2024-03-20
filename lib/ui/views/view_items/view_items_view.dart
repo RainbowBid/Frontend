@@ -5,7 +5,6 @@ import 'package:stacked/stacked.dart';
 import '../../../models/items/item.dart';
 import '../../common/app_colors.dart';
 import '../../common/app_constants.dart';
-import '../../widgets/app_primitives/app_sidebar.dart';
 import 'view_items_viewmodel.dart';
 
 class ViewItemsView extends StatelessWidget {

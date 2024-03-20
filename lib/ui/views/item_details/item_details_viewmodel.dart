@@ -33,8 +33,8 @@ class ItemDetailsViewModel extends FutureViewModel<Item> {
   Future<Item> getItemById() async {
       Either<ApiError, GetItemDto> result =
           await itemService.getItemById(itemId);
-      Item currentItem;
-      currentItem = result.fold(
+
+      return result.fold(
         (ApiError apiError) {
           _logger.e("Items getById call finished with an error");
           apiError.maybeWhen(
@@ -48,16 +48,8 @@ class ItemDetailsViewModel extends FutureViewModel<Item> {
         },
         (getItemDto) {
           _logger.i("Items getById call finished.");
-          final currentItem = Item(
-            id: getItemDto.item.id,
-            userId: getItemDto.item.userId,
-            brief: getItemDto.item.brief,
-            description: getItemDto.item.description,
-            category: getItemDto.item.category,
-          );
-          return currentItem;
+          return getItemDto.item;
         },
       );
-    return currentItem;
   }
 }

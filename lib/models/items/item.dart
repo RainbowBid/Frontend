@@ -1,3 +1,9 @@
+import 'package:dartz/dartz.dart';
+
+import '../../app/app.logger.dart';
+import '../auth/jwt_storage.dart';
+import '../errors/api_error.dart';
+
 class Item {
   late String id;
   late String brief;
@@ -30,6 +36,19 @@ class Item {
       description: json['description'],
       userId: json['user_id'],
       category: Category.fromValue(json['category']),
+    );
+  }
+
+  Future<Option<String>> getJwtForGetImage() async {
+    getLogger("ItemDetailsViewModel")
+        .i("Get jwt for GetImageUrlByItemId http call.");
+    return (await JwtStorage.getJwt()).fold(
+      () {
+        return none();
+      },
+      (jwt) {
+        return some(jwt);
+      },
     );
   }
 }

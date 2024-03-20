@@ -6,7 +6,7 @@ class GetItemDto {
   GetItemDto({required this.item});
 
   factory GetItemDto.fromJson(Map<String, dynamic> json) {
-    var item = json['items'] ;
+    var item = Item.fromJson(json);
     return GetItemDto(item: item);
   }
 }
