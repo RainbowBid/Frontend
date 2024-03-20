@@ -39,9 +39,9 @@ class CreateAuctionViewModel extends FormViewModel {
     _logger.i('Validation successful');
 
     final request = CreateAuctionDto(
-      //todo remove 'as'
-      startingPrice: startingPriceValue! as double,
-      endDate: endDateValue! as DateTime,
+      item_id: itemId,
+      starting_price: double.parse(startingPriceValue!),
+      end_date: DateTime.parse(endDateValue!),
     );
 
     final response = await _auctionService.create(request: request);
