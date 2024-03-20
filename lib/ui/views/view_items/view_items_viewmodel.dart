@@ -15,15 +15,11 @@ import '../../common/app_constants.dart';
 
 class ViewItemsViewModel extends FutureViewModel<List<Item>> {
   final _logger = getLogger('ViewItemsViewModel');
-  final _sidebarController = SidebarXController(
-    selectedIndex: kiSidebarViewItemsMenuIndex,
-  );
   final _itemsService = locator<IItemsService>();
   final _routerService = locator<RouterService>();
   late Category _selectedCategory = Category.all;
 
   Category get selectedCategory => _selectedCategory;
-  SidebarXController get sidebarController => _sidebarController;
 
   set selectedCategory(Category value) {
     _selectedCategory = value;
