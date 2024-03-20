@@ -6,6 +6,8 @@ import 'package:rainbowbid_frontend/ui/widgets/app_primitives/app_sidebar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:rainbowbid_frontend/ui/views/home/home_viewmodel.dart';
 
+import '../view_items/view_items_view.dart';
+
 class HomeView extends StackedView<HomeViewModel> {
   const HomeView({super.key});
 
@@ -24,62 +26,7 @@ class HomeView extends StackedView<HomeViewModel> {
           ),
           Expanded(
             child: Center(
-              child: SizedBox(
-                width: kdDesktopMaxContentWidth,
-                height: kdDesktopMaxContentHeight,
-                child: Column(
-                  mainAxisSize: MainAxisSize.max,
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    verticalSpaceLarge,
-                    Column(
-                      children: [
-                        const Text(
-                          'Hello, DESKTOP UI!',
-                          style: TextStyle(
-                            fontSize: 35,
-                            fontWeight: FontWeight.w900,
-                          ),
-                        ),
-                        verticalSpaceMedium,
-                        MaterialButton(
-                          color: Colors.black,
-                          onPressed: viewModel.incrementCounter,
-                          child: Text(
-                            viewModel.counterLabel,
-                            style: const TextStyle(color: Colors.white),
-                          ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        MaterialButton(
-                          color: kcDarkGreyColor,
-                          onPressed: viewModel.showDialog,
-                          child: const Text(
-                            'Show Dialog',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                        MaterialButton(
-                          color: kcDarkGreyColor,
-                          onPressed: viewModel.showBottomSheet,
-                          child: const Text(
-                            'Show Bottom Sheet',
-                            style: TextStyle(
-                              color: Colors.white,
-                            ),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-              ),
+              child: ViewItemsView(),
             ),
           ),
         ],

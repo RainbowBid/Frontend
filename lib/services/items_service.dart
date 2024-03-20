@@ -8,21 +8,18 @@ import 'package:http_parser/http_parser.dart';
 import 'package:rainbowbid_frontend/config/api_constants.dart';
 import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:rainbowbid_frontend/models/dtos/create_item_dto.dart';
-import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
-
 import 'package:rainbowbid_frontend/models/dtos/get_all_items_dto.dart';
-
 import 'package:rainbowbid_frontend/models/errors/api_error.dart';
-
 import '../app/app.logger.dart';
 import '../models/interfaces/i_items_service.dart';
+import '../models/items/item.dart';
 
 class ItemsService implements IItemsService {
   final _logger = getLogger('ItemsService');
   final _httpClient = BrowserClient()..withCredentials = true;
 
   @override
-  Future<Either<ApiError, GetAllItemsDto>> getAll() async {
+  Future<Either<ApiError, GetAllItemsDto>> getAll(Category category) async {
     try {
       _logger.i("Get all items for user.");
       final String jwt = (await JwtStorage.getJwt()).fold(() {
@@ -37,12 +34,23 @@ class ItemsService implements IItemsService {
           ),
         );
       }
+
       Map<String, String> heads = {
         HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
-        HttpHeaders.authorizationHeader: "Bearer ${jwt}",
+        HttpHeaders.authorizationHeader: "Bearer $jwt",
       };
+
+      final queryParams = <String, dynamic>{};
+      if (category != Category.all) {
+        queryParams["category"] = category.value;
+      }
+
       final response = await _httpClient.get(
-        Uri.http(ApiConstants.baseUrl, ApiConstants.itemsGetAllUrl),
+        Uri.http(
+          ApiConstants.baseUrl,
+          ApiConstants.itemsGetAllUrl,
+          queryParams,
+        ),
         headers: heads,
       );
 

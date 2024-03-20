@@ -62,7 +62,7 @@ class JwtStorage {
   static Future<Option<String>> getUserId() async =>
       await _getItemByKey(ApiConstants.userIdStorageKey);
 
-  static _getItemByKey(String key) async {
+  static Future<Option<String>> _getItemByKey(String key) async {
     final data = await _jwtStorage.getItem(key);
 
     if (data == null) {
