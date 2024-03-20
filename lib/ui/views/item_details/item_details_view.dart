@@ -90,7 +90,7 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
                                 child: TextButton(
                                   onPressed: () async {
                                     await viewModel.routerService
-                                        .replaceWithCreateAuctionView();
+                                        .replaceWithCreateAuctionView(itemId: viewModel.itemId);
                                   },
                                   child: const Text('Create Auction'),
                                 ),

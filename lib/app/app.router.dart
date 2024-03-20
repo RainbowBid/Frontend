@@ -99,9 +99,16 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       );
     },
     CreateAuctionViewRoute.name: (routeData) {
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<CreateAuctionViewArgs>(
+          orElse: () =>
+              CreateAuctionViewArgs(itemId: pathParams.getString('itemId')));
       return _i11.CustomPage<dynamic>(
         routeData: routeData,
-        child: const _i9.CreateAuctionView(),
+        child: _i9.CreateAuctionView(
+          itemId: args.itemId,
+          key: args.key,
+        ),
         opaque: true,
         barrierDismissible: false,
       );
@@ -144,7 +151,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
         ),
         _i11.RouteConfig(
           CreateAuctionViewRoute.name,
-          path: 'items/:id/auction',
+          path: '/items/:itemId/auction',
         ),
         _i11.RouteConfig(
           '*#redirect',
@@ -276,14 +283,37 @@ class ItemDetailsViewArgs {
 
 /// generated route for
 /// [_i9.CreateAuctionView]
-class CreateAuctionViewRoute extends _i11.PageRouteInfo<void> {
-  const CreateAuctionViewRoute()
-      : super(
+class CreateAuctionViewRoute extends _i11.PageRouteInfo<CreateAuctionViewArgs> {
+  CreateAuctionViewRoute({
+    required String itemId,
+    _i12.Key? key,
+  }) : super(
           CreateAuctionViewRoute.name,
-          path: 'items/:id/auction',
+          path: '/items/:itemId/auction',
+          args: CreateAuctionViewArgs(
+            itemId: itemId,
+            key: key,
+          ),
+          rawPathParams: {'itemId': itemId},
         );
 
   static const String name = 'CreateAuctionView';
+}
+
+class CreateAuctionViewArgs {
+  const CreateAuctionViewArgs({
+    required this.itemId,
+    this.key,
+  });
+
+  final String itemId;
+
+  final _i12.Key? key;
+
+  @override
+  String toString() {
+    return 'CreateAuctionViewArgs{itemId: $itemId, key: $key}';
+  }
 }
 
 extension RouterStateExtension on _i10.RouterService {
@@ -357,10 +387,16 @@ extension RouterStateExtension on _i10.RouterService {
     );
   }
 
-  Future<dynamic> navigateToCreateAuctionView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+  Future<dynamic> navigateToCreateAuctionView({
+    required String itemId,
+    _i12.Key? key,
+    void Function(_i11.NavigationFailure)? onFailure,
+  }) async {
     return navigateTo(
-      const CreateAuctionViewRoute(),
+      CreateAuctionViewRoute(
+        itemId: itemId,
+        key: key,
+      ),
       onFailure: onFailure,
     );
   }
@@ -435,10 +471,16 @@ extension RouterStateExtension on _i10.RouterService {
     );
   }
 
-  Future<dynamic> replaceWithCreateAuctionView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+  Future<dynamic> replaceWithCreateAuctionView({
+    required String itemId,
+    _i12.Key? key,
+    void Function(_i11.NavigationFailure)? onFailure,
+  }) async {
     return replaceWith(
-      const CreateAuctionViewRoute(),
+      CreateAuctionViewRoute(
+        itemId: itemId,
+        key: key,
+      ),
       onFailure: onFailure,
     );
   }

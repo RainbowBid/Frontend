@@ -18,9 +18,12 @@ class CreateAuctionViewModel extends FormViewModel {
   final _sidebarController = SidebarXController(
     selectedIndex: kiSidebarCreateItemMenuIndex,
   );
+  final String itemId;
 
   RouterService get routerService => _routerService;
   SidebarXController get sidebarController => _sidebarController;
+
+  CreateAuctionViewModel({required this.itemId});
 
   Future<void> createAuction() async {
     await runBusyFuture(

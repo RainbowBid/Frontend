@@ -37,7 +37,7 @@ import '../services/auctions_service.dart';
     CustomRoute(page: ViewItemsView, path: '/items/all'),
 
     CustomRoute(page: ItemDetailsView, path: '/items/:id'),
-    CustomRoute(page: CreateAuctionView, path: '/items/:id/auction'),
+    CustomRoute(page: CreateAuctionView, path: '/items/:itemId/auction'),
 // @stacked-route
 
     /// When none of the above routes match, redirect to UnknownView

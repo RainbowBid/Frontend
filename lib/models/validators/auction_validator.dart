@@ -7,10 +7,10 @@ abstract class AuctionValidator {
       return 'Starting price is required.';
     }
     final price = double.tryParse(startingPrice);
-    if (price != null) {
+    if (price == null) {
       return 'Starting price must be a number.';
     }
-    if (price! < kdMinPrice) {
+    if (price < kdMinPrice) {
       return 'Starting price must be at least 1.';
     }
 
@@ -22,7 +22,7 @@ abstract class AuctionValidator {
       return 'End date is required.';
     }
     final endDateParsed = DateTime.tryParse(endDate);
-    if (endDateParsed != null) {
+    if (endDateParsed == null) {
       return 'End date must be a date time ( format yyyy-mm-dd hh:mm ).';
     }
     if (DateTime.now().isAfter(endDateParsed!)) {

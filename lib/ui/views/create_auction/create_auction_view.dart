@@ -1,11 +1,13 @@
 import 'package:flash/flash.dart';
 import 'package:flash/flash_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:rainbowbid_frontend/app/app.router.dart';
 import 'package:rainbowbid_frontend/ui/views/create_auction/create_auction_view.form.dart';
 import 'package:rainbowbid_frontend/ui/widgets/app_primitives/app_sidebar.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
+import '../../../models/auth/jwt_storage.dart';
 import '../../../models/validators/auction_validator.dart';
 import '../../common/app_colors.dart';
 import '../../common/app_constants.dart';
@@ -24,7 +26,9 @@ import 'create_auction_viewmodel.dart';
 ])
 class CreateAuctionView extends StackedView<CreateAuctionViewModel>
     with $CreateAuctionView {
-  const CreateAuctionView({super.key});
+  final String itemId;
+
+  const CreateAuctionView({@PathParam() required this.itemId, super.key});
 
   @override
   Widget builder(
@@ -260,5 +264,15 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
   CreateAuctionViewModel viewModelBuilder(
     BuildContext context,
   ) =>
-      CreateAuctionViewModel();
+      CreateAuctionViewModel(itemId: itemId);
+
+  @override
+  Future<void> onViewModelReady(CreateAuctionViewModel viewModel) async {
+    final hasCurrentUser = await JwtStorage.hasCurrentUser();
+    if (!hasCurrentUser) {
+      viewModel.routerService.replaceWithLoginView();
+    }
+
+    syncFormWithViewModel(viewModel);
+  }
 }
