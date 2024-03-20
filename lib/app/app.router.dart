@@ -86,7 +86,7 @@ class StackedRouterWeb extends _i10.RootStackRouter {
     ItemDetailsViewRoute.name: (routeData) {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<ItemDetailsViewArgs>(
-          orElse: () => ItemDetailsViewArgs(id: pathParams.getString('id')));
+          orElse: () => ItemDetailsViewArgs(id: pathParams.get('id')));
       return _i10.CustomPage<dynamic>(
         routeData: routeData,
         child: _i8.ItemDetailsView(
@@ -230,7 +230,7 @@ class ViewItemsViewRoute extends _i10.PageRouteInfo<void> {
 /// [_i8.ItemDetailsView]
 class ItemDetailsViewRoute extends _i10.PageRouteInfo<ItemDetailsViewArgs> {
   ItemDetailsViewRoute({
-    required String id,
+    required dynamic id,
     _i11.Key? key,
   }) : super(
           ItemDetailsViewRoute.name,
@@ -251,7 +251,7 @@ class ItemDetailsViewArgs {
     this.key,
   });
 
-  final String id;
+  final dynamic id;
 
   final _i11.Key? key;
 
@@ -319,7 +319,7 @@ extension RouterStateExtension on _i9.RouterService {
   }
 
   Future<dynamic> navigateToItemDetailsView({
-    required String id,
+    required dynamic id,
     _i11.Key? key,
     void Function(_i10.NavigationFailure)? onFailure,
   }) async {
@@ -389,7 +389,7 @@ extension RouterStateExtension on _i9.RouterService {
   }
 
   Future<dynamic> replaceWithItemDetailsView({
-    required String id,
+    required dynamic id,
     _i11.Key? key,
     void Function(_i10.NavigationFailure)? onFailure,
   }) async {

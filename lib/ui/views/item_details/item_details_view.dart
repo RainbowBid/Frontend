@@ -9,10 +9,9 @@ import '../../../models/items/item.dart';
 import 'item_details_viewmodel.dart';
 
 class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
-  final id;
+  final String id;
 
-  ItemDetailsView(
-      {@PathParam() required this.id, super.key});
+  ItemDetailsView({@PathParam() required this.id, super.key});
 
   @override
   Widget builder(
@@ -20,17 +19,19 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
     ItemDetailsViewModel viewModel,
     Widget? child,
   ) {
-    viewModel.currentItemId = id;
 
     return Scaffold(
-      body: Row(
+      body: viewModel.isBusy
+          ? const CircularProgressIndicator()
+          : viewModel.hasError
+            ? Text("Error occured : ${viewModel.modelError.toString()}")
+            : Row(
         children: [
           AppSidebar(controller: viewModel.sidebarController),
           Expanded(
-            child: Text("item details works ${viewModel.currentItem.toJson()}"),
+            child: Text("item details works ${viewModel.data!.toJson()}"),
           ),
           const Divider(),
-
         ],
       ),
     );
@@ -40,5 +41,5 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
   ItemDetailsViewModel viewModelBuilder(
     BuildContext context,
   ) =>
-      ItemDetailsViewModel();
+      ItemDetailsViewModel(itemId: id);
 }

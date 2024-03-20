@@ -1,34 +1,63 @@
+import 'package:dartz/dartz.dart';
+import 'package:rainbowbid_frontend/app/app.router.dart';
 import 'package:rainbowbid_frontend/services/items_service.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 
 import '../../../app/app.locator.dart';
+import '../../../app/app.logger.dart';
+import '../../../models/auth/jwt_storage.dart';
+import '../../../models/dtos/get_item_dto.dart';
+import '../../../models/errors/api_error.dart';
 import '../../../models/interfaces/i_items_service.dart';
 import '../../../models/items/item.dart';
 import '../../common/app_constants.dart';
 
 class ItemDetailsViewModel extends FutureViewModel<Item> {
-  late String _currentItemId;
-  late Item _currentItem;
+  final _logger = getLogger('ItemDetailsViewModel');
   final _sidebarController = SidebarXController(
     selectedIndex: kiSidebarCreateItemMenuIndex,
   );
+  final _routerService = locator<RouterService>();
   final itemService = locator<IItemsService>();
+  final String itemId;
 
   SidebarXController get sidebarController => _sidebarController;
-  Item get currentItem => _currentItem;//not initialized ??
 
-  set currentItemId(String id) {
-    _currentItemId = id;
-    rebuildUi();
-  }
+  ItemDetailsViewModel({required this.itemId});
 
   @override
   Future<Item> futureToRun() => getItemById();
 
-
   Future<Item> getItemById() async {
-    return await itemService.getItemById(_currentItemId);
+      Either<ApiError, GetItemDto> result =
+          await itemService.getItemById(itemId);
+      Item currentItem;
+      currentItem = result.fold(
+        (ApiError apiError) {
+          _logger.e("Items getById call finished with an error");
+          apiError.maybeWhen(
+            unauthorized: (message) async {
+              await JwtStorage.clear();
+              await _routerService.replaceWithLoginView();
+            },
+            orElse: () {},
+          );
+          throw Exception(apiError.message);
+        },
+        (getItemDto) {
+          _logger.i("Items getById call finished.");
+          final currentItem = Item(
+            id: getItemDto.item.id,
+            userId: getItemDto.item.userId,
+            brief: getItemDto.item.brief,
+            description: getItemDto.item.description,
+            category: getItemDto.item.category,
+          );
+          return currentItem;
+        },
+      );
+    return currentItem;
   }
-
 }
