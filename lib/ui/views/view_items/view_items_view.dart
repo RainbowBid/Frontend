@@ -77,7 +77,7 @@ class ViewItemsView extends StatelessWidget {
                         ),
                         onTap: () async {
                           final item = viewModel.data![index];
-                          await viewModel.routerService.replaceWithItemDetailsView(id: item.id, item: item);
+                          await viewModel.routerService.replaceWithItemDetailsView(id: item.id);
                         },
                       ),
                     );

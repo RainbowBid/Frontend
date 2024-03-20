@@ -9,7 +9,6 @@ import 'package:flutter/material.dart' as _i11;
 import 'package:stacked/stacked.dart' as _i10;
 import 'package:stacked_services/stacked_services.dart' as _i9;
 
-import '../models/items/item.dart' as _i12;
 import '../ui/views/create_item/create_item_view.dart' as _i5;
 import '../ui/views/home/home_view.dart' as _i2;
 import '../ui/views/item_details/item_details_view.dart' as _i8;
@@ -85,12 +84,13 @@ class StackedRouterWeb extends _i10.RootStackRouter {
       );
     },
     ItemDetailsViewRoute.name: (routeData) {
-      final args = routeData.argsAs<ItemDetailsViewArgs>();
+      final pathParams = routeData.inheritedPathParams;
+      final args = routeData.argsAs<ItemDetailsViewArgs>(
+          orElse: () => ItemDetailsViewArgs(id: pathParams.getString('id')));
       return _i10.CustomPage<dynamic>(
         routeData: routeData,
         child: _i8.ItemDetailsView(
           id: args.id,
-          item: args.item,
           key: args.key,
         ),
         opaque: true,
@@ -231,14 +231,12 @@ class ViewItemsViewRoute extends _i10.PageRouteInfo<void> {
 class ItemDetailsViewRoute extends _i10.PageRouteInfo<ItemDetailsViewArgs> {
   ItemDetailsViewRoute({
     required String id,
-    required _i12.Item item,
     _i11.Key? key,
   }) : super(
           ItemDetailsViewRoute.name,
           path: '/items/:id',
           args: ItemDetailsViewArgs(
             id: id,
-            item: item,
             key: key,
           ),
           rawPathParams: {'id': id},
@@ -250,19 +248,16 @@ class ItemDetailsViewRoute extends _i10.PageRouteInfo<ItemDetailsViewArgs> {
 class ItemDetailsViewArgs {
   const ItemDetailsViewArgs({
     required this.id,
-    required this.item,
     this.key,
   });
 
   final String id;
 
-  final _i12.Item item;
-
   final _i11.Key? key;
 
   @override
   String toString() {
-    return 'ItemDetailsViewArgs{id: $id, item: $item, key: $key}';
+    return 'ItemDetailsViewArgs{id: $id, key: $key}';
   }
 }
 
@@ -325,14 +320,12 @@ extension RouterStateExtension on _i9.RouterService {
 
   Future<dynamic> navigateToItemDetailsView({
     required String id,
-    required _i12.Item item,
     _i11.Key? key,
     void Function(_i10.NavigationFailure)? onFailure,
   }) async {
     return navigateTo(
       ItemDetailsViewRoute(
         id: id,
-        item: item,
         key: key,
       ),
       onFailure: onFailure,
@@ -397,14 +390,12 @@ extension RouterStateExtension on _i9.RouterService {
 
   Future<dynamic> replaceWithItemDetailsView({
     required String id,
-    required _i12.Item item,
     _i11.Key? key,
     void Function(_i10.NavigationFailure)? onFailure,
   }) async {
     return replaceWith(
       ItemDetailsViewRoute(
         id: id,
-        item: item,
         key: key,
       ),
       onFailure: onFailure,

@@ -9,10 +9,10 @@ import '../../../models/items/item.dart';
 import 'item_details_viewmodel.dart';
 
 class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
-  final Item item;
+  final id;
 
-  const ItemDetailsView(
-      {@PathParam() required String id, required this.item, super.key});
+  ItemDetailsView(
+      {@PathParam() required this.id, super.key});
 
   @override
   Widget builder(
@@ -20,13 +20,17 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
     ItemDetailsViewModel viewModel,
     Widget? child,
   ) {
+    viewModel.currentItemId = id;
+
     return Scaffold(
       body: Row(
         children: [
+          AppSidebar(controller: viewModel.sidebarController),
           Expanded(
-            child: Text("item details works ${item.toJson()}"),
+            child: Text("item details works ${viewModel.currentItem.toJson()}"),
           ),
-          //AppSidebar(controller: controller)
+          const Divider(),
+
         ],
       ),
     );
