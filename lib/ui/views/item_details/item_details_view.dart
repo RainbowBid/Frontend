@@ -1,19 +1,14 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
-import 'package:rainbowbid_frontend/app/app.logger.dart';
+import 'package:rainbowbid_frontend/app/app.router.dart';
 import 'package:rainbowbid_frontend/config/api_constants.dart';
 import 'package:rainbowbid_frontend/ui/common/ui_helpers.dart';
 import 'package:rainbowbid_frontend/ui/widgets/app_primitives/app_sidebar.dart';
-import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
-import '../../../models/auth/jwt_storage.dart';
-import '../../../models/errors/api_error.dart';
 import '../../../models/items/item.dart';
 import 'item_details_viewmodel.dart';
 
@@ -88,9 +83,18 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
                             ],
                           ),
                           const Divider(),
-                          const Row(
+                          Row(
                             children: [
-                              Text("Active auction, if any exists."),
+                              const Text("Active auction, if any exists."),
+                              Center(
+                                child: TextButton(
+                                  onPressed: () async {
+                                    await viewModel.routerService
+                                        .replaceWithCreateAuctionView();
+                                  },
+                                  child: const Text('Create Auction'),
+                                ),
+                              )
                             ],
                           ),
                         ],

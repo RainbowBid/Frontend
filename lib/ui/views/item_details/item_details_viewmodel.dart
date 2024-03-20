@@ -24,6 +24,7 @@ class ItemDetailsViewModel extends FutureViewModel<Item> {
   final String itemId;
 
   SidebarXController get sidebarController => _sidebarController;
+  RouterService get routerService => _routerService;
 
   ItemDetailsViewModel({required this.itemId});
 
