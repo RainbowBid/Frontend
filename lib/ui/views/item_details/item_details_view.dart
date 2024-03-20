@@ -62,18 +62,19 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
                                             ),
                                             Text(
                                               viewModel.data!.category.value,
-                                              style:
-                                                  const TextStyle(fontSize: 25,fontStyle: FontStyle.italic),
+                                              style: const TextStyle(
+                                                  fontSize: 25,
+                                                  fontStyle: FontStyle.italic),
                                             ),
                                             const Divider(),
                                           ],
-
                                         ),
                                       ],
                                     ),
                                     verticalSpaceSmall,
                                     Row(
-                                      mainAxisAlignment: MainAxisAlignment.start,
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
                                       children: [
                                         Text(
                                           viewModel.data!.description,

@@ -31,25 +31,24 @@ class ItemDetailsViewModel extends FutureViewModel<Item> {
   Future<Item> futureToRun() => getItemById();
 
   Future<Item> getItemById() async {
-      Either<ApiError, GetItemDto> result =
-          await itemService.getItemById(itemId);
+    Either<ApiError, GetItemDto> result = await itemService.getItemById(itemId);
 
-      return result.fold(
-        (ApiError apiError) {
-          _logger.e("Items getById call finished with an error");
-          apiError.maybeWhen(
-            unauthorized: (message) async {
-              await JwtStorage.clear();
-              await _routerService.replaceWithLoginView();
-            },
-            orElse: () {},
-          );
-          throw Exception(apiError.message);
-        },
-        (getItemDto) {
-          _logger.i("Items getById call finished.");
-          return getItemDto.item;
-        },
-      );
+    return result.fold(
+      (ApiError apiError) {
+        _logger.e("Items getById call finished with an error");
+        apiError.maybeWhen(
+          unauthorized: (message) async {
+            await JwtStorage.clear();
+            await _routerService.replaceWithLoginView();
+          },
+          orElse: () {},
+        );
+        throw Exception(apiError.message);
+      },
+      (getItemDto) {
+        _logger.i("Items getById call finished.");
+        return getItemDto.item;
+      },
+    );
   }
 }

@@ -32,6 +32,7 @@ const int kiMinItemBriefLength = 3;
 const int kiMaxItemBriefLength = 30;
 const int kiMinItemDescriptionLength = 3;
 const int kiMaxItemDescriptionLength = 255;
+const double kdMinPrice = 0.99;
 
 // sidebar
 const int kiSidebarHomeMenuIndex = 0;

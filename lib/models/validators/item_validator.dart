@@ -26,4 +26,38 @@ abstract class ItemValidator {
 
     return null;
   }
+
+  static String? validateStartingPrice(String? startingPrice){
+    if (startingPrice == null || startingPrice.isEmpty) {
+      return 'Starting Price is required.';
+    }
+    final price = double.tryParse(startingPrice);
+    if (price != null){
+      return 'Starting Price must be a number.';
+    }
+    if(price! < kdMinPrice){
+      return 'Starting Price must be at least 1.';
+    }
+
+    return null;
+  }
+
+  static String? validateEndDate(String? startingPrice){
+    //todo
+    throw UnimplementedError();
+    if (startingPrice == null || startingPrice.isEmpty) {
+      return 'Starting Price is required.';
+    }
+    final price = double.tryParse(startingPrice);
+    if (price != null){
+      return 'Starting Price must be a number.';
+    }
+    if(price! < kdMinPrice){
+      return 'Starting Price must be at least 1.';
+    }
+
+    return null;
+  }
+
+
 }

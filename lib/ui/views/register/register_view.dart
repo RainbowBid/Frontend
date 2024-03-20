@@ -81,7 +81,8 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
                                 children: [
                                   _buildPasswordField(context, viewModel),
                                   horizontalSpaceLarge,
-                                  _buildConfirmPasswordField(context, viewModel),
+                                  _buildConfirmPasswordField(
+                                      context, viewModel),
                                 ],
                               ),
                               verticalSpaceMedium,

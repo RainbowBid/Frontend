@@ -16,75 +16,76 @@ class ViewItemsView extends StatelessWidget {
       builder: (context, viewModel, child) => viewModel.isBusy
           ? const CircularProgressIndicator()
           : Column(
-            children: [
-              const Text("Your items"),
-              DropdownButtonFormField<Category>(
-                value: viewModel.selectedCategory,
-                onChanged: (value) async {
-                  if (value != null) {
-                    viewModel.selectedCategory = value;
-                    await viewModel.refresh();
-                  }
-                },
-                items: Category.values
-                    .map(
-                      (category) => DropdownMenuItem(
-                        value: category,
-                        child: Text(
-                          category.displayValue,
-                          style: const TextStyle(
-                            fontSize: kdFieldLabelFontSize,
+              children: [
+                const Text("Your items"),
+                DropdownButtonFormField<Category>(
+                  value: viewModel.selectedCategory,
+                  onChanged: (value) async {
+                    if (value != null) {
+                      viewModel.selectedCategory = value;
+                      await viewModel.refresh();
+                    }
+                  },
+                  items: Category.values
+                      .map(
+                        (category) => DropdownMenuItem(
+                          value: category,
+                          child: Text(
+                            category.displayValue,
+                            style: const TextStyle(
+                              fontSize: kdFieldLabelFontSize,
+                            ),
                           ),
                         ),
+                      )
+                      .toList(),
+                  decoration: const InputDecoration(
+                    floatingLabelBehavior: FloatingLabelBehavior.auto,
+                    focusedBorder: OutlineInputBorder(),
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(color: kcLightGrey),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(
+                          kdFieldBorderRadius,
+                        ),
                       ),
-                    )
-                    .toList(),
-                decoration: const InputDecoration(
-                  floatingLabelBehavior: FloatingLabelBehavior.auto,
-                  focusedBorder: OutlineInputBorder(),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: kcLightGrey),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        kdFieldBorderRadius,
+                    ),
+                    label: Text(
+                      'Category',
+                      style: TextStyle(
+                        fontSize: kdFieldLabelFontSize,
+                        color: kcMediumGrey,
                       ),
                     ),
                   ),
-                  label: Text(
-                    'Category',
-                    style: TextStyle(
-                      fontSize: kdFieldLabelFontSize,
-                      color: kcMediumGrey,
-                    ),
+                ),
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: viewModel.data!.length,
+                    itemBuilder: (context, index) {
+                      return Card(
+                        child: ListTile(
+                          title: Text(
+                            viewModel.data![index].brief.toString(),
+                          ),
+                          subtitle: Text(
+                            viewModel.data![index].description.toString(),
+                          ),
+                          trailing: Text(
+                            viewModel.data![index].category.displayValue,
+                          ),
+                          onTap: () async {
+                            final item = viewModel.data![index];
+                            await viewModel.routerService
+                                .replaceWithItemDetailsView(id: item.id);
+                          },
+                        ),
+                      );
+                    },
                   ),
                 ),
-              ),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: viewModel.data!.length,
-                  itemBuilder: (context, index) {
-                    return Card(
-                      child: ListTile(
-                        title: Text(
-                          viewModel.data![index].brief.toString(),
-                        ),
-                        subtitle: Text(
-                          viewModel.data![index].description.toString(),
-                        ),
-                        trailing: Text(
-                          viewModel.data![index].category.displayValue,
-                        ),
-                        onTap: () async {
-                          final item = viewModel.data![index];
-                          await viewModel.routerService.replaceWithItemDetailsView(id: item.id);
-                        },
-                      ),
-                    );
-                  },
-                ),
-              ),
-            ],
-          ),
+              ],
+            ),
       viewModelBuilder: () => ViewItemsViewModel(),
     );
   }
