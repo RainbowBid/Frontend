@@ -39,19 +39,19 @@ class CreateAuctionViewModel extends FormViewModel {
     _logger.i('Validation successful');
 
     final request = CreateAuctionDto(
-      item_id: itemId,
-      starting_price: double.parse(startingPriceValue!),
-      end_date: DateTime.parse(endDateValue!),
+      itemId: itemId,
+      startingPrice: double.parse(startingPriceValue!),
+      endDate: DateTime.parse(endDateValue!),
     );
 
     final response = await _auctionService.create(request: request);
 
     await response.fold(
-          (ApiError error) {
+      (ApiError error) {
         _logger.e('Error occurred: ${error.message}');
         throw Exception(error.message);
       },
-          (unit) async {
+      (unit) async {
         await _routerService.replaceWithHomeView();
       },
     );

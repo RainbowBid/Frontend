@@ -9,15 +9,15 @@ part of 'create_auction_dto.dart';
 _$CreateAuctionDtoImpl _$$CreateAuctionDtoImplFromJson(
         Map<String, dynamic> json) =>
     _$CreateAuctionDtoImpl(
-      item_id: json['item_id'] as String,
-      starting_price: (json['starting_price'] as num).toDouble(),
-      end_date: DateTime.parse(json['end_date'] as String),
+      itemId: json['item_id'] as String,
+      startingPrice: (json['starting_price'] as num).toDouble(),
+      endDate: const TimestampConverter().fromJson(json['end_date'] as int),
     );
 
 Map<String, dynamic> _$$CreateAuctionDtoImplToJson(
         _$CreateAuctionDtoImpl instance) =>
     <String, dynamic>{
-      'item_id': instance.item_id,
-      'starting_price': instance.starting_price,
-      'end_date': instance.end_date.toIso8601String(),
+      'item_id': instance.itemId,
+      'starting_price': instance.startingPrice,
+      'end_date': const TimestampConverter().toJson(instance.endDate),
     };

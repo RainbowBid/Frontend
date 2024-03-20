@@ -20,9 +20,13 @@ CreateAuctionDto _$CreateAuctionDtoFromJson(Map<String, dynamic> json) {
 
 /// @nodoc
 mixin _$CreateAuctionDto {
-  String get item_id => throw _privateConstructorUsedError;
-  double get starting_price => throw _privateConstructorUsedError;
-  DateTime get end_date => throw _privateConstructorUsedError;
+  @JsonKey(name: 'item_id')
+  String get itemId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'starting_price')
+  double get startingPrice => throw _privateConstructorUsedError;
+  @JsonKey(name: 'end_date')
+  @TimestampConverter()
+  DateTime get endDate => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +40,10 @@ abstract class $CreateAuctionDtoCopyWith<$Res> {
           CreateAuctionDto value, $Res Function(CreateAuctionDto) then) =
       _$CreateAuctionDtoCopyWithImpl<$Res, CreateAuctionDto>;
   @useResult
-  $Res call({String item_id, double starting_price, DateTime end_date});
+  $Res call(
+      {@JsonKey(name: 'item_id') String itemId,
+      @JsonKey(name: 'starting_price') double startingPrice,
+      @JsonKey(name: 'end_date') @TimestampConverter() DateTime endDate});
 }
 
 /// @nodoc
@@ -52,22 +59,22 @@ class _$CreateAuctionDtoCopyWithImpl<$Res, $Val extends CreateAuctionDto>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? item_id = null,
-    Object? starting_price = null,
-    Object? end_date = null,
+    Object? itemId = null,
+    Object? startingPrice = null,
+    Object? endDate = null,
   }) {
     return _then(_value.copyWith(
-      item_id: null == item_id
-          ? _value.item_id
-          : item_id // ignore: cast_nullable_to_non_nullable
+      itemId: null == itemId
+          ? _value.itemId
+          : itemId // ignore: cast_nullable_to_non_nullable
               as String,
-      starting_price: null == starting_price
-          ? _value.starting_price
-          : starting_price // ignore: cast_nullable_to_non_nullable
+      startingPrice: null == startingPrice
+          ? _value.startingPrice
+          : startingPrice // ignore: cast_nullable_to_non_nullable
               as double,
-      end_date: null == end_date
-          ? _value.end_date
-          : end_date // ignore: cast_nullable_to_non_nullable
+      endDate: null == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ) as $Val);
   }
@@ -81,7 +88,10 @@ abstract class _$$CreateAuctionDtoImplCopyWith<$Res>
       __$$CreateAuctionDtoImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String item_id, double starting_price, DateTime end_date});
+  $Res call(
+      {@JsonKey(name: 'item_id') String itemId,
+      @JsonKey(name: 'starting_price') double startingPrice,
+      @JsonKey(name: 'end_date') @TimestampConverter() DateTime endDate});
 }
 
 /// @nodoc
@@ -95,22 +105,22 @@ class __$$CreateAuctionDtoImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? item_id = null,
-    Object? starting_price = null,
-    Object? end_date = null,
+    Object? itemId = null,
+    Object? startingPrice = null,
+    Object? endDate = null,
   }) {
     return _then(_$CreateAuctionDtoImpl(
-      item_id: null == item_id
-          ? _value.item_id
-          : item_id // ignore: cast_nullable_to_non_nullable
+      itemId: null == itemId
+          ? _value.itemId
+          : itemId // ignore: cast_nullable_to_non_nullable
               as String,
-      starting_price: null == starting_price
-          ? _value.starting_price
-          : starting_price // ignore: cast_nullable_to_non_nullable
+      startingPrice: null == startingPrice
+          ? _value.startingPrice
+          : startingPrice // ignore: cast_nullable_to_non_nullable
               as double,
-      end_date: null == end_date
-          ? _value.end_date
-          : end_date // ignore: cast_nullable_to_non_nullable
+      endDate: null == endDate
+          ? _value.endDate
+          : endDate // ignore: cast_nullable_to_non_nullable
               as DateTime,
     ));
   }
@@ -120,23 +130,27 @@ class __$$CreateAuctionDtoImplCopyWithImpl<$Res>
 @JsonSerializable()
 class _$CreateAuctionDtoImpl implements _CreateAuctionDto {
   const _$CreateAuctionDtoImpl(
-      {required this.item_id,
-      required this.starting_price,
-      required this.end_date});
+      {@JsonKey(name: 'item_id') required this.itemId,
+      @JsonKey(name: 'starting_price') required this.startingPrice,
+      @JsonKey(name: 'end_date') @TimestampConverter() required this.endDate});
 
   factory _$CreateAuctionDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$CreateAuctionDtoImplFromJson(json);
 
   @override
-  final String item_id;
+  @JsonKey(name: 'item_id')
+  final String itemId;
   @override
-  final double starting_price;
+  @JsonKey(name: 'starting_price')
+  final double startingPrice;
   @override
-  final DateTime end_date;
+  @JsonKey(name: 'end_date')
+  @TimestampConverter()
+  final DateTime endDate;
 
   @override
   String toString() {
-    return 'CreateAuctionDto(item_id: $item_id, starting_price: $starting_price, end_date: $end_date)';
+    return 'CreateAuctionDto(itemId: $itemId, startingPrice: $startingPrice, endDate: $endDate)';
   }
 
   @override
@@ -144,17 +158,15 @@ class _$CreateAuctionDtoImpl implements _CreateAuctionDto {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CreateAuctionDtoImpl &&
-            (identical(other.item_id, item_id) || other.item_id == item_id) &&
-            (identical(other.starting_price, starting_price) ||
-                other.starting_price == starting_price) &&
-            (identical(other.end_date, end_date) ||
-                other.end_date == end_date));
+            (identical(other.itemId, itemId) || other.itemId == itemId) &&
+            (identical(other.startingPrice, startingPrice) ||
+                other.startingPrice == startingPrice) &&
+            (identical(other.endDate, endDate) || other.endDate == endDate));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, item_id, starting_price, end_date);
+  int get hashCode => Object.hash(runtimeType, itemId, startingPrice, endDate);
 
   @JsonKey(ignore: true)
   @override
@@ -173,19 +185,25 @@ class _$CreateAuctionDtoImpl implements _CreateAuctionDto {
 
 abstract class _CreateAuctionDto implements CreateAuctionDto {
   const factory _CreateAuctionDto(
-      {required final String item_id,
-      required final double starting_price,
-      required final DateTime end_date}) = _$CreateAuctionDtoImpl;
+      {@JsonKey(name: 'item_id') required final String itemId,
+      @JsonKey(name: 'starting_price') required final double startingPrice,
+      @JsonKey(name: 'end_date')
+      @TimestampConverter()
+      required final DateTime endDate}) = _$CreateAuctionDtoImpl;
 
   factory _CreateAuctionDto.fromJson(Map<String, dynamic> json) =
       _$CreateAuctionDtoImpl.fromJson;
 
   @override
-  String get item_id;
+  @JsonKey(name: 'item_id')
+  String get itemId;
   @override
-  double get starting_price;
+  @JsonKey(name: 'starting_price')
+  double get startingPrice;
   @override
-  DateTime get end_date;
+  @JsonKey(name: 'end_date')
+  @TimestampConverter()
+  DateTime get endDate;
   @override
   @JsonKey(ignore: true)
   _$$CreateAuctionDtoImplCopyWith<_$CreateAuctionDtoImpl> get copyWith =>

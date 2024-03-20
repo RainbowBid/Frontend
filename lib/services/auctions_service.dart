@@ -11,14 +11,16 @@ import '../app/app.logger.dart';
 import '../config/api_constants.dart';
 import '../models/auth/jwt_storage.dart';
 
-class AuctionsService implements IAuctionService{
-  final _logger = getLogger('ItemsService');
+class AuctionsService implements IAuctionService {
+  final _logger = getLogger('AuctionsService');
   final _httpClient = BrowserClient()..withCredentials = true;
 
   @override
-  Future<Either<ApiError, Unit>> create({required CreateAuctionDto request}) async {
+  Future<Either<ApiError, Unit>> create({
+    required CreateAuctionDto request,
+  }) async {
     try {
-      _logger.i("Creating auction for item with id: ${request.item_id}");
+      _logger.i("Creating auction for item with id: ${request.itemId}");
 
       final accessToken = await JwtStorage.getJwt();
       if (accessToken.isNone()) {
@@ -30,18 +32,21 @@ class AuctionsService implements IAuctionService{
         );
       }
 
-        Map<String, String> heads = {
-            HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
-            HttpHeaders.authorizationHeader: "Bearer ${accessToken.getOrElse(() => "")}",
-        };
-          final response = await _httpClient.post(
-            Uri.http(
-            ApiConstants.baseUrl,
-            ApiConstants.auctionsCreateUrl,//.replaceFirst(":itemId", request.item_id),
-          ),
-          headers: heads,
-            body: jsonEncode(request),
-        );
+      Map<String, String> heads = {
+        HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
+        HttpHeaders.authorizationHeader:
+            "Bearer ${accessToken.getOrElse(() => "")}",
+      };
+
+      _logger.i(request.toJson());
+      final response = await _httpClient.post(
+        Uri.http(
+          ApiConstants.baseUrl,
+          ApiConstants.auctionsCreateUrl,
+        ),
+        headers: heads,
+        body: jsonEncode(request.toJson()),
+      );
 
       switch (response.statusCode) {
         case HttpStatus.created:
