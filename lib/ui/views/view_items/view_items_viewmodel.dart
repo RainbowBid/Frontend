@@ -19,7 +19,6 @@ class ViewItemsViewModel extends FutureViewModel<List<Item>> {
   final _routerService = locator<RouterService>();
   late Category _selectedCategory = Category.all;
 
-  SidebarXController get sidebarController => _sidebarController;
   RouterService get routerService => _routerService;
   Category get selectedCategory => _selectedCategory;
 

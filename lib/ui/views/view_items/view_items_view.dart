@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rainbowbid_frontend/app/app.router.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../models/items/item.dart';
@@ -74,6 +75,10 @@ class ViewItemsView extends StatelessWidget {
                         trailing: Text(
                           viewModel.data![index].category.displayValue,
                         ),
+                        onTap: () async {
+                          final item = viewModel.data![index];
+                          await viewModel.routerService.replaceWithItemDetailsView(id: item.id, item: item);
+                        },
                       ),
                     );
                   },
