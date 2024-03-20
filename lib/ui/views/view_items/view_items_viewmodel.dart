@@ -21,8 +21,8 @@ class ViewItemsViewModel extends FutureViewModel<List<Item>> {
   final _itemsService = locator<IItemsService>();
   final _routerService = locator<RouterService>();
 
-
   SidebarXController get sidebarController => _sidebarController;
+  RouterService get routerService => _routerService;
 
   Future<List<Item>> getAll() async {
     Either<ApiError, GetAllItemsDto> result = await _itemsService.getAll();
@@ -31,7 +31,7 @@ class ViewItemsViewModel extends FutureViewModel<List<Item>> {
       (ApiError apiError) {
         _logger.e("Items getAll call finished with an error");
         apiError.maybeWhen(
-          unauthorized: (message)  async {
+          unauthorized: (message) async {
             await JwtStorage.clear();
             await _routerService.replaceWithLoginView();
           },

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rainbowbid_frontend/app/app.router.dart';
 import 'package:stacked/stacked.dart';
 
 import 'view_items_viewmodel.dart';
@@ -25,6 +26,10 @@ class ViewItemsView extends StackedView<ViewItemsViewModel> {
                         return Card(
                           child: ListTile(
                             title: Text(viewModel.data![index].id.toString()),
+                            onTap: () async {
+                              final item = viewModel.data![index];
+                              await viewModel.routerService.replaceWithItemDetailsView(id: item.id, item: item);
+                            },
                           ),
                         );
                       },

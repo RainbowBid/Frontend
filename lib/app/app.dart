@@ -18,6 +18,7 @@ import 'package:rainbowbid_frontend/ui/views/view_items/view_items_view.dart';
 import '../models/interfaces/i_items_service.dart';
 
 import 'package:rainbowbid_frontend/ui/views/create_item/create_item_view.dart';
+import 'package:rainbowbid_frontend/ui/views/item_details/item_details_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -33,6 +34,7 @@ import 'package:rainbowbid_frontend/ui/views/create_item/create_item_view.dart';
     CustomRoute(page: UnknownView, path: '/404'),
     CustomRoute(page: ViewItemsView, path: '/items/all'),
 
+    CustomRoute(page: ItemDetailsView, path: '/items/:id'),
 // @stacked-route
 
     /// When none of the above routes match, redirect to UnknownView

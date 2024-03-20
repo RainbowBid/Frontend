@@ -10,7 +10,6 @@ import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:rainbowbid_frontend/models/dtos/create_item_dto.dart';
 import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 
-
 import 'package:rainbowbid_frontend/models/dtos/get_all_items_dto.dart';
 
 import 'package:rainbowbid_frontend/models/errors/api_error.dart';
@@ -45,7 +44,6 @@ class ItemsService implements IItemsService {
       final response = await _httpClient.get(
         Uri.http(ApiConstants.baseUrl, ApiConstants.itemsGetAllUrl),
         headers: heads,
-
       );
 
       switch (response.statusCode) {
@@ -70,8 +68,7 @@ class ItemsService implements IItemsService {
             ),
           );
       }
-    }catch (e) {
-
+    } catch (e) {
       _logger.e("Server error occurred: $e");
       return left(
         const ApiError.serverError(
@@ -146,4 +143,3 @@ class ItemsService implements IItemsService {
     }
   }
 }
-
