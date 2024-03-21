@@ -23,8 +23,9 @@ class Auction {
   factory Auction.fromJson(Map<String, dynamic> json) {
     return Auction(
       id: json['id'],
-      startingPrice: json['starting_price'],
-      endDate: DateTime.parse(json['end_date']),
+      startingPrice: double.parse(json['starting_price'] ),
+      //todo!() - parsarea asta de utc, ce zici, sa ramana asa ?
+      endDate: DateTime.parse(json['end_date'].toString().replaceFirst(" UTC", "")),
       itemId: json['item_id'],
     );
   }

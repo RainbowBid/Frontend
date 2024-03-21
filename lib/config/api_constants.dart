@@ -10,6 +10,7 @@ abstract class ApiConstants {
   static const String itemsGetItemByIdUrl = '/items/:id';
   static const String itemsGetImageByItemIdUrl = '/items/:id/image';
   static const String auctionsCreateUrl = '/auctions/create';
+  static const String auctionsGetByItemIdUrl = '/auctions/:itemId';
 
   static const String jwtStorage = "jwt.json";
   static const String jwtEncodedStorageKey = "jwt";
