@@ -56,14 +56,15 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
                                             children: [
                                               Text(
                                                 viewModel.data!.brief,
-                                                style:
-                                                    const TextStyle(fontSize: 30),
+                                                style: const TextStyle(
+                                                    fontSize: 30),
                                               ),
                                               Text(
                                                 viewModel.data!.category.value,
                                                 style: const TextStyle(
                                                     fontSize: 25,
-                                                    fontStyle: FontStyle.italic),
+                                                    fontStyle:
+                                                        FontStyle.italic),
                                               ),
                                               const Divider(),
                                             ],
@@ -77,7 +78,8 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
                                         children: [
                                           Text(
                                             viewModel.data!.description,
-                                            style: const TextStyle(fontSize: 20),
+                                            style:
+                                                const TextStyle(fontSize: 20),
                                           ),
                                         ],
                                       ),
@@ -137,25 +139,17 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
           if (snapshot.hasData) {
             final option = snapshot.data!;
             return option.fold(
-              () {
-                // No auction available
-                return FutureBuilder<void>(
-                  future: viewModel.routerService.replaceWithCreateAuctionView(
-                    itemId: viewModel.itemId,
-                  ),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.done) {
-                      // After replacing with create auction view
-                      return const SizedBox.shrink();
-                    } else {
-                      // While waiting for future to complete
-                      return const CircularProgressIndicator();
-                    }
+                  (){
+                return ElevatedButton(
+                  onPressed: () async {
+                    await viewModel.routerService.replaceWithCreateAuctionView(
+                      itemId: viewModel.itemId,
+                    );
                   },
+                  child: Text("childWidget"),
                 );
               },
               (auction) {
-                // Display auction details
                 return Card(
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -168,15 +162,21 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
                               "Ongoing Auction",
                               style: TextStyle(fontSize: 30),
                             ),
-                            SizedBox(height: MediaQuery.of(context).size.height *0.05,),
+                            SizedBox(
+                              height: MediaQuery.of(context).size.height * 0.05,
+                            ),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text("Starting price : ${auction.startingPrice}"),
+                                Text(
+                                    "Starting price : ${auction.startingPrice}"),
                                 const Text("Highest bid takes the stake!")
                               ],
                             ),
-                            SizedBox(height: MediaQuery.of(context).size.height *0.025,),
+                            SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 0.025,
+                            ),
                             Text("End date : ${auction.endDate}"),
                           ],
                         ),

@@ -1,7 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
 import 'package:rainbowbid_frontend/models/interfaces/i_auctions_service.dart';
-import 'package:rainbowbid_frontend/services/items_service.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -10,7 +9,6 @@ import '../../../app/app.locator.dart';
 import '../../../app/app.logger.dart';
 import '../../../models/auctions/auction.dart';
 import '../../../models/auth/jwt_storage.dart';
-import '../../../models/dtos/get_auction_dto.dart';
 import '../../../models/dtos/get_item_dto.dart';
 import '../../../models/errors/api_error.dart';
 import '../../../models/interfaces/i_items_service.dart';
@@ -48,7 +46,7 @@ class ItemDetailsViewModel extends FutureViewModel<Item> {
           },
           orElse: () {},
         );
-        throw Exception(apiError.message);
+        left("");
       },
       (getItemDto) {
         _logger.i("Items getById call finished.");
