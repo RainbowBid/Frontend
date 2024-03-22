@@ -1,12 +1,14 @@
 import 'dart:io';
 
 import 'package:dartz/dartz.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
 import 'package:rainbowbid_frontend/config/api_constants.dart';
+import 'package:rainbowbid_frontend/ui/common/app_colors.dart';
+import 'package:rainbowbid_frontend/ui/common/app_constants.dart';
 import 'package:rainbowbid_frontend/ui/common/ui_helpers.dart';
 import 'package:rainbowbid_frontend/ui/widgets/app_primitives/app_sidebar.dart';
+import 'package:slide_countdown/slide_countdown.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
@@ -17,7 +19,7 @@ import 'item_details_viewmodel.dart';
 class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
   final String id;
 
-  ItemDetailsView({@PathParam() required this.id, super.key});
+  const ItemDetailsView({@PathParam() required this.id, super.key});
 
   @override
   Widget builder(
@@ -27,71 +29,100 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
   ) {
     return Scaffold(
       body: viewModel.isBusy
-          ? const CircularProgressIndicator()
+          ? const Center(child: CircularProgressIndicator())
           : viewModel.hasError
-              ? Text("Error occured : ${viewModel.modelError.toString()}")
+              ? Center(
+                  child: Text(
+                    "Error occurred : ${viewModel.modelError.toString()}",
+                  ),
+                )
               : Row(
                   children: [
                     AppSidebar(controller: viewModel.sidebarController),
                     Expanded(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [
-                          Card(
-                            child: Row(
-                              children: [
-                                Expanded(
-                                  child: Column(
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Row(
+                      child: Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: Column(
+                          children: [
+                            Card(
+                              child: Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: Column(
                                         mainAxisAlignment:
                                             MainAxisAlignment.start,
                                         children: [
-                                          ClipOval(
-                                              child: _buildImageWidget(
-                                                  viewModel.data!)),
-                                          horizontalSpaceMedium,
-                                          Column(
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
                                             children: [
+                                              ClipOval(
+                                                child: _buildImageWidget(
+                                                  viewModel.data!,
+                                                ),
+                                              ),
+                                              horizontalSpaceMedium,
                                               Text(
                                                 viewModel.data!.brief,
                                                 style: const TextStyle(
                                                     fontSize: 30),
                                               ),
-                                              Text(
-                                                viewModel.data!.category.value,
-                                                style: const TextStyle(
+                                              horizontalSpaceMedium,
+                                              Chip(
+                                                label: Text(
+                                                  viewModel
+                                                      .data!.category.value,
+                                                  style: const TextStyle(
                                                     fontSize: 25,
-                                                    fontStyle:
-                                                        FontStyle.italic),
+                                                    fontStyle: FontStyle.italic,
+                                                  ),
+                                                ),
+                                                shape: RoundedRectangleBorder(
+                                                  side: BorderSide(
+                                                    color:
+                                                        kcRed.withOpacity(0.5),
+                                                  ),
+                                                  borderRadius:
+                                                      BorderRadius.circular(
+                                                    20,
+                                                  ),
+                                                ),
+                                                color: MaterialStateColor
+                                                    .resolveWith(
+                                                  (states) =>
+                                                      kcRed.withOpacity(0.5),
+                                                ),
                                               ),
                                               const Divider(),
                                             ],
                                           ),
-                                        ],
-                                      ),
-                                      verticalSpaceSmall,
-                                      Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Text(
-                                            viewModel.data!.description,
-                                            style:
-                                                const TextStyle(fontSize: 20),
+                                          verticalSpaceSmall,
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                viewModel.data!.description,
+                                                style: const TextStyle(
+                                                    fontSize: 20),
+                                              ),
+                                            ],
                                           ),
                                         ],
                                       ),
-                                    ],
-                                  ),
+                                    ),
+                                  ],
                                 ),
-                              ],
+                              ),
                             ),
-                          ),
-                          const Divider(),
-                          _buildAuctionWidget(viewModel, id),
-                        ],
+                            verticalSpaceSmall,
+                            const Divider(),
+                            verticalSpaceSmall,
+                            _buildAuctionWidget(viewModel, id),
+                          ],
+                        ),
                       ),
                     ),
                   ],
@@ -110,7 +141,7 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
             }, (jwt) {
               Map<String, String> heads = {
                 HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
-                HttpHeaders.authorizationHeader: "Bearer ${jwt}",
+                HttpHeaders.authorizationHeader: "Bearer $jwt",
               };
               return Image.network(
                 Uri.http(
@@ -139,49 +170,93 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
           if (snapshot.hasData) {
             final option = snapshot.data!;
             return option.fold(
-                  (){
+              () {
                 return ElevatedButton(
                   onPressed: () async {
                     await viewModel.routerService.replaceWithCreateAuctionView(
                       itemId: viewModel.itemId,
                     );
                   },
-                  child: Text("childWidget"),
+                  style: ElevatedButton.styleFrom(
+                    minimumSize: kButtonSize,
+                    backgroundColor: kcBlue,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(kdFieldBorderRadius),
+                    ),
+                  ),
+                  child: const Text(
+                    "Create auction",
+                    style: TextStyle(
+                      color: kcWhite,
+                      fontSize: kdButtonTextSize,
+                    ),
+                  ),
                 );
               },
               (auction) {
                 return Card(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Expanded(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            const Text(
-                              "Ongoing Auction",
-                              style: TextStyle(fontSize: 30),
-                            ),
-                            SizedBox(
-                              height: MediaQuery.of(context).size.height * 0.05,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                    "Starting price : ${auction.startingPrice}"),
-                                const Text("Highest bid takes the stake!")
-                              ],
-                            ),
-                            SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 0.025,
-                            ),
-                            Text("End date : ${auction.endDate}"),
-                          ],
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Text(
+                                "Ongoing Auction",
+                                style: TextStyle(fontSize: 30, color: kcRed),
+                              ),
+                              verticalSpaceSmall,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Starting price : ${auction.startingPrice}",
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  const Text(
+                                    "Highest bid takes the stake!",
+                                    style: TextStyle(
+                                      fontSize: 15,
+                                      color: kcRed,
+                                      fontStyle: FontStyle.italic,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              verticalSpaceSmall,
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  const Text(
+                                    "Ends in : ",
+                                    style: TextStyle(
+                                      fontSize: 20,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SlideCountdown(
+                                    duration: auction.endDate.difference(
+                                      DateTime.now(),
+                                    ),
+                                    slideDirection: SlideDirection.up,
+                                    separatorType: SeparatorType.title,
+                                    separator: ":",
+                                  ),
+                                ],
+                              ),
+                              verticalSpaceMedium,
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               },

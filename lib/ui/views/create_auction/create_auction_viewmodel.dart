@@ -1,4 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
+import 'package:rainbowbid_frontend/models/validators/auction_validator.dart';
 import 'package:rainbowbid_frontend/ui/views/create_auction/create_auction_view.form.dart';
 import 'package:sidebarx/sidebarx.dart';
 import 'package:stacked/stacked.dart';
@@ -20,15 +22,29 @@ class CreateAuctionViewModel extends FormViewModel {
   );
   final String itemId;
 
+  late Option<DateTime> _endDate = none();
+
   RouterService get routerService => _routerService;
   SidebarXController get sidebarController => _sidebarController;
+
+  Option<DateTime> get endDate => _endDate;
+
+  set endDate(Option<DateTime> value) {
+    _endDate = value;
+    rebuildUi();
+  }
+
+  bool get hasEndDateValidationMessage => endDateValidationMessage != null;
+
+  String? get endDateValidationMessage =>
+      AuctionValidator.validateEndDate(endDate);
 
   CreateAuctionViewModel({required this.itemId});
 
   Future<void> createAuction() async {
     await runBusyFuture(
       _createAuction(),
-      busyObject: ksCreateItemKey,
+      busyObject: ksCreateAuctionKey,
     );
   }
 
@@ -41,7 +57,7 @@ class CreateAuctionViewModel extends FormViewModel {
     final request = CreateAuctionDto(
       itemId: itemId,
       startingPrice: double.parse(startingPriceValue!),
-      endDate: DateTime.parse(endDateValue!),
+      endDate: endDate.getOrElse(() => DateTime.now()),
     );
 
     final response = await _auctionService.create(request: request);
@@ -52,7 +68,7 @@ class CreateAuctionViewModel extends FormViewModel {
         throw Exception(error.message);
       },
       (unit) async {
-        await _routerService.replaceWithHomeView();
+        await _routerService.replaceWithItemDetailsView(id: itemId);
       },
     );
   }
@@ -62,7 +78,8 @@ class CreateAuctionViewModel extends FormViewModel {
       throw Exception(startingPriceValidationMessage);
     }
 
-    if (hasEndDateValidationMessage) {
+    final endDateValidationMessage = AuctionValidator.validateEndDate(endDate);
+    if (endDateValidationMessage != null) {
       throw Exception(endDateValidationMessage);
     }
   }

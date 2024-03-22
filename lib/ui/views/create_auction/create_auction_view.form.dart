@@ -13,7 +13,6 @@ import 'package:stacked/stacked.dart';
 const bool _autoTextFieldValidation = true;
 
 const String StartingPriceValueKey = 'startingPrice';
-const String EndDateValueKey = 'endDate';
 
 final Map<String, TextEditingController>
     _CreateAuctionViewTextEditingControllers = {};
@@ -23,18 +22,14 @@ final Map<String, FocusNode> _CreateAuctionViewFocusNodes = {};
 final Map<String, String? Function(String?)?>
     _CreateAuctionViewTextValidations = {
   StartingPriceValueKey: AuctionValidator.validateStartingPrice,
-  EndDateValueKey: AuctionValidator.validateEndDate,
 };
 
 mixin $CreateAuctionView {
   TextEditingController get startingPriceController =>
       _getFormTextEditingController(StartingPriceValueKey);
-  TextEditingController get endDateController =>
-      _getFormTextEditingController(EndDateValueKey);
 
   FocusNode get startingPriceFocusNode =>
       _getFormFocusNode(StartingPriceValueKey);
-  FocusNode get endDateFocusNode => _getFormFocusNode(EndDateValueKey);
 
   TextEditingController _getFormTextEditingController(
     String key, {
@@ -61,7 +56,6 @@ mixin $CreateAuctionView {
   /// with the latest textController values
   void syncFormWithViewModel(FormStateHelper model) {
     startingPriceController.addListener(() => _updateFormData(model));
-    endDateController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
   }
@@ -74,7 +68,6 @@ mixin $CreateAuctionView {
   )
   void listenToFormUpdated(FormViewModel model) {
     startingPriceController.addListener(() => _updateFormData(model));
-    endDateController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
   }
@@ -85,7 +78,6 @@ mixin $CreateAuctionView {
       model.formValueMap
         ..addAll({
           StartingPriceValueKey: startingPriceController.text,
-          EndDateValueKey: endDateController.text,
         }),
     );
 
@@ -129,7 +121,6 @@ extension ValueProperties on FormStateHelper {
 
   String? get startingPriceValue =>
       this.formValueMap[StartingPriceValueKey] as String?;
-  String? get endDateValue => this.formValueMap[EndDateValueKey] as String?;
 
   set startingPriceValue(String? value) {
     this.setData(
@@ -143,52 +134,30 @@ extension ValueProperties on FormStateHelper {
     }
   }
 
-  set endDateValue(String? value) {
-    this.setData(
-      this.formValueMap..addAll({EndDateValueKey: value}),
-    );
-
-    if (_CreateAuctionViewTextEditingControllers.containsKey(EndDateValueKey)) {
-      _CreateAuctionViewTextEditingControllers[EndDateValueKey]?.text =
-          value ?? '';
-    }
-  }
-
   bool get hasStartingPrice =>
       this.formValueMap.containsKey(StartingPriceValueKey) &&
       (startingPriceValue?.isNotEmpty ?? false);
-  bool get hasEndDate =>
-      this.formValueMap.containsKey(EndDateValueKey) &&
-      (endDateValue?.isNotEmpty ?? false);
 
   bool get hasStartingPriceValidationMessage =>
       this.fieldsValidationMessages[StartingPriceValueKey]?.isNotEmpty ?? false;
-  bool get hasEndDateValidationMessage =>
-      this.fieldsValidationMessages[EndDateValueKey]?.isNotEmpty ?? false;
 
   String? get startingPriceValidationMessage =>
       this.fieldsValidationMessages[StartingPriceValueKey];
-  String? get endDateValidationMessage =>
-      this.fieldsValidationMessages[EndDateValueKey];
 }
 
 extension Methods on FormStateHelper {
   setStartingPriceValidationMessage(String? validationMessage) =>
       this.fieldsValidationMessages[StartingPriceValueKey] = validationMessage;
-  setEndDateValidationMessage(String? validationMessage) =>
-      this.fieldsValidationMessages[EndDateValueKey] = validationMessage;
 
   /// Clears text input fields on the Form
   void clearForm() {
     startingPriceValue = '';
-    endDateValue = '';
   }
 
   /// Validates text input fields on the Form
   void validateForm() {
     this.setValidationMessages({
       StartingPriceValueKey: getValidationMessage(StartingPriceValueKey),
-      EndDateValueKey: getValidationMessage(EndDateValueKey),
     });
   }
 }
@@ -209,5 +178,4 @@ String? getValidationMessage(String key) {
 void updateValidationData(FormStateHelper model) =>
     model.setValidationMessages({
       StartingPriceValueKey: getValidationMessage(StartingPriceValueKey),
-      EndDateValueKey: getValidationMessage(EndDateValueKey),
     });

@@ -14,8 +14,7 @@ import '../models/auth/jwt_storage.dart';
 
 class AuctionsService implements IAuctionService {
   final _logger = getLogger('AuctionsService');
-  final _httpClient = BrowserClient()
-    ..withCredentials = true;
+  final _httpClient = BrowserClient()..withCredentials = true;
 
   @override
   Future<Either<ApiError, Unit>> create({
@@ -37,7 +36,7 @@ class AuctionsService implements IAuctionService {
       Map<String, String> heads = {
         HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
         HttpHeaders.authorizationHeader:
-        "Bearer ${accessToken.getOrElse(() => "")}",
+            "Bearer ${accessToken.getOrElse(() => "")}",
       };
 
       _logger.i(request.toJson());
@@ -91,7 +90,7 @@ class AuctionsService implements IAuctionService {
       Map<String, String> headers = {
         HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
         HttpHeaders.authorizationHeader:
-        "Bearer ${accessToken.getOrElse(() => "")}",
+            "Bearer ${accessToken.getOrElse(() => "")}",
       };
 
       final response = await _httpClient.get(
@@ -104,10 +103,23 @@ class AuctionsService implements IAuctionService {
 
       if (response.statusCode == HttpStatus.ok) {
         final jsonBody = jsonDecode(response.body);
-        final auction = Auction.fromJson(
-            jsonBody);
+        final auction = Auction.fromJson(jsonBody);
         _logger.i("Auction retrieved successfully: $auction");
         return right(auction);
+      } else if (response.statusCode == HttpStatus.notFound) {
+        _logger.e("Auction not found");
+        return left(
+          const ApiError.notFound(
+            "Auction not found",
+          ),
+        );
+      } else if (response.statusCode == HttpStatus.unauthorized) {
+        _logger.e("User is not authenticated");
+        return left(
+          const ApiError.unauthorized(
+            "User is not authenticated",
+          ),
+        );
       } else {
         _logger.e(
             "Server error occurred: ${response.statusCode} ${response.body}");

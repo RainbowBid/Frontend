@@ -1,7 +1,8 @@
+import 'package:dartz/dartz.dart';
+
 import '../../ui/common/app_constants.dart';
 
 abstract class AuctionValidator {
-
   static String? validateStartingPrice(String? startingPrice) {
     if (startingPrice == null || startingPrice.isEmpty) {
       return 'Starting price is required.';
@@ -17,16 +18,15 @@ abstract class AuctionValidator {
     return null;
   }
 
-  static String? validateEndDate(String? endDate) {
-    if (endDate == null || endDate.isEmpty) {
+  static String? validateEndDate(Option<DateTime> endDate) {
+    if (endDate.isNone()) {
       return 'End date is required.';
     }
-    final endDateParsed = DateTime.tryParse(endDate);
-    if (endDateParsed == null) {
-      return 'End date must be a date time ( format yyyy-mm-dd hh:mm ).';
-    }
-    if (DateTime.now().isAfter(endDateParsed!)) {
-      return 'End date can\'t be in the past.';
+
+    if (endDate
+        .fold(() => DateTime.now(), (a) => a)
+        .isBefore(DateTime.now().add(const Duration(minutes: 1)))) {
+      return 'End date must be at least 1 minute in the future.';
     }
 
     return null;

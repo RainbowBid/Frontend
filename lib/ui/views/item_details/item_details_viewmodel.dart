@@ -46,7 +46,7 @@ class ItemDetailsViewModel extends FutureViewModel<Item> {
           },
           orElse: () {},
         );
-        left("");
+        throw Exception(apiError.message);
       },
       (getItemDto) {
         _logger.i("Items getById call finished.");
@@ -55,22 +55,28 @@ class ItemDetailsViewModel extends FutureViewModel<Item> {
     );
   }
 
-  Future<Option<Auction>> getAuctionByItemId(String itemId) async{
-    Either<ApiError, Auction> result = await auctionService.getAuctionByItemId(itemId);
+  Future<Option<Auction>> getAuctionByItemId(String itemId) async {
+    Either<ApiError, Auction> result =
+        await auctionService.getAuctionByItemId(itemId);
 
     return result.fold(
-          (ApiError apiError) {
+      (ApiError apiError) {
         _logger.e("Auction getAuctionByItemId call finished with an error");
-        apiError.maybeWhen(
+        return apiError.maybeWhen(
           unauthorized: (message) async {
             await JwtStorage.clear();
             await _routerService.replaceWithLoginView();
+            return none();
           },
-          orElse: () {},
+          notFound: (message) {
+            return none();
+          },
+          orElse: () {
+            throw Exception(apiError.message);
+          },
         );
-        throw Exception(apiError.message);
       },
-          (auction) {
+      (auction) {
         _logger.i("Auction getAuctionByItemId call finished.");
         return some(auction);
       },
