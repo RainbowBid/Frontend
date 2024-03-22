@@ -184,7 +184,7 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
           ),
           style: ElevatedButton.styleFrom(
             minimumSize: kButtonSize,
-            backgroundColor: kcBlue,
+            backgroundColor: kcPrimaryColorDark,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(kdFieldBorderRadius),
             ),

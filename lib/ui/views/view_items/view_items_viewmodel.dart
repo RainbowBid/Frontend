@@ -27,7 +27,7 @@ class ViewItemsViewModel extends FutureViewModel<List<Item>> {
     await initialise();
   }
 
-  Future<List<Item>> getAll() async {
+  Future<List<Item>> _getAll() async {
     Either<ApiError, GetAllItemsDto> result =
         await _itemsService.getAll(_selectedCategory);
 
@@ -56,5 +56,5 @@ class ViewItemsViewModel extends FutureViewModel<List<Item>> {
   }
 
   @override
-  Future<List<Item>> futureToRun() => getAll();
+  Future<List<Item>> futureToRun() => _getAll();
 }

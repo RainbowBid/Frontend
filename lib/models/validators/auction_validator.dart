@@ -7,7 +7,7 @@ abstract class AuctionValidator {
     if (startingPrice == null || startingPrice.isEmpty) {
       return 'Starting price is required.';
     }
-    final price = double.tryParse(startingPrice);
+    final price = double.tryParse(startingPrice.replaceAll(',', ''));
     if (price == null) {
       return 'Starting price must be a number.';
     }

@@ -56,7 +56,7 @@ class CreateAuctionViewModel extends FormViewModel {
 
     final request = CreateAuctionDto(
       itemId: itemId,
-      startingPrice: double.parse(startingPriceValue!),
+      startingPrice: double.parse(startingPriceValue!.replaceAll(',', '')),
       endDate: endDate.getOrElse(() => DateTime.now()),
     );
 

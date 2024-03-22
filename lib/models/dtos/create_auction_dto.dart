@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rainbowbid_frontend/models/core/timestamp_converter.dart';
 
 part 'create_auction_dto.freezed.dart';
 part 'create_auction_dto.g.dart';
@@ -13,18 +14,4 @@ class CreateAuctionDto with _$CreateAuctionDto {
 
   factory CreateAuctionDto.fromJson(Map<String, dynamic> json) =>
       _$CreateAuctionDtoFromJson(json);
-}
-
-class TimestampConverter implements JsonConverter<DateTime, int> {
-  const TimestampConverter();
-
-  @override
-  DateTime fromJson(int json) {
-    return DateTime.fromMillisecondsSinceEpoch(json);
-  }
-
-  @override
-  int toJson(DateTime object) {
-    return object.millisecondsSinceEpoch;
-  }
 }

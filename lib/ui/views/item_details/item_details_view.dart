@@ -130,7 +130,7 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
 
   Widget _buildImageWidget(Item item) {
     return FutureBuilder<Option<String>>(
-      future: item.getJwtForGetImage(),
+      future: item.getJwtForImageRequest(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.done) {
           if (snapshot.hasData) {

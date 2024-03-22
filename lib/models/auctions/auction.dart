@@ -1,34 +1,18 @@
-class Auction {
-  late String id;
-  late double startingPrice;
-  late DateTime endDate;
-  late String itemId;
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rainbowbid_frontend/models/core/timestamp_converter.dart';
 
-  Auction({
-    required this.id,
-    required this.startingPrice,
-    required this.endDate,
-    required this.itemId,
-  });
+part 'auction.freezed.dart';
+part 'auction.g.dart';
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'starting_price': startingPrice,
-      'end_date': endDate.toIso8601String(),
-      'item_id': itemId,
-    };
-  }
+@freezed
+class Auction with _$Auction {
+  factory Auction({
+    required String id,
+    @JsonKey(name: 'starting_price') required double startingPrice,
+    @JsonKey(name: 'end_date') @TimestampConverter() required DateTime endDate,
+    @JsonKey(name: 'item_id') required String itemId,
+  }) = _Auction;
 
-  factory Auction.fromJson(Map<String, dynamic> json) {
-    return Auction(
-      id: json['id'],
-      startingPrice: double.parse(json['starting_price']),
-      endDate: DateTime.fromMillisecondsSinceEpoch(
-        json['end_date'] * 1000,
-        isUtc: true,
-      ),
-      itemId: json['item_id'],
-    );
-  }
+  factory Auction.fromJson(Map<String, dynamic> json) =>
+      _$AuctionFromJson(json);
 }

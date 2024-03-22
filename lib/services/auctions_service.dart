@@ -4,9 +4,11 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:http/browser_client.dart';
 import 'package:rainbowbid_frontend/models/auctions/auction.dart';
+import 'package:rainbowbid_frontend/models/dtos/auction_with_item_dto.dart';
 import 'package:rainbowbid_frontend/models/dtos/create_auction_dto.dart';
 import 'package:rainbowbid_frontend/models/errors/api_error.dart';
 import 'package:rainbowbid_frontend/models/interfaces/i_auctions_service.dart';
+import 'package:rainbowbid_frontend/models/items/item.dart';
 
 import '../app/app.logger.dart';
 import '../config/api_constants.dart';
@@ -77,20 +79,8 @@ class AuctionsService implements IAuctionService {
     try {
       _logger.i("Getting auction for item with id: $itemId");
 
-      final accessToken = await JwtStorage.getJwt();
-      if (accessToken.isNone()) {
-        _logger.e("User is not authenticated");
-        return left(
-          const ApiError.unauthorized(
-            "User is not authenticated",
-          ),
-        );
-      }
-
       Map<String, String> headers = {
         HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
-        HttpHeaders.authorizationHeader:
-            "Bearer ${accessToken.getOrElse(() => "")}",
       };
 
       final response = await _httpClient.get(
@@ -113,13 +103,56 @@ class AuctionsService implements IAuctionService {
             "Auction not found",
           ),
         );
-      } else if (response.statusCode == HttpStatus.unauthorized) {
-        _logger.e("User is not authenticated");
+      } else {
+        _logger.e(
+            "Server error occurred: ${response.statusCode} ${response.body}");
         return left(
-          const ApiError.unauthorized(
-            "User is not authenticated",
+          ApiError.serverError(
+            "Server error occurred: ${response.body}",
           ),
         );
+      }
+    } catch (e) {
+      _logger.e("Server error occurred: $e");
+      return left(
+        const ApiError.serverError(
+          "Server error occurred. Please try again later.",
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ApiError, List<AuctionWithItemDto>>> getAll(
+      Category category) async {
+    try {
+      _logger.i("Getting all auctions for category: $category");
+
+      Map<String, String> headers = {
+        HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
+      };
+
+      final queryParams = <String, dynamic>{};
+      if (category != Category.all) {
+        queryParams["category"] = category.value;
+      }
+
+      final response = await _httpClient.get(
+        Uri.http(
+          ApiConstants.baseUrl,
+          ApiConstants.auctionsGetAllUrl,
+          queryParams,
+        ),
+        headers: headers,
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final jsonBody = jsonDecode(response.body);
+        final List<AuctionWithItemDto> auctions = (jsonBody["auctions"] as List)
+            .map((auction) => AuctionWithItemDto.fromJson(auction))
+            .toList();
+        _logger.i("Auctions retrieved successfully: $auctions");
+        return right(auctions);
       } else {
         _logger.e(
             "Server error occurred: ${response.statusCode} ${response.body}");
