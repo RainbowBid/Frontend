@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:rainbowbid_frontend/ui/common/app_colors.dart';
-import 'package:rainbowbid_frontend/ui/common/app_constants.dart';
+import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:rainbowbid_frontend/ui/common/ui_helpers.dart';
+import 'package:rainbowbid_frontend/ui/views/home/home_viewmodel.dart';
 import 'package:rainbowbid_frontend/ui/widgets/app_primitives/app_sidebar.dart';
 import 'package:stacked/stacked.dart';
-import 'package:rainbowbid_frontend/ui/views/home/home_viewmodel.dart';
 
 import '../view_items/view_items_view.dart';
 
@@ -25,8 +24,35 @@ class HomeView extends StackedView<HomeViewModel> {
             controller: viewModel.sidebarController,
           ),
           Expanded(
-            child: Center(
-              child: ViewItemsView(),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  verticalSpaceSmall,
+                  const Text(
+                    'Welcome to RainbowBid! 🌈',
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  verticalSpaceLarge,
+                  FutureBuilder(
+                    future: JwtStorage.hasCurrentUser(),
+                    initialData: false,
+                    builder: (context, snapshot) => snapshot.connectionState ==
+                            ConnectionState.done
+                        ? Column(
+                            children: [
+                              if (snapshot.hasData && snapshot.data! == true)
+                                const ViewItemsView(),
+                            ],
+                          )
+                        : const CircularProgressIndicator(),
+                  ),
+                ],
+              ),
             ),
           ),
         ],

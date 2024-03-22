@@ -5,31 +5,30 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i12;
-import 'package:stacked/stacked.dart' as _i11;
-import 'package:stacked_services/stacked_services.dart' as _i10;
+import 'package:flutter/material.dart' as _i11;
+import 'package:stacked/stacked.dart' as _i10;
+import 'package:stacked_services/stacked_services.dart' as _i9;
 
-import '../ui/views/create_auction/create_auction_view.dart' as _i9;
+import '../ui/views/create_auction/create_auction_view.dart' as _i8;
 import '../ui/views/create_item/create_item_view.dart' as _i5;
 import '../ui/views/home/home_view.dart' as _i2;
-import '../ui/views/item_details/item_details_view.dart' as _i8;
+import '../ui/views/item_details/item_details_view.dart' as _i7;
 import '../ui/views/login/login_view.dart' as _i4;
 import '../ui/views/register/register_view.dart' as _i3;
 import '../ui/views/startup/startup_view.dart' as _i1;
 import '../ui/views/unknown/unknown_view.dart' as _i6;
-import '../ui/views/view_items/view_items_view.dart' as _i7;
 
 final stackedRouter =
-    StackedRouterWeb(navigatorKey: _i10.StackedService.navigatorKey);
+    StackedRouterWeb(navigatorKey: _i9.StackedService.navigatorKey);
 
-class StackedRouterWeb extends _i11.RootStackRouter {
-  StackedRouterWeb({_i12.GlobalKey<_i12.NavigatorState>? navigatorKey})
+class StackedRouterWeb extends _i10.RootStackRouter {
+  StackedRouterWeb({_i11.GlobalKey<_i11.NavigatorState>? navigatorKey})
       : super(navigatorKey);
 
   @override
-  final Map<String, _i11.PageFactory> pagesMap = {
+  final Map<String, _i10.PageFactory> pagesMap = {
     StartupViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i10.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i1.StartupView(),
         opaque: true,
@@ -37,7 +36,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       );
     },
     HomeViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i10.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i2.HomeView(),
         opaque: true,
@@ -45,7 +44,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       );
     },
     RegisterViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i10.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i3.RegisterView(),
         opaque: true,
@@ -53,7 +52,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       );
     },
     LoginViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i10.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i4.LoginView(),
         opaque: true,
@@ -61,7 +60,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       );
     },
     CreateItemViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i10.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i5.CreateItemView(),
         opaque: true,
@@ -69,17 +68,9 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       );
     },
     UnknownViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
+      return _i10.CustomPage<dynamic>(
         routeData: routeData,
         child: const _i6.UnknownView(),
-        opaque: true,
-        barrierDismissible: false,
-      );
-    },
-    ViewItemsViewRoute.name: (routeData) {
-      return _i11.CustomPage<dynamic>(
-        routeData: routeData,
-        child: const _i7.ViewItemsView(),
         opaque: true,
         barrierDismissible: false,
       );
@@ -88,9 +79,9 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       final pathParams = routeData.inheritedPathParams;
       final args = routeData.argsAs<ItemDetailsViewArgs>(
           orElse: () => ItemDetailsViewArgs(id: pathParams.getString('id')));
-      return _i11.CustomPage<dynamic>(
+      return _i10.CustomPage<dynamic>(
         routeData: routeData,
-        child: _i8.ItemDetailsView(
+        child: _i7.ItemDetailsView(
           id: args.id,
           key: args.key,
         ),
@@ -103,9 +94,9 @@ class StackedRouterWeb extends _i11.RootStackRouter {
       final args = routeData.argsAs<CreateAuctionViewArgs>(
           orElse: () =>
               CreateAuctionViewArgs(itemId: pathParams.getString('itemId')));
-      return _i11.CustomPage<dynamic>(
+      return _i10.CustomPage<dynamic>(
         routeData: routeData,
-        child: _i9.CreateAuctionView(
+        child: _i8.CreateAuctionView(
           itemId: args.itemId,
           key: args.key,
         ),
@@ -116,44 +107,40 @@ class StackedRouterWeb extends _i11.RootStackRouter {
   };
 
   @override
-  List<_i11.RouteConfig> get routes => [
-        _i11.RouteConfig(
+  List<_i10.RouteConfig> get routes => [
+        _i10.RouteConfig(
           StartupViewRoute.name,
           path: '/',
         ),
-        _i11.RouteConfig(
+        _i10.RouteConfig(
           HomeViewRoute.name,
-          path: '/home-view',
+          path: '/home',
         ),
-        _i11.RouteConfig(
+        _i10.RouteConfig(
           RegisterViewRoute.name,
           path: '/auth/register',
         ),
-        _i11.RouteConfig(
+        _i10.RouteConfig(
           LoginViewRoute.name,
           path: '/auth/login',
         ),
-        _i11.RouteConfig(
+        _i10.RouteConfig(
           CreateItemViewRoute.name,
           path: '/items/create',
         ),
-        _i11.RouteConfig(
+        _i10.RouteConfig(
           UnknownViewRoute.name,
           path: '/404',
         ),
-        _i11.RouteConfig(
-          ViewItemsViewRoute.name,
-          path: '/items/all',
-        ),
-        _i11.RouteConfig(
+        _i10.RouteConfig(
           ItemDetailsViewRoute.name,
           path: '/items/:id',
         ),
-        _i11.RouteConfig(
+        _i10.RouteConfig(
           CreateAuctionViewRoute.name,
           path: '/items/:itemId/auction',
         ),
-        _i11.RouteConfig(
+        _i10.RouteConfig(
           '*#redirect',
           path: '*',
           redirectTo: '/404',
@@ -164,7 +151,7 @@ class StackedRouterWeb extends _i11.RootStackRouter {
 
 /// generated route for
 /// [_i1.StartupView]
-class StartupViewRoute extends _i11.PageRouteInfo<void> {
+class StartupViewRoute extends _i10.PageRouteInfo<void> {
   const StartupViewRoute()
       : super(
           StartupViewRoute.name,
@@ -176,11 +163,11 @@ class StartupViewRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i2.HomeView]
-class HomeViewRoute extends _i11.PageRouteInfo<void> {
+class HomeViewRoute extends _i10.PageRouteInfo<void> {
   const HomeViewRoute()
       : super(
           HomeViewRoute.name,
-          path: '/home-view',
+          path: '/home',
         );
 
   static const String name = 'HomeView';
@@ -188,7 +175,7 @@ class HomeViewRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i3.RegisterView]
-class RegisterViewRoute extends _i11.PageRouteInfo<void> {
+class RegisterViewRoute extends _i10.PageRouteInfo<void> {
   const RegisterViewRoute()
       : super(
           RegisterViewRoute.name,
@@ -200,7 +187,7 @@ class RegisterViewRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i4.LoginView]
-class LoginViewRoute extends _i11.PageRouteInfo<void> {
+class LoginViewRoute extends _i10.PageRouteInfo<void> {
   const LoginViewRoute()
       : super(
           LoginViewRoute.name,
@@ -212,7 +199,7 @@ class LoginViewRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i5.CreateItemView]
-class CreateItemViewRoute extends _i11.PageRouteInfo<void> {
+class CreateItemViewRoute extends _i10.PageRouteInfo<void> {
   const CreateItemViewRoute()
       : super(
           CreateItemViewRoute.name,
@@ -224,7 +211,7 @@ class CreateItemViewRoute extends _i11.PageRouteInfo<void> {
 
 /// generated route for
 /// [_i6.UnknownView]
-class UnknownViewRoute extends _i11.PageRouteInfo<void> {
+class UnknownViewRoute extends _i10.PageRouteInfo<void> {
   const UnknownViewRoute()
       : super(
           UnknownViewRoute.name,
@@ -235,23 +222,11 @@ class UnknownViewRoute extends _i11.PageRouteInfo<void> {
 }
 
 /// generated route for
-/// [_i7.ViewItemsView]
-class ViewItemsViewRoute extends _i11.PageRouteInfo<void> {
-  const ViewItemsViewRoute()
-      : super(
-          ViewItemsViewRoute.name,
-          path: '/items/all',
-        );
-
-  static const String name = 'ViewItemsView';
-}
-
-/// generated route for
-/// [_i8.ItemDetailsView]
-class ItemDetailsViewRoute extends _i11.PageRouteInfo<ItemDetailsViewArgs> {
+/// [_i7.ItemDetailsView]
+class ItemDetailsViewRoute extends _i10.PageRouteInfo<ItemDetailsViewArgs> {
   ItemDetailsViewRoute({
     required String id,
-    _i12.Key? key,
+    _i11.Key? key,
   }) : super(
           ItemDetailsViewRoute.name,
           path: '/items/:id',
@@ -273,7 +248,7 @@ class ItemDetailsViewArgs {
 
   final String id;
 
-  final _i12.Key? key;
+  final _i11.Key? key;
 
   @override
   String toString() {
@@ -282,11 +257,11 @@ class ItemDetailsViewArgs {
 }
 
 /// generated route for
-/// [_i9.CreateAuctionView]
-class CreateAuctionViewRoute extends _i11.PageRouteInfo<CreateAuctionViewArgs> {
+/// [_i8.CreateAuctionView]
+class CreateAuctionViewRoute extends _i10.PageRouteInfo<CreateAuctionViewArgs> {
   CreateAuctionViewRoute({
     required String itemId,
-    _i12.Key? key,
+    _i11.Key? key,
   }) : super(
           CreateAuctionViewRoute.name,
           path: '/items/:itemId/auction',
@@ -308,7 +283,7 @@ class CreateAuctionViewArgs {
 
   final String itemId;
 
-  final _i12.Key? key;
+  final _i11.Key? key;
 
   @override
   String toString() {
@@ -316,9 +291,9 @@ class CreateAuctionViewArgs {
   }
 }
 
-extension RouterStateExtension on _i10.RouterService {
+extension RouterStateExtension on _i9.RouterService {
   Future<dynamic> navigateToStartupView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i10.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const StartupViewRoute(),
       onFailure: onFailure,
@@ -326,7 +301,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> navigateToHomeView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i10.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const HomeViewRoute(),
       onFailure: onFailure,
@@ -334,7 +309,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> navigateToRegisterView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i10.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const RegisterViewRoute(),
       onFailure: onFailure,
@@ -342,7 +317,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> navigateToLoginView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i10.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const LoginViewRoute(),
       onFailure: onFailure,
@@ -350,7 +325,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> navigateToCreateItemView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i10.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const CreateItemViewRoute(),
       onFailure: onFailure,
@@ -358,25 +333,17 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> navigateToUnknownView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i10.NavigationFailure)? onFailure}) async {
     return navigateTo(
       const UnknownViewRoute(),
       onFailure: onFailure,
     );
   }
 
-  Future<dynamic> navigateToViewItemsView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
-    return navigateTo(
-      const ViewItemsViewRoute(),
-      onFailure: onFailure,
-    );
-  }
-
   Future<dynamic> navigateToItemDetailsView({
     required String id,
-    _i12.Key? key,
-    void Function(_i11.NavigationFailure)? onFailure,
+    _i11.Key? key,
+    void Function(_i10.NavigationFailure)? onFailure,
   }) async {
     return navigateTo(
       ItemDetailsViewRoute(
@@ -389,8 +356,8 @@ extension RouterStateExtension on _i10.RouterService {
 
   Future<dynamic> navigateToCreateAuctionView({
     required String itemId,
-    _i12.Key? key,
-    void Function(_i11.NavigationFailure)? onFailure,
+    _i11.Key? key,
+    void Function(_i10.NavigationFailure)? onFailure,
   }) async {
     return navigateTo(
       CreateAuctionViewRoute(
@@ -402,7 +369,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithStartupView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i10.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const StartupViewRoute(),
       onFailure: onFailure,
@@ -410,7 +377,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithHomeView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i10.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const HomeViewRoute(),
       onFailure: onFailure,
@@ -418,7 +385,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithRegisterView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i10.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const RegisterViewRoute(),
       onFailure: onFailure,
@@ -426,7 +393,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithLoginView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i10.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const LoginViewRoute(),
       onFailure: onFailure,
@@ -434,7 +401,7 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithCreateItemView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i10.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const CreateItemViewRoute(),
       onFailure: onFailure,
@@ -442,25 +409,17 @@ extension RouterStateExtension on _i10.RouterService {
   }
 
   Future<dynamic> replaceWithUnknownView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
+      {void Function(_i10.NavigationFailure)? onFailure}) async {
     return replaceWith(
       const UnknownViewRoute(),
       onFailure: onFailure,
     );
   }
 
-  Future<dynamic> replaceWithViewItemsView(
-      {void Function(_i11.NavigationFailure)? onFailure}) async {
-    return replaceWith(
-      const ViewItemsViewRoute(),
-      onFailure: onFailure,
-    );
-  }
-
   Future<dynamic> replaceWithItemDetailsView({
     required String id,
-    _i12.Key? key,
-    void Function(_i11.NavigationFailure)? onFailure,
+    _i11.Key? key,
+    void Function(_i10.NavigationFailure)? onFailure,
   }) async {
     return replaceWith(
       ItemDetailsViewRoute(
@@ -473,8 +432,8 @@ extension RouterStateExtension on _i10.RouterService {
 
   Future<dynamic> replaceWithCreateAuctionView({
     required String itemId,
-    _i12.Key? key,
-    void Function(_i11.NavigationFailure)? onFailure,
+    _i11.Key? key,
+    void Function(_i10.NavigationFailure)? onFailure,
   }) async {
     return replaceWith(
       CreateAuctionViewRoute(

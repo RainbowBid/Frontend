@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
+import 'package:rainbowbid_frontend/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 
 import '../../../models/items/item.dart';
@@ -16,8 +17,10 @@ class ViewItemsView extends StatelessWidget {
       builder: (context, viewModel, child) => viewModel.isBusy
           ? const CircularProgressIndicator()
           : Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
-                const Text("Your items"),
+                const Text("Your items", style: TextStyle(fontSize: 20)),
+                verticalSpaceMedium,
                 DropdownButtonFormField<Category>(
                   value: viewModel.selectedCategory,
                   onChanged: (value) async {
@@ -59,30 +62,43 @@ class ViewItemsView extends StatelessWidget {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: ListView.builder(
-                    itemCount: viewModel.data!.length,
-                    itemBuilder: (context, index) {
-                      return Card(
-                        child: ListTile(
-                          title: Text(
-                            viewModel.data![index].brief.toString(),
-                          ),
-                          subtitle: Text(
-                            viewModel.data![index].description.toString(),
-                          ),
-                          trailing: Text(
+                verticalSpaceSmall,
+                ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: viewModel.data!.length,
+                  itemBuilder: (context, index) {
+                    return Card(
+                      child: ListTile(
+                        title: Text(
+                          viewModel.data![index].brief.toString(),
+                        ),
+                        subtitle: Text(
+                          viewModel.data![index].description.toString(),
+                        ),
+                        trailing: Chip(
+                          label: Text(
                             viewModel.data![index].category.displayValue,
                           ),
-                          onTap: () async {
-                            final item = viewModel.data![index];
-                            await viewModel.routerService
-                                .replaceWithItemDetailsView(id: item.id);
-                          },
+                          shape: RoundedRectangleBorder(
+                            side: BorderSide(
+                              color: kcRed.withOpacity(0.5),
+                            ),
+                            borderRadius: BorderRadius.circular(
+                              20,
+                            ),
+                          ),
+                          color: MaterialStateColor.resolveWith(
+                            (states) => kcRed.withOpacity(0.5),
+                          ),
                         ),
-                      );
-                    },
-                  ),
+                        onTap: () async {
+                          final item = viewModel.data![index];
+                          await viewModel.routerService
+                              .replaceWithItemDetailsView(id: item.id);
+                        },
+                      ),
+                    );
+                  },
                 ),
               ],
             ),

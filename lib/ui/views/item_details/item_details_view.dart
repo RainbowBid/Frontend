@@ -2,17 +2,14 @@ import 'dart:io';
 
 import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
-import 'package:rainbowbid_frontend/app/app.router.dart';
 import 'package:rainbowbid_frontend/config/api_constants.dart';
 import 'package:rainbowbid_frontend/ui/common/app_colors.dart';
-import 'package:rainbowbid_frontend/ui/common/app_constants.dart';
 import 'package:rainbowbid_frontend/ui/common/ui_helpers.dart';
+import 'package:rainbowbid_frontend/ui/views/auction_details/auction_details_view.dart';
 import 'package:rainbowbid_frontend/ui/widgets/app_primitives/app_sidebar.dart';
-import 'package:slide_countdown/slide_countdown.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked/stacked_annotations.dart';
 
-import '../../../models/auctions/auction.dart';
 import '../../../models/items/item.dart';
 import 'item_details_viewmodel.dart';
 
@@ -106,7 +103,8 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
                                               Text(
                                                 viewModel.data!.description,
                                                 style: const TextStyle(
-                                                    fontSize: 20),
+                                                  fontSize: 20,
+                                                ),
                                               ),
                                             ],
                                           ),
@@ -120,7 +118,7 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
                             verticalSpaceSmall,
                             const Divider(),
                             verticalSpaceSmall,
-                            _buildAuctionWidget(viewModel, id),
+                            AuctionDetailsView(itemId: viewModel.data!.id),
                           ],
                         ),
                       ),
@@ -145,10 +143,12 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
               };
               return Image.network(
                 Uri.http(
-                        ApiConstants.baseUrl,
-                        ApiConstants.itemsGetImageByItemIdUrl
-                            .replaceFirst(":id", item.id))
-                    .toString(),
+                  ApiConstants.baseUrl,
+                  ApiConstants.itemsGetImageByItemIdUrl.replaceFirst(
+                    ":id",
+                    item.id,
+                  ),
+                ).toString(),
                 headers: heads,
               );
             });
@@ -161,154 +161,6 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
       },
     );
   }
-
-  Widget _buildAuctionWidget(ItemDetailsViewModel viewModel, String itemId) {
-    return FutureBuilder<Option<Auction>>(
-      future: viewModel.getAuctionByItemId(itemId),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          if (snapshot.hasData) {
-            final option = snapshot.data!;
-            return option.fold(
-              () {
-                return ElevatedButton(
-                  onPressed: () async {
-                    await viewModel.routerService.replaceWithCreateAuctionView(
-                      itemId: viewModel.itemId,
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    minimumSize: kButtonSize,
-                    backgroundColor: kcBlue,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(kdFieldBorderRadius),
-                    ),
-                  ),
-                  child: const Text(
-                    "Create auction",
-                    style: TextStyle(
-                      color: kcWhite,
-                      fontSize: kdButtonTextSize,
-                    ),
-                  ),
-                );
-              },
-              (auction) {
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Ongoing Auction",
-                                style: TextStyle(fontSize: 30, color: kcRed),
-                              ),
-                              verticalSpaceSmall,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Starting price : ${auction.startingPrice}",
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const Text(
-                                    "Highest bid takes the stake!",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: kcRed,
-                                      fontStyle: FontStyle.italic,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              verticalSpaceSmall,
-                              Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  const Text(
-                                    "Ends in : ",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  SlideCountdown(
-                                    duration: auction.endDate.difference(
-                                      DateTime.now(),
-                                    ),
-                                    slideDirection: SlideDirection.up,
-                                    separatorType: SeparatorType.title,
-                                    separator: ":",
-                                  ),
-                                ],
-                              ),
-                              verticalSpaceMedium,
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            );
-          } else {
-            // No data available
-            return const SizedBox.shrink();
-          }
-        } else {
-          // Loading indicator
-          return const CircularProgressIndicator();
-        }
-      },
-    );
-  }
-
-  //
-  // Widget _buildAuctionWidget(ItemDetailsViewModel viewModel, String itemId) {
-  //   return FutureBuilder<Either<ApiError, Auction>>(
-  //     future: viewModel.auctionService.getAuctionByItemId(itemId),
-  //     builder: (context, snapshot) {
-  //       if (snapshot.connectionState == ConnectionState.done) {
-  //         final result = snapshot.data;
-  //         if (result != null && result.isLeft()) {
-  //           final apiError = result.leftMap((error) => error);
-  //           return Text("Error occurred: ${apiError.getOrElse(() => ApiError.unknownError).message}");
-  //         } else if (result != null && result.isRight()) {
-  //           final auction = result.rightMap((auction) => auction);
-  //           return Row(
-  //             children: [
-  //               const Text("Active auction, if any exists."),
-  //               Center(
-  //                 child: TextButton(
-  //                   onPressed: () async {
-  //                     await viewModel.routerService.replaceWithCreateAuctionView(
-  //                       itemId: viewModel.itemId,
-  //                     );
-  //                   },
-  //                   child: const Text('Create Auction'),
-  //                 ),
-  //               ),
-  //             ],
-  //           );
-  //         } else {
-  //           return const SizedBox.shrink();
-  //         }
-  //       } else {
-  //         return const CircularProgressIndicator();
-  //       }
-  //     },
-  //   );
-  // }
 
   @override
   ItemDetailsViewModel viewModelBuilder(
