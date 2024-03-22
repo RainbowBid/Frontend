@@ -11,6 +11,7 @@ import 'package:rainbowbid_frontend/models/dtos/create_item_dto.dart';
 import 'package:rainbowbid_frontend/models/dtos/get_all_items_dto.dart';
 import 'package:rainbowbid_frontend/models/errors/api_error.dart';
 import '../app/app.logger.dart';
+import '../models/dtos/get_item_dto.dart';
 import '../models/interfaces/i_items_service.dart';
 import '../models/items/item.dart';
 
@@ -64,6 +65,67 @@ class ItemsService implements IItemsService {
           return left(
             const ApiError.unauthorized(
               "Get all was unauthorized.",
+            ),
+          );
+
+        default:
+          _logger.e(
+              "Server error occurred: ${response.statusCode} ${response.body}");
+          return left(
+            const ApiError.serverError(
+              "Server error occurred. Please try again later.",
+            ),
+          );
+      }
+    } catch (e) {
+      _logger.e("Server error occurred: $e");
+      return left(
+        const ApiError.serverError(
+          "Server error occurred. Please try again later.",
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ApiError, GetItemDto>> getItemById(String id) async {
+    try {
+      _logger.i("Get item by id.");
+      final String jwt = (await JwtStorage.getJwt()).fold(() {
+        return "";
+      }, (jwt) {
+        return jwt;
+      });
+      if (jwt.isEmpty) {
+        return left(
+          const ApiError.unauthorized(
+            "Get item by id was unauthorized.",
+          ),
+        );
+      }
+
+      Map<String, String> heads = {
+        HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
+        HttpHeaders.authorizationHeader: "Bearer $jwt",
+      };
+
+      final response = await _httpClient.get(
+        Uri.http(
+          ApiConstants.baseUrl,
+          ApiConstants.itemsGetItemByIdUrl.replaceFirst(":id", id),
+        ),
+        headers: heads,
+      );
+
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          _logger.i("Get item was successfully completed");
+          return right(GetItemDto.fromJson(json.decode(response.body)));
+        case HttpStatus.unauthorized:
+          _logger.i("Get item was unauthorized");
+          return left(
+            const ApiError.unauthorized(
+              "Get item was unauthorized.",
             ),
           );
 

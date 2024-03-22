@@ -52,42 +52,45 @@ class RegisterView extends StackedView<RegisterViewModel> with $RegisterView {
             controller: viewModel.sidebarController,
           ),
           Expanded(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(kdPagePadding),
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(kdFormPadding),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _buildRegisterPageTitle(context),
-                        verticalSpaceLarge,
-                        Column(
-                          children: [
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _buildNameField(context, viewModel),
-                                horizontalSpaceLarge,
-                                _buildEmailField(context, viewModel),
-                              ],
-                            ),
-                            verticalSpaceLarge,
-                            Row(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                _buildPasswordField(context, viewModel),
-                                horizontalSpaceLarge,
-                                _buildConfirmPasswordField(context, viewModel),
-                              ],
-                            ),
-                            verticalSpaceMedium,
-                            _buildRegisterButton(context, viewModel),
-                          ],
-                        ),
-                      ],
+            child: SingleChildScrollView(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(kdPagePadding),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(kdFormPadding),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _buildRegisterPageTitle(context),
+                          verticalSpaceLarge,
+                          Column(
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildNameField(context, viewModel),
+                                  horizontalSpaceLarge,
+                                  _buildEmailField(context, viewModel),
+                                ],
+                              ),
+                              verticalSpaceLarge,
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  _buildPasswordField(context, viewModel),
+                                  horizontalSpaceLarge,
+                                  _buildConfirmPasswordField(
+                                      context, viewModel),
+                                ],
+                              ),
+                              verticalSpaceMedium,
+                              _buildRegisterButton(context, viewModel),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

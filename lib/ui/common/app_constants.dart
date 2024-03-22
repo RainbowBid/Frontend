@@ -20,6 +20,7 @@ const double kdFormPadding = 20;
 const String ksRegisterKey = 'registerKey';
 const String ksLoginKey = 'loginKey';
 const String ksCreateItemKey = 'createItemKey';
+const String ksCreateAuctionKey = 'createAuctionKey';
 
 // validator constants
 const int kiMinUsernameLength = 3;
@@ -32,6 +33,7 @@ const int kiMinItemBriefLength = 3;
 const int kiMaxItemBriefLength = 30;
 const int kiMinItemDescriptionLength = 3;
 const int kiMaxItemDescriptionLength = 255;
+const double kdMinPrice = 0.99;
 
 // sidebar
 const int kiSidebarHomeMenuIndex = 0;

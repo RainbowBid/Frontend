@@ -37,9 +37,6 @@ class CreateItemView extends StackedView<CreateItemViewModel>
   ) {
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
-      drawer: AppSidebar(
-        controller: viewModel.sidebarController,
-      ),
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [

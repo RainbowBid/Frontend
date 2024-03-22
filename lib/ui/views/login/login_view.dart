@@ -46,36 +46,38 @@ class LoginView extends StackedView<LoginViewModel> with $LoginView {
             controller: viewModel.sidebarController,
           ),
           Expanded(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.all(kdPagePadding),
-                child: Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(kdFormPadding),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _buildRegisterPageTitle(context),
-                        verticalSpaceLarge,
-                        Column(
-                          children: [
-                            Row(
-                              children: [
-                                _buildEmailField(context, viewModel),
-                              ],
-                            ),
-                            verticalSpaceLarge,
-                            Row(
-                              children: [
-                                _buildPasswordField(context, viewModel),
-                              ],
-                            ),
-                            verticalSpaceMedium,
-                            _buildLoginButton(context, viewModel),
-                          ],
-                        ),
-                      ],
+            child: SingleChildScrollView(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(kdPagePadding),
+                  child: Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(kdFormPadding),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _buildRegisterPageTitle(context),
+                          verticalSpaceLarge,
+                          Column(
+                            children: [
+                              Row(
+                                children: [
+                                  _buildEmailField(context, viewModel),
+                                ],
+                              ),
+                              verticalSpaceLarge,
+                              Row(
+                                children: [
+                                  _buildPasswordField(context, viewModel),
+                                ],
+                              ),
+                              verticalSpaceMedium,
+                              _buildLoginButton(context, viewModel),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),

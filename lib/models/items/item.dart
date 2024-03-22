@@ -1,35 +1,34 @@
-class Item {
-  late String id;
-  late String brief;
-  late String description;
-  late String userId;
-  late Category category;
+import 'package:dartz/dartz.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rainbowbid_frontend/models/core/category_converter.dart';
 
-  Item({
-    required this.id,
-    required this.brief,
-    required this.description,
-    required this.userId,
-    required this.category,
-  });
+import '../auth/jwt_storage.dart';
 
-  Map<String, dynamic> toJson() {
-    return {
-      'id': id,
-      'brief': brief,
-      'description': description,
-      'user_id': userId,
-      'category': category.value,
-    };
-  }
+part 'item.freezed.dart';
+part 'item.g.dart';
 
-  factory Item.fromJson(Map<String, dynamic> json) {
-    return Item(
-      id: json['id'],
-      brief: json['brief'],
-      description: json['description'],
-      userId: json['user_id'],
-      category: Category.fromValue(json['category']),
+@freezed
+class Item with _$Item {
+  const factory Item({
+    required String id,
+    required String brief,
+    required String description,
+    @JsonKey(name: 'user_id') required String userId,
+    @CategoryConverter() required Category category,
+  }) = _Item;
+
+  factory Item.fromJson(Map<String, dynamic> json) => _$ItemFromJson(json);
+}
+
+extension ItemX on Item {
+  Future<Option<String>> getJwtForImageRequest() async {
+    return (await JwtStorage.getJwt()).fold(
+      () {
+        return none();
+      },
+      (jwt) {
+        return some(jwt);
+      },
     );
   }
 }
