@@ -1,4 +1,6 @@
 import 'package:dartz/dartz.dart';
+import 'package:rainbowbid_frontend/app/app.router.dart';
+import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
@@ -34,7 +36,17 @@ class ViewItemsViewModel extends FutureViewModel<List<Item>> {
     return result.fold(
       (ApiError apiError) {
         _logger.e("Items getAll call finished with an error");
-        return [];
+
+        return apiError.maybeWhen(
+          unauthorized: (String message) async {
+            await JwtStorage.clear();
+            await _routerService.replaceWithLoginView();
+            return [];
+          },
+          orElse: () {
+            return [];
+          },
+        );
       },
       (getAllItemsDto) {
         _logger.i("Items getAll call finished.");

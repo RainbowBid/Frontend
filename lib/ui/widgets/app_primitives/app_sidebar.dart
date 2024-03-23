@@ -121,8 +121,8 @@ class AppSidebar extends StatelessWidget {
               label: ksSidebarLogoutMenuText,
               onTap: () async {
                 await JwtStorage.clear();
-                controller.selectIndex(kiSidebarRegisterMenuIndex);
-                await _routerService.replaceWithRegisterView();
+                controller.selectIndex(kiSidebarLoginMenuIndex);
+                await _routerService.replaceWithLoginView();
               },
             ),
             SidebarXItem(

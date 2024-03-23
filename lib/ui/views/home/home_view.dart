@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:rainbowbid_frontend/ui/common/app_colors.dart';
@@ -41,15 +42,15 @@ class HomeView extends StackedView<HomeViewModel> {
                       ),
                     ),
                     verticalSpaceLarge,
-                    FutureBuilder(
-                      future: JwtStorage.hasCurrentUser(),
-                      initialData: false,
+                    FutureBuilder<Option<String>>(
+                      future: JwtStorage.getUserId(),
+                      initialData: none(),
                       builder: (context, snapshot) =>
                           snapshot.connectionState == ConnectionState.done
                               ? Column(
                                   children: [
                                     if (snapshot.hasData &&
-                                        snapshot.data! == false) ...[
+                                        snapshot.data!.isNone()) ...[
                                       const Text(
                                         'You are not logged in. Please log in to view your items and auctions.',
                                         style: TextStyle(
@@ -59,10 +60,13 @@ class HomeView extends StackedView<HomeViewModel> {
                                       ),
                                       verticalSpaceSmall,
                                     ],
-                                    const ViewAuctionsView(),
+                                    if (snapshot.hasData)
+                                      ViewAuctionsView(
+                                        currentUserId: snapshot.data!,
+                                      ),
                                     verticalSpaceLarge,
                                     if (snapshot.hasData &&
-                                        snapshot.data! == true)
+                                        snapshot.data!.isSome())
                                       const ViewItemsView(),
                                   ],
                                 )
