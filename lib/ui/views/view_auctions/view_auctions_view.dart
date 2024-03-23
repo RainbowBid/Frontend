@@ -1,4 +1,6 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
+import 'package:rainbowbid_frontend/app/app.router.dart';
 import 'package:rainbowbid_frontend/models/items/item.dart';
 import 'package:rainbowbid_frontend/ui/common/app_colors.dart';
 import 'package:rainbowbid_frontend/ui/common/app_constants.dart';
@@ -8,7 +10,12 @@ import 'package:slide_countdown/slide_countdown.dart';
 import 'package:stacked/stacked.dart';
 
 class ViewAuctionsView extends StatelessWidget {
-  const ViewAuctionsView({super.key});
+  const ViewAuctionsView({
+    required this.currentUserId,
+    super.key,
+  });
+
+  final Option<String> currentUserId;
 
   @override
   Widget build(BuildContext context) {
@@ -95,6 +102,17 @@ class ViewAuctionsView extends StatelessWidget {
                                 (states) => kcRed.withOpacity(0.5),
                               ),
                             ),
+                            onTap: () async {
+                              currentUserId.fold(
+                                () {},
+                                (_) async {
+                                  await viewModel.routerService
+                                      .replaceWithItemDetailsView(
+                                    id: viewModel.data![index].itemId,
+                                  );
+                                },
+                              );
+                            },
                           ),
                           verticalSpaceTiny,
                           Padding(
