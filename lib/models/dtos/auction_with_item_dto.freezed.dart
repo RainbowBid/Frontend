@@ -24,6 +24,7 @@ mixin _$AuctionWithItemDto {
   @JsonKey(name: 'starting_price')
   double get startingPrice => throw _privateConstructorUsedError;
   @JsonKey(name: 'end_date')
+  @TimestampConverter()
   DateTime get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'item_id')
   String get itemId => throw _privateConstructorUsedError;
@@ -49,7 +50,7 @@ abstract class $AuctionWithItemDtoCopyWith<$Res> {
   $Res call(
       {String id,
       @JsonKey(name: 'starting_price') double startingPrice,
-      @JsonKey(name: 'end_date') DateTime endDate,
+      @JsonKey(name: 'end_date') @TimestampConverter() DateTime endDate,
       @JsonKey(name: 'item_id') String itemId,
       String brief,
       String description,
@@ -127,7 +128,7 @@ abstract class _$$AuctionWithItemDtoImplCopyWith<$Res>
   $Res call(
       {String id,
       @JsonKey(name: 'starting_price') double startingPrice,
-      @JsonKey(name: 'end_date') DateTime endDate,
+      @JsonKey(name: 'end_date') @TimestampConverter() DateTime endDate,
       @JsonKey(name: 'item_id') String itemId,
       String brief,
       String description,
@@ -198,7 +199,7 @@ class _$AuctionWithItemDtoImpl implements _AuctionWithItemDto {
   const _$AuctionWithItemDtoImpl(
       {required this.id,
       @JsonKey(name: 'starting_price') required this.startingPrice,
-      @JsonKey(name: 'end_date') required this.endDate,
+      @JsonKey(name: 'end_date') @TimestampConverter() required this.endDate,
       @JsonKey(name: 'item_id') required this.itemId,
       required this.brief,
       required this.description,
@@ -215,6 +216,7 @@ class _$AuctionWithItemDtoImpl implements _AuctionWithItemDto {
   final double startingPrice;
   @override
   @JsonKey(name: 'end_date')
+  @TimestampConverter()
   final DateTime endDate;
   @override
   @JsonKey(name: 'item_id')
@@ -277,7 +279,9 @@ abstract class _AuctionWithItemDto implements AuctionWithItemDto {
   const factory _AuctionWithItemDto(
           {required final String id,
           @JsonKey(name: 'starting_price') required final double startingPrice,
-          @JsonKey(name: 'end_date') required final DateTime endDate,
+          @JsonKey(name: 'end_date')
+          @TimestampConverter()
+          required final DateTime endDate,
           @JsonKey(name: 'item_id') required final String itemId,
           required final String brief,
           required final String description,
@@ -295,6 +299,7 @@ abstract class _AuctionWithItemDto implements AuctionWithItemDto {
   double get startingPrice;
   @override
   @JsonKey(name: 'end_date')
+  @TimestampConverter()
   DateTime get endDate;
   @override
   @JsonKey(name: 'item_id')

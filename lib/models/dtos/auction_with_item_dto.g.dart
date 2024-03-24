@@ -11,7 +11,7 @@ _$AuctionWithItemDtoImpl _$$AuctionWithItemDtoImplFromJson(
     _$AuctionWithItemDtoImpl(
       id: json['id'] as String,
       startingPrice: (json['starting_price'] as num).toDouble(),
-      endDate: DateTime.parse(json['end_date'] as String),
+      endDate: const TimestampConverter().fromJson(json['end_date'] as int),
       itemId: json['item_id'] as String,
       brief: json['brief'] as String,
       description: json['description'] as String,
@@ -24,7 +24,7 @@ Map<String, dynamic> _$$AuctionWithItemDtoImplToJson(
     <String, dynamic>{
       'id': instance.id,
       'starting_price': instance.startingPrice,
-      'end_date': instance.endDate.toIso8601String(),
+      'end_date': const TimestampConverter().toJson(instance.endDate),
       'item_id': instance.itemId,
       'brief': instance.brief,
       'description': instance.description,
