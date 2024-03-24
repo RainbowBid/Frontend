@@ -128,6 +128,17 @@ class CreateBidView extends StatelessWidget with $CreateBidView {
                   );
                 },
               );
+            } else {
+              await context.showSuccessBar(
+                position: FlashPosition.top,
+                content: const Text('Bid placed successfully'),
+                primaryActionBuilder: (context, controller) {
+                  return IconButton(
+                    onPressed: controller.dismiss,
+                    icon: const Icon(Icons.close),
+                  );
+                },
+              );
             }
           },
           style: ElevatedButton.styleFrom(

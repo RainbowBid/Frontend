@@ -274,7 +274,10 @@ class AuctionsService implements IAuctionService {
       if (response.statusCode == HttpStatus.ok) {
         final jsonBody = jsonDecode(response.body);
         final List<Bid> bids =
-            (jsonBody["bids"] as List).map((bid) => Bid.fromJson(bid)).toList();
+            (jsonBody["bids"] as List).map((bid) => Bid.fromJson(bid)).toList()
+              ..sort(
+                (a, b) => b.value.compareTo(a.value),
+              );
         _logger.i("Bids retrieved successfully: $bids");
         return right(bids);
       } else {

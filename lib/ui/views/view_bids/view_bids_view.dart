@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:rainbowbid_frontend/ui/common/app_colors.dart';
 import 'package:rainbowbid_frontend/ui/common/ui_helpers.dart';
 import 'package:rainbowbid_frontend/ui/views/view_bids/view_bids_viewmodel.dart';
 import 'package:stacked/stacked.dart';
@@ -16,14 +17,38 @@ class ViewBidsView extends StatelessWidget {
           : Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Text(
-                  "Bids",
-                  style: TextStyle(
-                    fontSize: 30,
-                    fontWeight: FontWeight.bold,
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton.icon(
+                      icon: const Icon(
+                        Icons.refresh,
+                        size: 25,
+                        color: kcWhite,
+                      ),
+                      onPressed: () => viewModel.refresh(),
+                      label: const Text(
+                        "Refresh",
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: kcWhite,
+                        ),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: kcBlue,
+                      ),
+                    ),
+                    horizontalSpaceSmall,
+                    const Text(
+                      "Bids",
+                      style: TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ],
                 ),
-                verticalSpaceMedium,
+                verticalSpaceSmall,
                 ListView.builder(
                   shrinkWrap: true,
                   itemCount: viewModel.data!.length,
@@ -46,7 +71,11 @@ class ViewBidsView extends StatelessWidget {
                                   verticalSpaceSmall,
                                   Text(
                                     "Bidder: ${bid.username}",
-                                    style: const TextStyle(fontSize: 20),
+                                    style: const TextStyle(
+                                      fontSize: 20,
+                                      fontStyle: FontStyle.italic,
+                                      color: kcRed,
+                                    ),
                                   ),
                                 ],
                               ),
@@ -57,6 +86,7 @@ class ViewBidsView extends StatelessWidget {
                     );
                   },
                 ),
+                verticalSpaceMedium,
               ],
             ),
       viewModelBuilder: () => ViewBidsViewModel(auctionId: auctionId),

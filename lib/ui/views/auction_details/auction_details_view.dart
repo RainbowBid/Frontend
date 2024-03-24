@@ -142,6 +142,7 @@ class AuctionDetailsView extends StatelessWidget {
                         return const SizedBox.shrink();
                       },
                     ),
+                    verticalSpaceSmall,
                     const Divider(),
                     verticalSpaceSmall,
                     FutureBuilder<Option<String>>(
