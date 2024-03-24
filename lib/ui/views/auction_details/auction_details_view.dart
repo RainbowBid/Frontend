@@ -7,6 +7,7 @@ import 'package:rainbowbid_frontend/ui/common/app_constants.dart';
 import 'package:rainbowbid_frontend/ui/common/ui_helpers.dart';
 import 'package:rainbowbid_frontend/ui/views/auction_details/auction_details_viewmodel.dart';
 import 'package:rainbowbid_frontend/ui/views/create_bid/create_bid_view.dart';
+import 'package:rainbowbid_frontend/ui/views/view_bids/view_bids_view.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:stacked/stacked.dart';
 
@@ -135,6 +136,26 @@ class AuctionDetailsView extends StatelessWidget {
                             (currentUserId) => currentUserId != ownerId
                                 ? CreateBidView(auctionId: auction.id)
                                 : const SizedBox.shrink(),
+                          );
+                        }
+
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                    const Divider(),
+                    verticalSpaceSmall,
+                    FutureBuilder<Option<String>>(
+                      future: JwtStorage.getUserId(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        }
+
+                        if (snapshot.hasData) {
+                          return snapshot.data!.fold(
+                            () => const SizedBox.shrink(),
+                            (_) => ViewBidsView(auctionId: auction.id),
                           );
                         }
 

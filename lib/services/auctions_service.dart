@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:dartz/dartz.dart';
 import 'package:http/browser_client.dart';
 import 'package:rainbowbid_frontend/models/auctions/auction.dart';
+import 'package:rainbowbid_frontend/models/auctions/bid.dart';
 import 'package:rainbowbid_frontend/models/dtos/auction_with_item_dto.dart';
 import 'package:rainbowbid_frontend/models/dtos/create_auction_dto.dart';
 import 'package:rainbowbid_frontend/models/dtos/create_bid_dto.dart';
@@ -228,6 +229,62 @@ class AuctionsService implements IAuctionService {
               "Server error occurred: ${response.body}",
             ),
           );
+      }
+    } catch (e) {
+      _logger.e("Server error occurred: $e");
+      return left(
+        const ApiError.serverError(
+          "Server error occurred. Please try again later.",
+        ),
+      );
+    }
+  }
+
+  @override
+  Future<Either<ApiError, List<Bid>>> getBidsByAuctionId(
+      String auctionId) async {
+    try {
+      _logger.i("Getting bids for auction with id: $auctionId");
+
+      final accessToken = await JwtStorage.getJwt();
+      if (accessToken.isNone()) {
+        _logger.e("User is not authenticated");
+        return left(
+          const ApiError.unauthorized(
+            "User is not authenticated",
+          ),
+        );
+      }
+
+      Map<String, String> headers = {
+        HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
+        HttpHeaders.authorizationHeader:
+            "Bearer ${accessToken.getOrElse(() => "")}",
+      };
+
+      final response = await _httpClient.get(
+        Uri.http(
+          ApiConstants.baseUrl,
+          ApiConstants.bidsGetByAuctionIdUrl
+              .replaceFirst(":auctionId", auctionId),
+        ),
+        headers: headers,
+      );
+
+      if (response.statusCode == HttpStatus.ok) {
+        final jsonBody = jsonDecode(response.body);
+        final List<Bid> bids =
+            (jsonBody["bids"] as List).map((bid) => Bid.fromJson(bid)).toList();
+        _logger.i("Bids retrieved successfully: $bids");
+        return right(bids);
+      } else {
+        _logger.e(
+            "Server error occurred: ${response.statusCode} ${response.body}");
+        return left(
+          ApiError.serverError(
+            "Server error occurred: ${response.body}",
+          ),
+        );
       }
     } catch (e) {
       _logger.e("Server error occurred: $e");
