@@ -12,50 +12,48 @@ import 'package:stacked/stacked.dart';
 
 const bool _autoTextFieldValidation = true;
 
-const String StartingPriceValueKey = 'startingPrice';
+const String ValueValueKey = 'value';
 
-final Map<String, TextEditingController>
-    _CreateAuctionViewTextEditingControllers = {};
+final Map<String, TextEditingController> _CreateBidViewTextEditingControllers =
+    {};
 
-final Map<String, FocusNode> _CreateAuctionViewFocusNodes = {};
+final Map<String, FocusNode> _CreateBidViewFocusNodes = {};
 
-final Map<String, String? Function(String?)?>
-    _CreateAuctionViewTextValidations = {
-  StartingPriceValueKey: AuctionValidator.validatePrice,
+final Map<String, String? Function(String?)?> _CreateBidViewTextValidations = {
+  ValueValueKey: AuctionValidator.validatePrice,
 };
 
-mixin $CreateAuctionView {
-  TextEditingController get startingPriceController =>
-      _getFormTextEditingController(StartingPriceValueKey);
+mixin $CreateBidView {
+  TextEditingController get valueController =>
+      _getFormTextEditingController(ValueValueKey);
 
-  FocusNode get startingPriceFocusNode =>
-      _getFormFocusNode(StartingPriceValueKey);
+  FocusNode get valueFocusNode => _getFormFocusNode(ValueValueKey);
 
   TextEditingController _getFormTextEditingController(
     String key, {
     String? initialValue,
   }) {
-    if (_CreateAuctionViewTextEditingControllers.containsKey(key)) {
-      return _CreateAuctionViewTextEditingControllers[key]!;
+    if (_CreateBidViewTextEditingControllers.containsKey(key)) {
+      return _CreateBidViewTextEditingControllers[key]!;
     }
 
-    _CreateAuctionViewTextEditingControllers[key] =
+    _CreateBidViewTextEditingControllers[key] =
         TextEditingController(text: initialValue);
-    return _CreateAuctionViewTextEditingControllers[key]!;
+    return _CreateBidViewTextEditingControllers[key]!;
   }
 
   FocusNode _getFormFocusNode(String key) {
-    if (_CreateAuctionViewFocusNodes.containsKey(key)) {
-      return _CreateAuctionViewFocusNodes[key]!;
+    if (_CreateBidViewFocusNodes.containsKey(key)) {
+      return _CreateBidViewFocusNodes[key]!;
     }
-    _CreateAuctionViewFocusNodes[key] = FocusNode();
-    return _CreateAuctionViewFocusNodes[key]!;
+    _CreateBidViewFocusNodes[key] = FocusNode();
+    return _CreateBidViewFocusNodes[key]!;
   }
 
   /// Registers a listener on every generated controller that calls [model.setData()]
   /// with the latest textController values
   void syncFormWithViewModel(FormStateHelper model) {
-    startingPriceController.addListener(() => _updateFormData(model));
+    valueController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
   }
@@ -67,7 +65,7 @@ mixin $CreateAuctionView {
     'This feature was deprecated after 3.1.0.',
   )
   void listenToFormUpdated(FormViewModel model) {
-    startingPriceController.addListener(() => _updateFormData(model));
+    valueController.addListener(() => _updateFormData(model));
 
     _updateFormData(model, forceValidate: _autoTextFieldValidation);
   }
@@ -77,7 +75,7 @@ mixin $CreateAuctionView {
     model.setData(
       model.formValueMap
         ..addAll({
-          StartingPriceValueKey: startingPriceController.text,
+          ValueValueKey: valueController.text,
         }),
     );
 
@@ -95,15 +93,15 @@ mixin $CreateAuctionView {
   void disposeForm() {
     // The dispose function for a TextEditingController sets all listeners to null
 
-    for (var controller in _CreateAuctionViewTextEditingControllers.values) {
+    for (var controller in _CreateBidViewTextEditingControllers.values) {
       controller.dispose();
     }
-    for (var focusNode in _CreateAuctionViewFocusNodes.values) {
+    for (var focusNode in _CreateBidViewFocusNodes.values) {
       focusNode.dispose();
     }
 
-    _CreateAuctionViewTextEditingControllers.clear();
-    _CreateAuctionViewFocusNodes.clear();
+    _CreateBidViewTextEditingControllers.clear();
+    _CreateBidViewFocusNodes.clear();
   }
 }
 
@@ -119,56 +117,53 @@ extension ValueProperties on FormStateHelper {
     return !hasAnyValidationMessage;
   }
 
-  String? get startingPriceValue =>
-      this.formValueMap[StartingPriceValueKey] as String?;
+  String? get valueValue => this.formValueMap[ValueValueKey] as String?;
 
-  set startingPriceValue(String? value) {
+  set valueValue(String? value) {
     this.setData(
-      this.formValueMap..addAll({StartingPriceValueKey: value}),
+      this.formValueMap..addAll({ValueValueKey: value}),
     );
 
-    if (_CreateAuctionViewTextEditingControllers.containsKey(
-        StartingPriceValueKey)) {
-      _CreateAuctionViewTextEditingControllers[StartingPriceValueKey]?.text =
-          value ?? '';
+    if (_CreateBidViewTextEditingControllers.containsKey(ValueValueKey)) {
+      _CreateBidViewTextEditingControllers[ValueValueKey]?.text = value ?? '';
     }
   }
 
-  bool get hasStartingPrice =>
-      this.formValueMap.containsKey(StartingPriceValueKey) &&
-      (startingPriceValue?.isNotEmpty ?? false);
+  bool get hasValue =>
+      this.formValueMap.containsKey(ValueValueKey) &&
+      (valueValue?.isNotEmpty ?? false);
 
-  bool get hasStartingPriceValidationMessage =>
-      this.fieldsValidationMessages[StartingPriceValueKey]?.isNotEmpty ?? false;
+  bool get hasValueValidationMessage =>
+      this.fieldsValidationMessages[ValueValueKey]?.isNotEmpty ?? false;
 
-  String? get startingPriceValidationMessage =>
-      this.fieldsValidationMessages[StartingPriceValueKey];
+  String? get valueValidationMessage =>
+      this.fieldsValidationMessages[ValueValueKey];
 }
 
 extension Methods on FormStateHelper {
-  setStartingPriceValidationMessage(String? validationMessage) =>
-      this.fieldsValidationMessages[StartingPriceValueKey] = validationMessage;
+  setValueValidationMessage(String? validationMessage) =>
+      this.fieldsValidationMessages[ValueValueKey] = validationMessage;
 
   /// Clears text input fields on the Form
   void clearForm() {
-    startingPriceValue = '';
+    valueValue = '';
   }
 
   /// Validates text input fields on the Form
   void validateForm() {
     this.setValidationMessages({
-      StartingPriceValueKey: getValidationMessage(StartingPriceValueKey),
+      ValueValueKey: getValidationMessage(ValueValueKey),
     });
   }
 }
 
 /// Returns the validation message for the given key
 String? getValidationMessage(String key) {
-  final validatorForKey = _CreateAuctionViewTextValidations[key];
+  final validatorForKey = _CreateBidViewTextValidations[key];
   if (validatorForKey == null) return null;
 
   String? validationMessageForKey = validatorForKey(
-    _CreateAuctionViewTextEditingControllers[key]!.text,
+    _CreateBidViewTextEditingControllers[key]!.text,
   );
 
   return validationMessageForKey;
@@ -177,5 +172,5 @@ String? getValidationMessage(String key) {
 /// Updates the fieldsValidationMessages on the FormViewModel
 void updateValidationData(FormStateHelper model) =>
     model.setValidationMessages({
-      StartingPriceValueKey: getValidationMessage(StartingPriceValueKey),
+      ValueValueKey: getValidationMessage(ValueValueKey),
     });

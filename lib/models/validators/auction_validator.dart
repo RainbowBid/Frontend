@@ -3,15 +3,15 @@ import 'package:dartz/dartz.dart';
 import '../../ui/common/app_constants.dart';
 
 abstract class AuctionValidator {
-  static String? validateStartingPrice(String? startingPrice) {
-    if (startingPrice == null || startingPrice.isEmpty) {
-      return 'Starting price is required.';
+  static String? validatePrice(String? price) {
+    if (price == null || price.isEmpty) {
+      return 'Price value is required.';
     }
-    final price = double.tryParse(startingPrice.replaceAll(',', ''));
-    if (price == null) {
+    final parsedPrice = double.tryParse(price.replaceAll(',', ''));
+    if (parsedPrice == null) {
       return 'Starting price must be a number.';
     }
-    if (price < kdMinPrice) {
+    if (parsedPrice < kdMinPrice) {
       return 'Starting price must be at least 1.';
     }
 

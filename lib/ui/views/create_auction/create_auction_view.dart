@@ -20,7 +20,7 @@ import 'create_auction_viewmodel.dart';
 @FormView(fields: [
   FormTextField(
     name: 'startingPrice',
-    validator: AuctionValidator.validateStartingPrice,
+    validator: AuctionValidator.validatePrice,
   ),
 ])
 class CreateAuctionView extends StackedView<CreateAuctionViewModel>

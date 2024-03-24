@@ -34,92 +34,99 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
                   ),
                 )
               : Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     AppSidebar(controller: viewModel.sidebarController),
                     Expanded(
                       child: Padding(
                         padding: const EdgeInsets.all(20.0),
-                        child: Column(
-                          children: [
-                            Card(
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Row(
-                                  children: [
-                                    Expanded(
-                                      child: Column(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              ClipOval(
-                                                child: _buildImageWidget(
-                                                  viewModel.data!,
-                                                ),
-                                              ),
-                                              horizontalSpaceMedium,
-                                              Text(
-                                                viewModel.data!.brief,
-                                                style: const TextStyle(
-                                                    fontSize: 30),
-                                              ),
-                                              horizontalSpaceMedium,
-                                              Chip(
-                                                label: Text(
-                                                  viewModel
-                                                      .data!.category.value,
-                                                  style: const TextStyle(
-                                                    fontSize: 25,
-                                                    fontStyle: FontStyle.italic,
+                        child: SingleChildScrollView(
+                          child: Column(
+                            children: [
+                              Card(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Row(
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.start,
+                                          children: [
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                ClipOval(
+                                                  child: _buildImageWidget(
+                                                    viewModel.data!,
                                                   ),
                                                 ),
-                                                shape: RoundedRectangleBorder(
-                                                  side: BorderSide(
-                                                    color:
+                                                horizontalSpaceMedium,
+                                                Text(
+                                                  viewModel.data!.brief,
+                                                  style: const TextStyle(
+                                                      fontSize: 30),
+                                                ),
+                                                horizontalSpaceMedium,
+                                                Chip(
+                                                  label: Text(
+                                                    viewModel
+                                                        .data!.category.value,
+                                                    style: const TextStyle(
+                                                      fontSize: 25,
+                                                      fontStyle:
+                                                          FontStyle.italic,
+                                                    ),
+                                                  ),
+                                                  shape: RoundedRectangleBorder(
+                                                    side: BorderSide(
+                                                      color: kcRed
+                                                          .withOpacity(0.5),
+                                                    ),
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                      20,
+                                                    ),
+                                                  ),
+                                                  color: MaterialStateColor
+                                                      .resolveWith(
+                                                    (states) =>
                                                         kcRed.withOpacity(0.5),
                                                   ),
-                                                  borderRadius:
-                                                      BorderRadius.circular(
-                                                    20,
+                                                ),
+                                                const Divider(),
+                                              ],
+                                            ),
+                                            verticalSpaceSmall,
+                                            Row(
+                                              mainAxisAlignment:
+                                                  MainAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  viewModel.data!.description,
+                                                  style: const TextStyle(
+                                                    fontSize: 20,
                                                   ),
                                                 ),
-                                                color: MaterialStateColor
-                                                    .resolveWith(
-                                                  (states) =>
-                                                      kcRed.withOpacity(0.5),
-                                                ),
-                                              ),
-                                              const Divider(),
-                                            ],
-                                          ),
-                                          verticalSpaceSmall,
-                                          Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                viewModel.data!.description,
-                                                style: const TextStyle(
-                                                  fontSize: 20,
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
+                                              ],
+                                            ),
+                                          ],
+                                        ),
                                       ),
-                                    ),
-                                  ],
+                                    ],
+                                  ),
                                 ),
                               ),
-                            ),
-                            verticalSpaceSmall,
-                            const Divider(),
-                            verticalSpaceSmall,
-                            AuctionDetailsView(itemId: viewModel.data!.id),
-                          ],
+                              verticalSpaceSmall,
+                              const Divider(),
+                              verticalSpaceSmall,
+                              AuctionDetailsView(
+                                itemId: viewModel.data!.id,
+                                ownerId: viewModel.data!.userId,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                     ),
