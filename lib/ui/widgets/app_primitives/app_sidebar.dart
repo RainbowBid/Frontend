@@ -1,3 +1,4 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:rainbowbid_frontend/app/app.locator.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
@@ -20,8 +21,8 @@ class AppSidebar extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: JwtStorage.hasCurrentUser(),
-      initialData: false,
+      future: JwtStorage.getUserUsername(),
+      initialData: none(),
       builder: (context, snapshot) => SidebarX(
         controller: controller,
         theme: SidebarXTheme(
@@ -79,15 +80,25 @@ class AppSidebar extends StatelessWidget {
         ),
         footerDivider: horizontalSpaceTiny,
         headerBuilder: (context, extended) {
-          return extended
-              ? const SizedBox.shrink()
-              : const Padding(
-                  padding: EdgeInsets.all(kdSidebarAvatarImagePadding),
-                  child: CircleAvatar(
-                    radius: kdSidebarAvatarShapeRadius,
-                    backgroundImage: AssetImage(ksLogoAssetPath),
-                  ),
-                );
+          return Padding(
+            padding: const EdgeInsets.all(kdSidebarAvatarImagePadding),
+            child: Column(
+              children: [
+                const CircleAvatar(
+                  radius: kdSidebarAvatarShapeRadius,
+                  backgroundImage: AssetImage(ksLogoAssetPath),
+                ),
+                Text(
+                  snapshot.hasData
+                      ? snapshot.data!
+                          .fold(() => "Guest", (username) => username)
+                      : "Guest",
+                  style: const TextStyle(color: kcWhite),
+                ),
+                spacedDivider,
+              ],
+            ),
+          );
         },
         items: [
           SidebarXItem(
@@ -98,7 +109,7 @@ class AppSidebar extends StatelessWidget {
               await _routerService.replaceWithHomeView();
             },
           ),
-          if (snapshot.hasData && snapshot.data == false) ...[
+          if (snapshot.hasData && snapshot.data!.isNone()) ...[
             SidebarXItem(
               icon: Icons.person_add,
               label: ksSidebarRegisterMenuText,

@@ -21,6 +21,7 @@ const String ksRegisterKey = 'registerKey';
 const String ksLoginKey = 'loginKey';
 const String ksCreateItemKey = 'createItemKey';
 const String ksCreateAuctionKey = 'createAuctionKey';
+const String ksCreateBidKey = 'createBidKey';
 
 // validator constants
 const int kiMinUsernameLength = 3;

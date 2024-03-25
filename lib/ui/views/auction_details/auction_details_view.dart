@@ -1,16 +1,25 @@
+import 'package:dartz/dartz.dart';
 import 'package:flutter/material.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
+import 'package:rainbowbid_frontend/models/auth/jwt_storage.dart';
 import 'package:rainbowbid_frontend/ui/common/app_colors.dart';
 import 'package:rainbowbid_frontend/ui/common/app_constants.dart';
 import 'package:rainbowbid_frontend/ui/common/ui_helpers.dart';
 import 'package:rainbowbid_frontend/ui/views/auction_details/auction_details_viewmodel.dart';
+import 'package:rainbowbid_frontend/ui/views/create_bid/create_bid_view.dart';
+import 'package:rainbowbid_frontend/ui/views/view_bids/view_bids_view.dart';
 import 'package:slide_countdown/slide_countdown.dart';
 import 'package:stacked/stacked.dart';
 
 class AuctionDetailsView extends StatelessWidget {
   final String itemId;
+  final String ownerId;
 
-  const AuctionDetailsView({required this.itemId, super.key});
+  const AuctionDetailsView({
+    required this.itemId,
+    required this.ownerId,
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -42,70 +51,119 @@ class AuctionDetailsView extends StatelessWidget {
                 );
               },
               (auction) {
-                return Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Text(
-                                "Ongoing Auction",
-                                style: TextStyle(fontSize: 30, color: kcRed),
-                              ),
-                              verticalSpaceSmall,
-                              Row(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceBetween,
-                                children: [
-                                  Text(
-                                    "Starting price : ${auction.startingPrice}",
-                                    style: const TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  const Text(
-                                    "Highest bid takes the stake!",
-                                    style: TextStyle(
-                                      fontSize: 15,
-                                      color: kcRed,
-                                      fontStyle: FontStyle.italic,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                              verticalSpaceSmall,
-                              Row(
+                return Column(
+                  children: [
+                    Card(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Column(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
                                   const Text(
-                                    "Ends in : ",
-                                    style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold,
-                                    ),
+                                    "Ongoing Auction",
+                                    style:
+                                        TextStyle(fontSize: 30, color: kcRed),
                                   ),
-                                  SlideCountdown(
-                                    duration: auction.endDate.difference(
-                                      DateTime.now(),
-                                    ),
-                                    slideDirection: SlideDirection.up,
-                                    separatorType: SeparatorType.title,
-                                    separator: ":",
+                                  verticalSpaceSmall,
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Starting price : ${auction.startingPrice}",
+                                        style: const TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      const Text(
+                                        "Highest bid takes the stake!",
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          color: kcRed,
+                                          fontStyle: FontStyle.italic,
+                                        ),
+                                      ),
+                                    ],
                                   ),
+                                  verticalSpaceSmall,
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      const Text(
+                                        "Ends in : ",
+                                        style: TextStyle(
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                      ),
+                                      SlideCountdown(
+                                        duration: auction.endDate.difference(
+                                          DateTime.now(),
+                                        ),
+                                        slideDirection: SlideDirection.up,
+                                        separatorType: SeparatorType.title,
+                                        separator: ":",
+                                      ),
+                                    ],
+                                  ),
+                                  verticalSpaceMedium,
                                 ],
                               ),
-                              verticalSpaceMedium,
-                            ],
-                          ),
+                            ),
+                          ],
                         ),
-                      ],
+                      ),
                     ),
-                  ),
+                    verticalSpaceSmall,
+                    const Divider(),
+                    verticalSpaceSmall,
+                    FutureBuilder<Option<String>>(
+                      future: JwtStorage.getUserId(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        }
+
+                        if (snapshot.hasData) {
+                          return snapshot.data!.fold(
+                            () => const SizedBox.shrink(),
+                            (currentUserId) => currentUserId != ownerId
+                                ? CreateBidView(auctionId: auction.id)
+                                : const SizedBox.shrink(),
+                          );
+                        }
+
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                    verticalSpaceSmall,
+                    const Divider(),
+                    verticalSpaceSmall,
+                    FutureBuilder<Option<String>>(
+                      future: JwtStorage.getUserId(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState ==
+                            ConnectionState.waiting) {
+                          return const CircularProgressIndicator();
+                        }
+
+                        if (snapshot.hasData) {
+                          return snapshot.data!.fold(
+                            () => const SizedBox.shrink(),
+                            (_) => ViewBidsView(auctionId: auction.id),
+                          );
+                        }
+
+                        return const SizedBox.shrink();
+                      },
+                    ),
+                  ],
                 );
               },
             ),
