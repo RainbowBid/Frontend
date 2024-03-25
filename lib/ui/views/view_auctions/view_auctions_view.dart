@@ -117,9 +117,11 @@ class ViewAuctionsView extends StatelessWidget {
                           verticalSpaceTiny,
                           Padding(
                             padding: const EdgeInsets.all(8.0),
-                            child: Row(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Row(
+                                Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
                                     const Text(
@@ -134,12 +136,12 @@ class ViewAuctionsView extends StatelessWidget {
                                         DateTime.now(),
                                       ),
                                       slideDirection: SlideDirection.up,
-                                      separatorType: SeparatorType.title,
+                                      separatorType: SeparatorType.symbol,
                                       separator: ":",
                                     ),
                                   ],
                                 ),
-                                horizontalSpaceSmall,
+                                verticalSpaceMedium,
                                 Text(
                                   "Starting price : ${viewModel.data![index].startingPrice}",
                                   style: const TextStyle(
