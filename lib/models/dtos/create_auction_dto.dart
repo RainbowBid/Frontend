@@ -10,6 +10,7 @@ class CreateAuctionDto with _$CreateAuctionDto {
     @JsonKey(name: 'item_id') required String itemId,
     @JsonKey(name: 'starting_price') required double startingPrice,
     @JsonKey(name: 'end_date') @TimestampConverter() required DateTime endDate,
+    @JsonKey(name: 'strategy') required String strategy,
   }) = _CreateAuctionDto;
 
   factory CreateAuctionDto.fromJson(Map<String, dynamic> json) =>

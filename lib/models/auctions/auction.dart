@@ -20,7 +20,6 @@ class Auction with _$Auction {
       _$AuctionFromJson(json);
 }
 
-
 enum AuctionStrategy {
   standard,
   requestFinalApproval;

@@ -17,6 +17,7 @@ class AuctionWithItemDto with _$AuctionWithItemDto {
     required String description,
     @CategoryConverter() required Category category,
     @JsonKey(name: 'user_id') required String userId,
+    @JsonKey(name: 'strategy') required String strategy,
   }) = _AuctionWithItemDto;
 
   factory AuctionWithItemDto.fromJson(Map<String, dynamic> json) =>

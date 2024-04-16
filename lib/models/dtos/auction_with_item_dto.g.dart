@@ -17,6 +17,7 @@ _$AuctionWithItemDtoImpl _$$AuctionWithItemDtoImplFromJson(
       description: json['description'] as String,
       category: const CategoryConverter().fromJson(json['category'] as String),
       userId: json['user_id'] as String,
+      strategy: json['strategy'] as String,
     );
 
 Map<String, dynamic> _$$AuctionWithItemDtoImplToJson(
@@ -30,4 +31,5 @@ Map<String, dynamic> _$$AuctionWithItemDtoImplToJson(
       'description': instance.description,
       'category': const CategoryConverter().toJson(instance.category),
       'user_id': instance.userId,
+      'strategy': instance.strategy,
     };

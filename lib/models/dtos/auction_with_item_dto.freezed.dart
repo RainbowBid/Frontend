@@ -34,6 +34,8 @@ mixin _$AuctionWithItemDto {
   Category get category => throw _privateConstructorUsedError;
   @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
+  @JsonKey(name: 'strategy')
+  String get strategy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -55,7 +57,8 @@ abstract class $AuctionWithItemDtoCopyWith<$Res> {
       String brief,
       String description,
       @CategoryConverter() Category category,
-      @JsonKey(name: 'user_id') String userId});
+      @JsonKey(name: 'user_id') String userId,
+      @JsonKey(name: 'strategy') String strategy});
 }
 
 /// @nodoc
@@ -79,6 +82,7 @@ class _$AuctionWithItemDtoCopyWithImpl<$Res, $Val extends AuctionWithItemDto>
     Object? description = null,
     Object? category = null,
     Object? userId = null,
+    Object? strategy = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -113,6 +117,10 @@ class _$AuctionWithItemDtoCopyWithImpl<$Res, $Val extends AuctionWithItemDto>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      strategy: null == strategy
+          ? _value.strategy
+          : strategy // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -133,7 +141,8 @@ abstract class _$$AuctionWithItemDtoImplCopyWith<$Res>
       String brief,
       String description,
       @CategoryConverter() Category category,
-      @JsonKey(name: 'user_id') String userId});
+      @JsonKey(name: 'user_id') String userId,
+      @JsonKey(name: 'strategy') String strategy});
 }
 
 /// @nodoc
@@ -155,6 +164,7 @@ class __$$AuctionWithItemDtoImplCopyWithImpl<$Res>
     Object? description = null,
     Object? category = null,
     Object? userId = null,
+    Object? strategy = null,
   }) {
     return _then(_$AuctionWithItemDtoImpl(
       id: null == id
@@ -189,6 +199,10 @@ class __$$AuctionWithItemDtoImplCopyWithImpl<$Res>
           ? _value.userId
           : userId // ignore: cast_nullable_to_non_nullable
               as String,
+      strategy: null == strategy
+          ? _value.strategy
+          : strategy // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -204,7 +218,8 @@ class _$AuctionWithItemDtoImpl implements _AuctionWithItemDto {
       required this.brief,
       required this.description,
       @CategoryConverter() required this.category,
-      @JsonKey(name: 'user_id') required this.userId});
+      @JsonKey(name: 'user_id') required this.userId,
+      @JsonKey(name: 'strategy') required this.strategy});
 
   factory _$AuctionWithItemDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$AuctionWithItemDtoImplFromJson(json);
@@ -231,10 +246,13 @@ class _$AuctionWithItemDtoImpl implements _AuctionWithItemDto {
   @override
   @JsonKey(name: 'user_id')
   final String userId;
+  @override
+  @JsonKey(name: 'strategy')
+  final String strategy;
 
   @override
   String toString() {
-    return 'AuctionWithItemDto(id: $id, startingPrice: $startingPrice, endDate: $endDate, itemId: $itemId, brief: $brief, description: $description, category: $category, userId: $userId)';
+    return 'AuctionWithItemDto(id: $id, startingPrice: $startingPrice, endDate: $endDate, itemId: $itemId, brief: $brief, description: $description, category: $category, userId: $userId, strategy: $strategy)';
   }
 
   @override
@@ -252,13 +270,15 @@ class _$AuctionWithItemDtoImpl implements _AuctionWithItemDto {
                 other.description == description) &&
             (identical(other.category, category) ||
                 other.category == category) &&
-            (identical(other.userId, userId) || other.userId == userId));
+            (identical(other.userId, userId) || other.userId == userId) &&
+            (identical(other.strategy, strategy) ||
+                other.strategy == strategy));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode => Object.hash(runtimeType, id, startingPrice, endDate,
-      itemId, brief, description, category, userId);
+      itemId, brief, description, category, userId, strategy);
 
   @JsonKey(ignore: true)
   @override
@@ -286,7 +306,8 @@ abstract class _AuctionWithItemDto implements AuctionWithItemDto {
           required final String brief,
           required final String description,
           @CategoryConverter() required final Category category,
-          @JsonKey(name: 'user_id') required final String userId}) =
+          @JsonKey(name: 'user_id') required final String userId,
+          @JsonKey(name: 'strategy') required final String strategy}) =
       _$AuctionWithItemDtoImpl;
 
   factory _AuctionWithItemDto.fromJson(Map<String, dynamic> json) =
@@ -314,6 +335,9 @@ abstract class _AuctionWithItemDto implements AuctionWithItemDto {
   @override
   @JsonKey(name: 'user_id')
   String get userId;
+  @override
+  @JsonKey(name: 'strategy')
+  String get strategy;
   @override
   @JsonKey(ignore: true)
   _$$AuctionWithItemDtoImplCopyWith<_$AuctionWithItemDtoImpl> get copyWith =>
