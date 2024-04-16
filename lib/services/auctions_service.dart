@@ -298,4 +298,67 @@ class AuctionsService implements IAuctionService {
       );
     }
   }
+
+  @override
+  Future<Either<ApiError, Unit>> confirmAuctionFinalization(String auctionId, bool ownerResponse) async {
+    try {
+      _logger.i("Confirming or not auction finalization for auctionId: ${auctionId}");
+
+      final accessToken = await JwtStorage.getJwt();
+      if (accessToken.isNone()) {
+        _logger.e("User is not authenticated");
+        return left(
+          const ApiError.unauthorized(
+            "User is not authenticated",
+          ),
+        );
+      }
+
+      Map<String, String> heads = {
+        HttpHeaders.contentTypeHeader: ContentType.json.mimeType,
+        HttpHeaders.authorizationHeader:
+        "Bearer ${accessToken.getOrElse(() => "")}",
+      };
+
+      final response = await _httpClient.post(
+        Uri.http(
+          ApiConstants.baseUrl,
+          ApiConstants.confirmAuctionFinalizationUrl.replaceFirst(
+            ':auctionId',
+            auctionId,
+          ),
+        ),
+        headers: heads,
+        body: jsonEncode({'is_confirmed': ownerResponse}),
+      );
+
+      switch (response.statusCode) {
+        case HttpStatus.ok:
+          _logger.i("Auctions was finalized succesfully.");
+          return right(unit);
+        case HttpStatus.unauthorized:
+          _logger.e("User is not authenticated");
+          return left(
+            const ApiError.unauthorized(
+              "User is not authenticated",
+            ),
+          );
+        default:
+          _logger.e(
+              "Server error occurred: ${response.statusCode} ${response.body}");
+          return left(
+            ApiError.serverError(
+              "Server error occurred: ${response.body}",
+            ),
+          );
+      }
+    } catch (e) {
+      _logger.e("Server error occurred: $e");
+      return left(
+        const ApiError.serverError(
+          "Server error occurred. Please try again later.",
+        ),
+      );
+    }
+  }
 }

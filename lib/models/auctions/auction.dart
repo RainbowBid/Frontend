@@ -20,6 +20,12 @@ class Auction with _$Auction {
       _$AuctionFromJson(json);
 }
 
+extension AuctionExtension on Auction {
+  bool get isExpired => endDate.isBefore(DateTime.now());
+  bool get needsFinalApproval =>
+      strategy == AuctionStrategy.requestFinalApproval;
+}
+
 enum AuctionStrategy {
   standard,
   requestFinalApproval;
@@ -50,6 +56,10 @@ enum AuctionStrategy {
   String toString() {
     return _getString();
   }
+
+  String toDisplayableString() {
+    return _getString()
+        .replaceFirst(_getString()[0], _getString()[0].toUpperCase())
+        .replaceAll('_', " ");
+  }
 }
-
-

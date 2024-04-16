@@ -31,11 +31,9 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
   const CreateAuctionView({@PathParam() required this.itemId, super.key});
 
   @override
-  Widget builder(
-    BuildContext context,
-    CreateAuctionViewModel viewModel,
-    Widget? child,
-  ) {
+  Widget builder(BuildContext context,
+      CreateAuctionViewModel viewModel,
+      Widget? child,) {
     return Scaffold(
       body: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -54,6 +52,8 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
                       children: [
                         _buildCreateItemPageTitle(context),
                         verticalSpaceLarge,
+                        _buildStrategyDropDown(context, viewModel),
+                        verticalSpaceSmall,
                         _buildStartingPriceField(context, viewModel),
                         verticalSpaceSmall,
                         _buildEndDateField(context, viewModel),
@@ -68,6 +68,31 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
           )
         ],
       ),
+    );
+  }
+
+  Widget _buildStrategyDropDown(BuildContext context, CreateAuctionViewModel viewModel) {
+    return DropdownButtonFormField<AuctionStrategy>(
+      value: viewModel.selectedStrategy,
+      onChanged: (value) async {
+        if (value != null) {
+          viewModel.selectedStrategy = value;
+        }
+      },
+      items: [
+        ...AuctionStrategy.values.map(
+              (strategy) =>
+              DropdownMenuItem(
+                value: strategy,
+                child: Text(
+                  strategy.toDisplayableString(),
+                  style: const TextStyle(
+                    fontSize: kdFieldLabelFontSize,
+                  ),
+                ),
+              ),
+        ),
+      ],
     );
   }
 
@@ -155,27 +180,6 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
   ) {
     return Column(
       children: [
-        DropdownButtonFormField<AuctionStrategy>(
-          value: viewModel.selectedStrategy,
-          onChanged: (value) async {
-            if (value != null) {
-              viewModel.selectedStrategy = value;
-            }
-          },
-          items: [
-            AuctionStrategy.values.map(
-              (strategy) => DropdownMenuItem(
-                value: strategy,
-                child: Text(
-                  strategy.displayValue,
-                  style: const TextStyle(
-                    fontSize: kdFieldLabelFontSize,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
         ElevatedButton.icon(
           onPressed: () async {
             final pickedDate = await showOmniDateTimePicker(

@@ -20,4 +20,6 @@ abstract interface class IAuctionService {
   Future<Either<ApiError, Unit>> createBid({required CreateBidDto request});
 
   Future<Either<ApiError, List<Bid>>> getBidsByAuctionId(String auctionId);
+
+  Future<Either<ApiError, Unit>> confirmAuctionFinalization(String auctionId, bool ownerResponse);
 }

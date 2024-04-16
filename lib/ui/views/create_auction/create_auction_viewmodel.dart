@@ -65,6 +65,7 @@ class CreateAuctionViewModel extends FormViewModel {
       itemId: itemId,
       startingPrice: double.parse(startingPriceValue!.replaceAll(',', '')),
       endDate: endDate.getOrElse(() => DateTime.now()),
+      strategy: selectedStrategy.toString(),
     );
 
     final response = await _auctionService.create(request: request);
