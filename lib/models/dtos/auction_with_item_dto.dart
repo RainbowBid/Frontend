@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:rainbowbid_frontend/models/core/category_converter.dart';
+import 'package:rainbowbid_frontend/models/core/strategy_converter.dart';
 import 'package:rainbowbid_frontend/models/core/timestamp_converter.dart';
 import 'package:rainbowbid_frontend/models/items/item.dart';
 
@@ -17,7 +18,7 @@ class AuctionWithItemDto with _$AuctionWithItemDto {
     required String description,
     @CategoryConverter() required Category category,
     @JsonKey(name: 'user_id') required String userId,
-    @JsonKey(name: 'strategy') required String strategy,
+    @JsonKey(name: 'strategy') @StrategyConverter() required String strategy,
   }) = _AuctionWithItemDto;
 
   factory AuctionWithItemDto.fromJson(Map<String, dynamic> json) =>

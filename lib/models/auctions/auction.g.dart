@@ -11,7 +11,7 @@ _$AuctionImpl _$$AuctionImplFromJson(Map<String, dynamic> json) =>
       id: json['id'] as String,
       startingPrice: (json['starting_price'] as num).toDouble(),
       endDate: const TimestampConverter().fromJson(json['end_date'] as int),
-      strategy: $enumDecode(_$AuctionStrategyEnumMap, json['strategy']),
+      strategy: const StrategyConverter().fromJson(json['strategy'] as String),
       itemId: json['item_id'] as String,
     );
 
@@ -20,11 +20,6 @@ Map<String, dynamic> _$$AuctionImplToJson(_$AuctionImpl instance) =>
       'id': instance.id,
       'starting_price': instance.startingPrice,
       'end_date': const TimestampConverter().toJson(instance.endDate),
-      'strategy': _$AuctionStrategyEnumMap[instance.strategy]!,
+      'strategy': const StrategyConverter().toJson(instance.strategy),
       'item_id': instance.itemId,
     };
-
-const _$AuctionStrategyEnumMap = {
-  AuctionStrategy.standard: 'standard',
-  AuctionStrategy.requestFinalApproval: 'requestFinalApproval',
-};

@@ -35,6 +35,7 @@ mixin _$AuctionWithItemDto {
   @JsonKey(name: 'user_id')
   String get userId => throw _privateConstructorUsedError;
   @JsonKey(name: 'strategy')
+  @StrategyConverter()
   String get strategy => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -58,7 +59,7 @@ abstract class $AuctionWithItemDtoCopyWith<$Res> {
       String description,
       @CategoryConverter() Category category,
       @JsonKey(name: 'user_id') String userId,
-      @JsonKey(name: 'strategy') String strategy});
+      @JsonKey(name: 'strategy') @StrategyConverter() String strategy});
 }
 
 /// @nodoc
@@ -142,7 +143,7 @@ abstract class _$$AuctionWithItemDtoImplCopyWith<$Res>
       String description,
       @CategoryConverter() Category category,
       @JsonKey(name: 'user_id') String userId,
-      @JsonKey(name: 'strategy') String strategy});
+      @JsonKey(name: 'strategy') @StrategyConverter() String strategy});
 }
 
 /// @nodoc
@@ -219,7 +220,7 @@ class _$AuctionWithItemDtoImpl implements _AuctionWithItemDto {
       required this.description,
       @CategoryConverter() required this.category,
       @JsonKey(name: 'user_id') required this.userId,
-      @JsonKey(name: 'strategy') required this.strategy});
+      @JsonKey(name: 'strategy') @StrategyConverter() required this.strategy});
 
   factory _$AuctionWithItemDtoImpl.fromJson(Map<String, dynamic> json) =>
       _$$AuctionWithItemDtoImplFromJson(json);
@@ -248,6 +249,7 @@ class _$AuctionWithItemDtoImpl implements _AuctionWithItemDto {
   final String userId;
   @override
   @JsonKey(name: 'strategy')
+  @StrategyConverter()
   final String strategy;
 
   @override
@@ -297,18 +299,19 @@ class _$AuctionWithItemDtoImpl implements _AuctionWithItemDto {
 
 abstract class _AuctionWithItemDto implements AuctionWithItemDto {
   const factory _AuctionWithItemDto(
-          {required final String id,
-          @JsonKey(name: 'starting_price') required final double startingPrice,
-          @JsonKey(name: 'end_date')
-          @TimestampConverter()
-          required final DateTime endDate,
-          @JsonKey(name: 'item_id') required final String itemId,
-          required final String brief,
-          required final String description,
-          @CategoryConverter() required final Category category,
-          @JsonKey(name: 'user_id') required final String userId,
-          @JsonKey(name: 'strategy') required final String strategy}) =
-      _$AuctionWithItemDtoImpl;
+      {required final String id,
+      @JsonKey(name: 'starting_price') required final double startingPrice,
+      @JsonKey(name: 'end_date')
+      @TimestampConverter()
+      required final DateTime endDate,
+      @JsonKey(name: 'item_id') required final String itemId,
+      required final String brief,
+      required final String description,
+      @CategoryConverter() required final Category category,
+      @JsonKey(name: 'user_id') required final String userId,
+      @JsonKey(name: 'strategy')
+      @StrategyConverter()
+      required final String strategy}) = _$AuctionWithItemDtoImpl;
 
   factory _AuctionWithItemDto.fromJson(Map<String, dynamic> json) =
       _$AuctionWithItemDtoImpl.fromJson;
@@ -337,6 +340,7 @@ abstract class _AuctionWithItemDto implements AuctionWithItemDto {
   String get userId;
   @override
   @JsonKey(name: 'strategy')
+  @StrategyConverter()
   String get strategy;
   @override
   @JsonKey(ignore: true)

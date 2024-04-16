@@ -66,7 +66,8 @@ class AuctionDetailsView extends StatelessWidget {
                             return snapshot.data!.fold(
                               () => const SizedBox.shrink(),
                               (value) => value == ownerId
-                                  ? _buildConfirmationWidgetForOwner(viewModel, auction.id)
+                                  ? _buildConfirmationWidgetForOwner(
+                                      viewModel, auction.id)
                                   : _buildInformativeWidgetForBidder(),
                             );
                           }
@@ -194,7 +195,9 @@ class AuctionDetailsView extends StatelessWidget {
   }
 
   Widget _buildConfirmationWidgetForOwner(
-      AuctionDetailsViewModel viewModel, String auctionId) {
+    AuctionDetailsViewModel viewModel,
+    String auctionId,
+  ) {
     return Column(
       children: [
         const Text(
@@ -254,12 +257,7 @@ class AuctionDetailsView extends StatelessWidget {
 
   Widget _buildInformativeWidgetForBidder() {
     return const Center(
-        child: Column(
-          children: [
-            Text(
-                'The auction has ended.'),
-            Text('Please wait for the owner to confirm the exchange.'),
-          ],
-        ));
+      child: Text('Please wait for the owner to confirm the exchange.'),
+    );
   }
 }

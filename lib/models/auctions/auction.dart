@@ -1,4 +1,5 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rainbowbid_frontend/models/core/strategy_converter.dart';
 import 'package:rainbowbid_frontend/models/core/timestamp_converter.dart';
 
 import '../../ui/common/app_constants.dart';
@@ -12,7 +13,9 @@ class Auction with _$Auction {
     required String id,
     @JsonKey(name: 'starting_price') required double startingPrice,
     @JsonKey(name: 'end_date') @TimestampConverter() required DateTime endDate,
-    @JsonKey(name: 'strategy') required AuctionStrategy strategy,
+    @JsonKey(name: 'strategy')
+    @StrategyConverter()
+    required AuctionStrategy strategy,
     @JsonKey(name: 'item_id') required String itemId,
   }) = _Auction;
 

@@ -27,6 +27,7 @@ mixin _$Auction {
   @TimestampConverter()
   DateTime get endDate => throw _privateConstructorUsedError;
   @JsonKey(name: 'strategy')
+  @StrategyConverter()
   AuctionStrategy get strategy => throw _privateConstructorUsedError;
   @JsonKey(name: 'item_id')
   String get itemId => throw _privateConstructorUsedError;
@@ -45,7 +46,7 @@ abstract class $AuctionCopyWith<$Res> {
       {String id,
       @JsonKey(name: 'starting_price') double startingPrice,
       @JsonKey(name: 'end_date') @TimestampConverter() DateTime endDate,
-      @JsonKey(name: 'strategy') AuctionStrategy strategy,
+      @JsonKey(name: 'strategy') @StrategyConverter() AuctionStrategy strategy,
       @JsonKey(name: 'item_id') String itemId});
 }
 
@@ -104,7 +105,7 @@ abstract class _$$AuctionImplCopyWith<$Res> implements $AuctionCopyWith<$Res> {
       {String id,
       @JsonKey(name: 'starting_price') double startingPrice,
       @JsonKey(name: 'end_date') @TimestampConverter() DateTime endDate,
-      @JsonKey(name: 'strategy') AuctionStrategy strategy,
+      @JsonKey(name: 'strategy') @StrategyConverter() AuctionStrategy strategy,
       @JsonKey(name: 'item_id') String itemId});
 }
 
@@ -157,7 +158,7 @@ class _$AuctionImpl implements _Auction {
       {required this.id,
       @JsonKey(name: 'starting_price') required this.startingPrice,
       @JsonKey(name: 'end_date') @TimestampConverter() required this.endDate,
-      @JsonKey(name: 'strategy') required this.strategy,
+      @JsonKey(name: 'strategy') @StrategyConverter() required this.strategy,
       @JsonKey(name: 'item_id') required this.itemId});
 
   factory _$AuctionImpl.fromJson(Map<String, dynamic> json) =>
@@ -174,6 +175,7 @@ class _$AuctionImpl implements _Auction {
   final DateTime endDate;
   @override
   @JsonKey(name: 'strategy')
+  @StrategyConverter()
   final AuctionStrategy strategy;
   @override
   @JsonKey(name: 'item_id')
@@ -224,7 +226,9 @@ abstract class _Auction implements Auction {
       @JsonKey(name: 'end_date')
       @TimestampConverter()
       required final DateTime endDate,
-      @JsonKey(name: 'strategy') required final AuctionStrategy strategy,
+      @JsonKey(name: 'strategy')
+      @StrategyConverter()
+      required final AuctionStrategy strategy,
       @JsonKey(name: 'item_id') required final String itemId}) = _$AuctionImpl;
 
   factory _Auction.fromJson(Map<String, dynamic> json) = _$AuctionImpl.fromJson;
@@ -240,6 +244,7 @@ abstract class _Auction implements Auction {
   DateTime get endDate;
   @override
   @JsonKey(name: 'strategy')
+  @StrategyConverter()
   AuctionStrategy get strategy;
   @override
   @JsonKey(name: 'item_id')

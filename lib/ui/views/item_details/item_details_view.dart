@@ -57,9 +57,18 @@ class ItemDetailsView extends StackedView<ItemDetailsViewModel> {
                                               mainAxisAlignment:
                                                   MainAxisAlignment.start,
                                               children: [
-                                                ClipOval(
-                                                  child: _buildImageWidget(
-                                                    viewModel.data!,
+                                                Container(
+                                                  constraints: BoxConstraints(
+                                                    maxHeight:
+                                                        MediaQuery.of(context)
+                                                                .size
+                                                                .height *
+                                                            0.5,
+                                                  ),
+                                                  child: ClipOval(
+                                                    child: _buildImageWidget(
+                                                      viewModel.data!,
+                                                    ),
                                                   ),
                                                 ),
                                                 horizontalSpaceMedium,
