@@ -66,5 +66,9 @@ const String ksSidebarLoginMenuText = 'Login';
 const String ksSidebarLogoutMenuText = 'Logout';
 const String ksSidebarCreateItemMenuText = 'Create item';
 
+// Strategy Enum
+const String ksStandardStrategyEnum = 'standard';
+const String ksRequestFinalApprovalStrategyEnum = 'request_final_approval';
+
 // assets
 const String ksLogoAssetPath = 'assets/images/rainbowbid_logo.jpeg';
