@@ -122,33 +122,40 @@ class ViewAuctionsView extends StatelessWidget {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    const Text(
-                                      "Ends in : ",
-                                      style: TextStyle(
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        const Text(
+                                          "Ends in : ",
+                                          style: TextStyle(
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                        SlideCountdown(
+                                          duration: viewModel
+                                              .data![index].endDate
+                                              .difference(
+                                            DateTime.now(),
+                                          ),
+                                          slideDirection: SlideDirection.up,
+                                          separatorType: SeparatorType.symbol,
+                                          separator: ":",
+                                        ),
+                                      ],
+                                    ),
+                                    horizontalSpaceSmall,
+                                    Text(
+                                      "Starting price : ${viewModel.data![index].startingPrice}",
+                                      style: const TextStyle(
                                         fontWeight: FontWeight.bold,
                                       ),
                                     ),
-                                    SlideCountdown(
-                                      duration: viewModel.data![index].endDate
-                                          .difference(
-                                        DateTime.now(),
-                                      ),
-                                      slideDirection: SlideDirection.up,
-                                      separatorType: SeparatorType.symbol,
-                                      separator: ":",
-                                    ),
+                                    horizontalSpaceSmall,
                                   ],
                                 ),
-                                verticalSpaceMedium,
-                                Text(
-                                  "Starting price : ${viewModel.data![index].startingPrice}",
-                                  style: const TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                  ),
-                                ),
-                                horizontalSpaceSmall,
                               ],
                             ),
                           ),
