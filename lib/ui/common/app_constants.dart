@@ -16,6 +16,8 @@ const double kdFieldLabelFontSize = 15;
 const double kdFormWidthFraction = 0.5;
 const double kdPagePadding = 40;
 const double kdFormPadding = 20;
+const double kdInformativeTextFontSize = 25;
+
 
 const String ksRegisterKey = 'registerKey';
 const String ksLoginKey = 'loginKey';

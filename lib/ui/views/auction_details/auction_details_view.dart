@@ -201,55 +201,58 @@ class AuctionDetailsView extends StatelessWidget {
     return Column(
       children: [
         const Text(
-          'The auction has ended and needs final approval before the exchange can be completed.',
+          'The auction has ended.',
           style: TextStyle(
-            fontSize: kdTitleSize,
+            fontSize: kdInformativeTextFontSize,
             color: kcBlack,
           ),
         ),
-        verticalSpaceLarge,
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            ElevatedButton(
-              onPressed: () async {
-                await viewModel.confirmAuctionFinalization(auctionId, true);
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: kButtonSize,
-                backgroundColor: kcGreen,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(kdFieldBorderRadius),
-                ),
-              ),
-              child: const Text(
-                "Approve",
-                style: TextStyle(
-                  color: kcBlack,
-                  fontSize: kdButtonTextSize,
-                ),
-              ),
+        const Text(
+          'Your approval is needed before the exchange can be completed.',
+          style: TextStyle(
+            fontSize: kdInformativeTextFontSize,
+            color: kcBlack,
+          ),
+        ),
+        verticalSpaceSmall,
+        ElevatedButton(
+          onPressed: () async {
+            await viewModel.confirmAuctionFinalization(auctionId, true);
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: kButtonSize,
+            backgroundColor: kcGreen,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(kdFieldBorderRadius),
             ),
-            ElevatedButton(
-              onPressed: () async {
-                await viewModel.confirmAuctionFinalization(auctionId, false);
-              },
-              style: ElevatedButton.styleFrom(
-                minimumSize: kButtonSize,
-                backgroundColor: kcRed,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(kdFieldBorderRadius),
-                ),
-              ),
-              child: const Text(
-                "Reject",
-                style: TextStyle(
-                  color: kcBlack,
-                  fontSize: kdButtonTextSize,
-                ),
-              ),
+          ),
+          child: const Text(
+            "Approve",
+            style: TextStyle(
+              color: kcBlack,
+              fontSize: kdButtonTextSize,
             ),
-          ],
+          ),
+        ),
+        verticalSpaceMedium,
+        ElevatedButton(
+          onPressed: () async {
+            await viewModel.confirmAuctionFinalization(auctionId, false);
+          },
+          style: ElevatedButton.styleFrom(
+            minimumSize: kButtonSize,
+            backgroundColor: kcRed,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(kdFieldBorderRadius),
+            ),
+          ),
+          child: const Text(
+            "Reject",
+            style: TextStyle(
+              color: kcBlack,
+              fontSize: kdButtonTextSize,
+            ),
+          ),
         ),
       ],
     );
