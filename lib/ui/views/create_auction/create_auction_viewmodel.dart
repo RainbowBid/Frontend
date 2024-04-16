@@ -1,5 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
+import 'package:rainbowbid_frontend/models/auctions/auction.dart';
 import 'package:rainbowbid_frontend/models/validators/auction_validator.dart';
 import 'package:rainbowbid_frontend/ui/views/create_auction/create_auction_view.form.dart';
 import 'package:sidebarx/sidebarx.dart';
@@ -21,16 +22,22 @@ class CreateAuctionViewModel extends FormViewModel {
     selectedIndex: kiSidebarCreateItemMenuIndex,
   );
   final String itemId;
+  AuctionStrategy _selectedStrategy = AuctionStrategy.standard;
 
   late Option<DateTime> _endDate = none();
 
   RouterService get routerService => _routerService;
   SidebarXController get sidebarController => _sidebarController;
-
   Option<DateTime> get endDate => _endDate;
+  AuctionStrategy get selectedStrategy => _selectedStrategy;
 
   set endDate(Option<DateTime> value) {
     _endDate = value;
+    rebuildUi();
+  }
+
+  set selectedStrategy(AuctionStrategy value) {
+    _selectedStrategy = value;
     rebuildUi();
   }
 

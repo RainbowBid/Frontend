@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:omni_datetime_picker/omni_datetime_picker.dart';
 import 'package:pattern_formatter/numeric_formatter.dart';
 import 'package:rainbowbid_frontend/app/app.router.dart';
+import 'package:rainbowbid_frontend/models/auctions/auction.dart';
 import 'package:rainbowbid_frontend/ui/views/create_auction/create_auction_view.form.dart';
 import 'package:rainbowbid_frontend/ui/widgets/app_primitives/app_sidebar.dart';
 import 'package:stacked/stacked.dart';
@@ -154,6 +155,27 @@ class CreateAuctionView extends StackedView<CreateAuctionViewModel>
   ) {
     return Column(
       children: [
+        DropdownButtonFormField<AuctionStrategy>(
+          value: viewModel.selectedStrategy,
+          onChanged: (value) async {
+            if (value != null) {
+              viewModel.selectedStrategy = value;
+            }
+          },
+          items: [
+            AuctionStrategy.values.map(
+              (strategy) => DropdownMenuItem(
+                value: strategy,
+                child: Text(
+                  strategy.displayValue,
+                  style: const TextStyle(
+                    fontSize: kdFieldLabelFontSize,
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
         ElevatedButton.icon(
           onPressed: () async {
             final pickedDate = await showOmniDateTimePicker(

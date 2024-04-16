@@ -12,6 +12,7 @@ _$CreateAuctionDtoImpl _$$CreateAuctionDtoImplFromJson(
       itemId: json['item_id'] as String,
       startingPrice: (json['starting_price'] as num).toDouble(),
       endDate: const TimestampConverter().fromJson(json['end_date'] as int),
+      strategy: json['strategy'] as String,
     );
 
 Map<String, dynamic> _$$CreateAuctionDtoImplToJson(
@@ -20,4 +21,5 @@ Map<String, dynamic> _$$CreateAuctionDtoImplToJson(
       'item_id': instance.itemId,
       'starting_price': instance.startingPrice,
       'end_date': const TimestampConverter().toJson(instance.endDate),
+      'strategy': instance.strategy,
     };
