@@ -1,5 +1,7 @@
 # rainbowbid_frontend
 
+Full doc. at : https://rainbowbid.gitbook.io/rainbowbid-documentation/
+
 Setup steps:
 1. Install flutter https://docs.flutter.dev/get-started/install
 2. Install Visual Studio Code https://code.visualstudio.com/
